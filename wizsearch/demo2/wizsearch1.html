@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<!--
+================================================================================
+WIZRAG SEARCH TEMPLATE — wizsearch.html
+================================================================================
+
+YOU ARE READING A TEMPLATE. Your job is to fill it in for the repository you
+have access to. Read the BUILD INSTRUCTIONS below carefully, then output two
+completed files: wizsearch.html and wizindex.json.
+
+================================================================================
+BUILD INSTRUCTIONS FOR THE LLM
+================================================================================
+
+WHAT WIZRAG IS:
+WizRAG is a static, two-file knowledge base search system. It serves three
+types of visitors from a single page hosted on GitHub Pages or any static host:
+  1. Humans in a browser — use the search box, see results, click source links
+  2. Browser agents (Claude in Chrome, headless browsers) — same as humans
+  3. Raw-fetch LLMs (Claude web fetch, ChatGPT browsing, Perplexity, Grok) —
+     read the topic index in raw HTML and fetch the linked source file directly
+
+YOUR TASK:
+Produce two files based on this template and the repository you have access to:
+  - wizsearch.html  (this template, fully populated)
+  - wizindex.json   (a fresh index built from the repo)
+
+STEP-BY-STEP:
+
+1. SCAN THE REPOSITORY
+   - Identify all human-readable documentation: .md, .mdx, .txt, .rst, .html,
+     .pdf (extract text), README files, files in /docs/ folders.
+   - Skip code files, lockfiles, node_modules, dist/, build/, binaries, images,
+     and anything that is not human-readable documentation.
+   - Read the README first to understand what the project is about. Use this
+     to write the project description.
+
+2. CHUNK THE DOCS
+   - For each document, split into chunks of approximately 400 tokens with
+     about 20% overlap (80 tokens).
+   - Prefer paragraph boundaries, then sentence boundaries, then hard splits.
+   - Each chunk should be self-contained enough to make sense on its own.
+
+3. CLUSTER INTO TOPICS
+   - Group all chunks across all documents into 5 to 15 high-level topics.
+   - Each topic should be a meaningful theme: "Authentication", "API Reference",
+     "Getting Started", "Configuration", etc.
+   - Avoid micro-topics with one chunk and macro-topics that absorb everything.
+   - Pick topics that match how a user would search for information.
+
+4. FOR EACH TOPIC, WRITE:
+   - name: short label, 1 to 3 words
+   - description: one line, 80 to 140 characters, what the topic covers
+   - keywords: 3 to 6 keywords a user might search for
+   - source_files: array of file paths in the repo. Use repo-relative paths
+     (e.g. "docs/auth.md", not "https://github.com/...").
+
+5. FOR EACH CHUNK, WRITE:
+   - id: stable identifier like "chunk_001", "chunk_002"
+   - source: the file path the chunk came from (repo-relative)
+   - topic: the topic name this chunk belongs to (must match a topic name)
+   - keywords: 3 to 6 keywords specific to this chunk
+   - text: the actual chunk text, do not truncate
+
+6. BUILD wizindex.json WITH THIS EXACT STRUCTURE:
+
+{
+  "project": "<repo name>",
+  "description": "<one-line description of what this repo is about>",
+  "built_at": "<ISO 8601 date, e.g. 2026-04-12T00:00:00Z>",
+  "stats": {
+    "files": <number of source files indexed>,
+    "chunks": <total number of chunks>,
+    "topics": <number of topics>
+  },
+  "topics": [
+    {
+      "name": "Topic Name",
+      "description": "One-line description.",
+      "keywords": ["keyword1", "keyword2", "keyword3"],
+      "source_files": ["docs/file.md", "docs/other.md"]
+    }
+  ],
+  "entries": [
+    {
+      "id": "chunk_001",
+      "source": "docs/file.md",
+      "topic": "Topic Name",
+      "keywords": ["keyword1", "keyword2"],
+      "text": "The actual chunk content here."
+    }
+  ]
+}
+
+7. POPULATE wizsearch.html (this file)
+
+   In the HTML below, replace these placeholders:
+
+   - Berkshire Hathaway Shareholder Letters — the repository name (appears in <title> and <h1>)
+   - Warren Buffett's annual letters to shareholders (1977-2024) plus Greg Abel's first letter as CEO (2025) — nearly five decades of investment wisdom — one-line description of the repo
+   - 14 — number of topics, like "8"
+   - 1260 — number of chunks, like "142"
+   - April 18, 2026 — human-readable date like "April 12, 2026"
+   - <div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Investment Philosophy</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1986.md">letters/1986.md</a>
+      <span class="topic-link">...and 39 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Core investment principles: value investing, intrinsic value, margin of safety, long-term thinking</div>
+  <div class="topic-keywords">investment · value · intrinsic · margin of safety · long-term · Ben Graham</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Insurance Operations</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <span class="topic-link">...and 31 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Float, underwriting, GEICO, National Indemnity, reinsurance, catastrophe coverage, Ajit Jain</div>
+  <div class="topic-keywords">insurance · float · underwriting · GEICO · reinsurance · premium · Ajit</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Acquisitions & Operating Businesses</div>
+    <div>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <span class="topic-link">...and 19 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Purchases and operating subsidiaries: See's Candies, BNSF, Gen Re, Dairy Queen, Precision Castparts</div>
+  <div class="topic-keywords">acquisition · subsidiary · See's · BNSF · Burlington · Precision Castparts</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Stock Market & Equity Positions</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <a class="topic-link" href="letters/1993.md">letters/1993.md</a>
+      <a class="topic-link" href="letters/1994.md">letters/1994.md</a>
+      <a class="topic-link" href="letters/1996.md">letters/1996.md</a>
+      <span class="topic-link">...and 17 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Coca-Cola, American Express, Apple, Washington Post, and major public equity holdings</div>
+  <div class="topic-keywords">Coca-Cola · American Express · Apple · Washington Post · equity · portfolio</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Economic Commentary</div>
+    <div>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/2004.md">letters/2004.md</a>
+      <a class="topic-link" href="letters/2009.md">letters/2009.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+      <a class="topic-link" href="letters/2015.md">letters/2015.md</a>
+      <span class="topic-link">...and 2 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Inflation, interest rates, currency, recession, economic cycles, market conditions</div>
+  <div class="topic-keywords">inflation · interest rates · recession · currency · Fed · economy</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Corporate Governance</div>
+    <div>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <span class="topic-link">...and 24 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Board composition, CEO selection, executive compensation, shareholder rights, owner-oriented management</div>
+  <div class="topic-keywords">governance · board · CEO · compensation · directors · owner-oriented</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Accounting & Reporting</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1986.md">letters/1986.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <span class="topic-link">...and 22 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">GAAP critique, operating earnings, look-through earnings, goodwill, accounting standards</div>
+  <div class="topic-keywords">accounting · GAAP · operating earnings · goodwill · look-through</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Derivatives & Financial Instruments</div>
+    <div>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/2008.md">letters/2008.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Buffett's warnings on derivatives as 'weapons of mass destruction', options, equity puts, leverage</div>
+  <div class="topic-keywords">derivatives · options · weapons of mass destruction · leverage · swap</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Succession & Partnership with Charlie Munger</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <span class="topic-link">...and 6 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Charlie Munger, succession planning, Greg Abel, Ajit Jain, management transitions</div>
+  <div class="topic-keywords">Charlie Munger · succession · Greg Abel · Ajit Jain · partner</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Textile Origins & Early Mistakes</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1995.md">letters/1995.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+      <a class="topic-link" href="letters/2021.md">letters/2021.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Original textile business, Buffett's biggest mistake, early Berkshire, closing of textile operations</div>
+  <div class="topic-keywords">textile · mistake · New Bedford · Seabury Stanton · origins</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Annual Meetings & Shareholder Communication</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <span class="topic-link">...and 25 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Omaha meetings, Q&A sessions, shareholder events, Berkshire's shareholder communication style</div>
+  <div class="topic-keywords">annual meeting · Omaha · Woodstock · shareholders · Q&A</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Philanthropy & Charitable Giving</div>
+    <div>
+      <a class="topic-link" href="letters/">letters/</a>
+    </div>
+  </div>
+  <div class="topic-desc">Giving Pledge, Gates Foundation, Berkshire's charitable giving program, donations</div>
+  <div class="topic-keywords">philanthropy · charity · Gates Foundation · Giving Pledge · donation</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Book Value & Market Performance</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <a class="topic-link" href="letters/1993.md">letters/1993.md</a>
+      <span class="topic-link">...and 25 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Book value growth, S&P 500 comparison, per-share figures, long-term compounding results</div>
+  <div class="topic-keywords">book value · S&P 500 · per-share · compound · performance</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Culture & Foundational Values</div>
+    <div>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/2025.md">letters/2025.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Berkshire's culture, decentralized model, integrity, financial strength, capital discipline</div>
+  <div class="topic-keywords">culture · values · decentralized · integrity · financial strength · capital discipline</div>
+</div> — STATIC HTML for the topic list (see step 8)
+
+8. WRITE THE TOPIC LIST AS STATIC HTML
+
+   This is critical. Raw-fetch LLMs cannot execute JavaScript. They need to see
+   the full topic list directly in the HTML source. For each topic, output
+   exactly this block (replace the placeholders):
+
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">TOPIC NAME HERE</div>
+    <div>
+      <a class="topic-link" href="path/to/file.md">path/to/file.md</a>
+      <a class="topic-link" href="path/to/other.md">path/to/other.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">One-line description of the topic.</div>
+  <div class="topic-keywords">keyword1 · keyword2 · keyword3</div>
+</div>
+
+   If a topic has multiple source files, include multiple <a> tags inside the
+   second <div>. Separate them visually with " · " between tags if you want,
+   but each must be a real <a> tag with a working href.
+
+   Place the entire generated topic HTML inside the <div id="topics"></div>
+   element below — replace the <div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Investment Philosophy</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1986.md">letters/1986.md</a>
+      <span class="topic-link">...and 39 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Core investment principles: value investing, intrinsic value, margin of safety, long-term thinking</div>
+  <div class="topic-keywords">investment · value · intrinsic · margin of safety · long-term · Ben Graham</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Insurance Operations</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <span class="topic-link">...and 31 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Float, underwriting, GEICO, National Indemnity, reinsurance, catastrophe coverage, Ajit Jain</div>
+  <div class="topic-keywords">insurance · float · underwriting · GEICO · reinsurance · premium · Ajit</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Acquisitions & Operating Businesses</div>
+    <div>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <span class="topic-link">...and 19 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Purchases and operating subsidiaries: See's Candies, BNSF, Gen Re, Dairy Queen, Precision Castparts</div>
+  <div class="topic-keywords">acquisition · subsidiary · See's · BNSF · Burlington · Precision Castparts</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Stock Market & Equity Positions</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <a class="topic-link" href="letters/1993.md">letters/1993.md</a>
+      <a class="topic-link" href="letters/1994.md">letters/1994.md</a>
+      <a class="topic-link" href="letters/1996.md">letters/1996.md</a>
+      <span class="topic-link">...and 17 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Coca-Cola, American Express, Apple, Washington Post, and major public equity holdings</div>
+  <div class="topic-keywords">Coca-Cola · American Express · Apple · Washington Post · equity · portfolio</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Economic Commentary</div>
+    <div>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/2004.md">letters/2004.md</a>
+      <a class="topic-link" href="letters/2009.md">letters/2009.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+      <a class="topic-link" href="letters/2015.md">letters/2015.md</a>
+      <span class="topic-link">...and 2 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Inflation, interest rates, currency, recession, economic cycles, market conditions</div>
+  <div class="topic-keywords">inflation · interest rates · recession · currency · Fed · economy</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Corporate Governance</div>
+    <div>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <span class="topic-link">...and 24 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Board composition, CEO selection, executive compensation, shareholder rights, owner-oriented management</div>
+  <div class="topic-keywords">governance · board · CEO · compensation · directors · owner-oriented</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Accounting & Reporting</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1986.md">letters/1986.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <span class="topic-link">...and 22 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">GAAP critique, operating earnings, look-through earnings, goodwill, accounting standards</div>
+  <div class="topic-keywords">accounting · GAAP · operating earnings · goodwill · look-through</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Derivatives & Financial Instruments</div>
+    <div>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/2008.md">letters/2008.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Buffett's warnings on derivatives as 'weapons of mass destruction', options, equity puts, leverage</div>
+  <div class="topic-keywords">derivatives · options · weapons of mass destruction · leverage · swap</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Succession & Partnership with Charlie Munger</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <span class="topic-link">...and 6 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Charlie Munger, succession planning, Greg Abel, Ajit Jain, management transitions</div>
+  <div class="topic-keywords">Charlie Munger · succession · Greg Abel · Ajit Jain · partner</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Textile Origins & Early Mistakes</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1995.md">letters/1995.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+      <a class="topic-link" href="letters/2021.md">letters/2021.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Original textile business, Buffett's biggest mistake, early Berkshire, closing of textile operations</div>
+  <div class="topic-keywords">textile · mistake · New Bedford · Seabury Stanton · origins</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Annual Meetings & Shareholder Communication</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <span class="topic-link">...and 25 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Omaha meetings, Q&A sessions, shareholder events, Berkshire's shareholder communication style</div>
+  <div class="topic-keywords">annual meeting · Omaha · Woodstock · shareholders · Q&A</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Philanthropy & Charitable Giving</div>
+    <div>
+      <a class="topic-link" href="letters/">letters/</a>
+    </div>
+  </div>
+  <div class="topic-desc">Giving Pledge, Gates Foundation, Berkshire's charitable giving program, donations</div>
+  <div class="topic-keywords">philanthropy · charity · Gates Foundation · Giving Pledge · donation</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Book Value & Market Performance</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <a class="topic-link" href="letters/1993.md">letters/1993.md</a>
+      <span class="topic-link">...and 25 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Book value growth, S&P 500 comparison, per-share figures, long-term compounding results</div>
+  <div class="topic-keywords">book value · S&P 500 · per-share · compound · performance</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Culture & Foundational Values</div>
+    <div>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/2025.md">letters/2025.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Berkshire's culture, decentralized model, integrity, financial strength, capital discipline</div>
+  <div class="topic-keywords">culture · values · decentralized · integrity · financial strength · capital discipline</div>
+</div> placeholder.
+
+9. CONSTRAINTS
+   - Total wizindex.json size should ideally stay under 5 MB. If the repo is
+     huge, prioritize the most important docs and trim noise.
+   - Use repo-relative paths for source_files so links work whether the repo
+     is served from GitHub Pages, a custom domain, or cloned locally.
+   - Do not modify the JavaScript, the CSS, or this BUILD INSTRUCTIONS block.
+   - Do not modify the LLM instructions block in the page body.
+   - Do not modify the WizRAG branding (logo, colors, layout).
+   - Only update: the placeholder fields and the static topic list.
+
+10. OUTPUT THE TWO FILES
+    Output both files completely as `wizsearch.html` and `wizindex.json` (filenames must be lowercase). The user will place them in their repo. GitHub Pages or any static host will serve them with no further work.
+
+11. PUSH TO THE REPO IF YOU CAN
+    If you have write access to the user's repository (via git, GitHub MCP, file system access, or any other tool that lets you commit and push), do this automatically:
+
+    - Place both files at the repository root, OR in a `/docs/` folder if the repo uses GitHub Pages with `/docs` as the source. Check the existing repo structure to decide.
+    - Commit message: "Add WizRAG knowledge base index" (or "Update WizRAG knowledge base index" if the files already exist).
+    - Push to the default branch.
+    - Tell the user the URL where the files will be served once GitHub Pages is enabled, e.g. `https://<username>.github.io/<repo>/wizsearch.html`.
+    - If GitHub Pages is not yet enabled on the repo, tell the user how to turn it on (Settings → Pages → source: main branch, root or /docs folder).
+
+    If you do NOT have write access, output both files in the chat and tell the user to commit them manually.
+
+================================================================================
+END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
+================================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Berkshire Hathaway Shareholder Letters — Knowledge Base</title>
+<meta name="description" content="WizRAG static knowledge base search. Two files. Zero backend. Works on GitHub Pages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--card:#111;--card2:#161616;
+  --border:rgba(255,255,255,0.07);--border-h:rgba(255,255,255,0.14);
+  --t:#fff;--t2:rgba(255,255,255,0.55);--t3:rgba(255,255,255,0.3);--t4:rgba(255,255,255,0.15);
+  --ac:#2563eb;--acg:rgba(37,99,235,0.1);--acb:rgba(37,99,235,0.2);
+  --g:#22c55e;--gg:rgba(34,197,94,0.1);
+  --r:14px;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',-apple-system,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--t2);line-height:1.7;-webkit-font-smoothing:antialiased;min-height:100vh}
+.header{padding:48px 40px 32px;border-bottom:1px solid var(--border);text-align:center;position:relative}
+.header::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:300px;background:radial-gradient(ellipse,var(--acg) 0%,transparent 70%);pointer-events:none}
+.logo{display:inline-flex;flex-direction:column;line-height:.82;margin-bottom:18px;position:relative}
+.logo span{font-family:var(--mono);font-weight:800;font-size:14px;letter-spacing:5px;color:var(--t);text-transform:uppercase}
+.header h1{font-size:clamp(28px,3.5vw,38px);font-weight:800;letter-spacing:-1.2px;color:var(--t);margin-bottom:10px;position:relative}
+.header p{font-size:15px;color:var(--t2);position:relative;max-width:520px;margin:0 auto}
+.kb-meta{display:inline-flex;gap:16px;margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--t3);position:relative;flex-wrap:wrap;justify-content:center}
+.kb-meta span{padding:4px 10px;background:var(--card);border:1px solid var(--border);border-radius:100px}
+.main{max-width:840px;margin:0 auto;padding:48px 40px 80px}
+.search-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:6px;display:flex;gap:6px;margin-bottom:12px;transition:border-color .2s}
+.search-box:focus-within{border-color:var(--acb)}
+.search-box input{flex:1;background:transparent;border:none;outline:none;color:var(--t);font-size:15px;font-family:var(--sans);padding:14px 18px}
+.search-box input::placeholder{color:var(--t3)}
+.search-box button{background:var(--ac);color:#fff;border:none;border-radius:10px;padding:0 22px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s;font-family:var(--sans)}
+.search-box button:hover{background:#3b82f6}
+.search-hint{font-family:var(--mono);font-size:11px;color:var(--t3);text-align:center;margin-bottom:32px}
+.search-hint code{color:var(--ac);background:var(--acg);padding:2px 8px;border-radius:4px}
+.results{margin-bottom:48px}
+.results-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:1.5px}
+.result{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;margin-bottom:12px;transition:border-color .2s}
+.result:hover{border-color:var(--border-h)}
+.result-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.result-topic{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ac);background:var(--acg);padding:2px 9px;border-radius:5px;text-transform:uppercase;letter-spacing:.5px}
+.result-source{font-family:var(--mono);font-size:11px;color:var(--t3)}
+.result-source a{color:var(--t2);text-decoration:none}
+.result-source a:hover{color:var(--ac)}
+.result-text{color:var(--t);font-size:14px;line-height:1.7}
+.result-text mark{background:var(--acg);color:var(--t);padding:1px 3px;border-radius:3px}
+.no-results{padding:40px;text-align:center;color:var(--t3);font-size:14px;background:var(--card);border:1px solid var(--border);border-radius:var(--r)}
+.section{margin-bottom:48px}
+.section-num{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--ac);text-transform:uppercase;letter-spacing:2.5px;margin-bottom:10px}
+.section h2{font-size:22px;font-weight:800;color:var(--t);letter-spacing:-.5px;margin-bottom:8px}
+.section .lede{font-size:14px;color:var(--t2);margin-bottom:24px;max-width:640px}
+.topics{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.topic{padding:18px 24px;border-bottom:1px solid var(--border);transition:background .2s}
+.topic:last-child{border-bottom:none}
+.topic:hover{background:var(--card2)}
+.topic-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:6px;flex-wrap:wrap}
+.topic-name{font-size:15px;font-weight:700;color:var(--t);letter-spacing:-.2px}
+.topic-link{font-family:var(--mono);font-size:11px;color:var(--ac);text-decoration:none;padding-top:3px;margin-left:8px}
+.topic-link:hover{text-decoration:underline}
+.topic-desc{font-size:13px;color:var(--t2);line-height:1.6}
+.topic-keywords{margin-top:8px;font-family:var(--mono);font-size:10px;color:var(--t3)}
+.llm-instructions{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--ac);border-radius:0 var(--r) var(--r) 0;padding:24px 28px;margin-bottom:48px;font-size:14px;color:var(--t2);line-height:1.75}
+.llm-instructions h3{font-size:13px;font-weight:700;color:var(--t);margin-bottom:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1.5px}
+.llm-instructions ol{padding-left:20px;margin:8px 0}
+.llm-instructions li{margin-bottom:8px}
+.llm-instructions strong{color:var(--t);font-weight:600}
+.llm-instructions code{font-family:var(--mono);font-size:12px;color:var(--ac);background:var(--acg);padding:2px 6px;border-radius:4px}
+.regen{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px;margin-top:64px}
+.regen h2{font-size:18px;font-weight:700;color:var(--t);margin-bottom:8px}
+.regen p{font-size:14px;color:var(--t2);margin-bottom:20px}
+.regen p code{font-family:var(--mono);font-size:12px;color:var(--ac);background:var(--acg);padding:2px 6px;border-radius:4px}
+.regen-note{font-family:var(--mono);font-size:11px;color:var(--t3);padding:14px 18px;background:#000;border:1px dashed var(--border-h);border-radius:8px;margin-bottom:14px}
+.regen-note strong{color:var(--t2)}
+footer{border-top:1px solid var(--border);padding:32px 40px;text-align:center}
+footer p{font-family:var(--mono);font-size:11px;color:var(--t3)}
+footer a{color:var(--t2);text-decoration:none}
+footer a:hover{color:var(--ac)}
+@media(max-width:768px){
+  .header{padding:36px 20px 24px}
+  .main{padding:32px 20px 60px}
+  .search-box input{font-size:14px;padding:12px 14px}
+  .topic-head{flex-direction:column;gap:6px}
+  .topic-link{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo"><span>WIZ</span><span>RAG</span></div>
+  <h1 id="kb-title">Berkshire Hathaway Shareholder Letters — Knowledge Base</h1>
+  <p id="kb-description">Warren Buffett's annual letters to shareholders (1977-2024) plus Greg Abel's first letter as CEO (2025) — nearly five decades of investment wisdom</p>
+  <div class="kb-meta">
+    <span id="kb-topics">14 topics</span>
+    <span id="kb-chunks">1260 chunks</span>
+    <span id="kb-updated">Last indexed: April 18, 2026</span>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- SEARCH (works for humans + browser agents that execute JavaScript) -->
+  <div class="search-box">
+    <input id="q" type="text" placeholder="Search the knowledge base..." autocomplete="off" />
+    <button onclick="runSearch()">Search</button>
+  </div>
+  <div class="search-hint">Try <code>?q=your+question</code> in the URL · or browse topics below</div>
+
+  <!-- RESULTS (rendered by JavaScript) -->
+  <div id="results" class="results" style="display:none;">
+    <div class="results-head">
+      <span id="results-count">Results</span>
+      <span id="results-query"></span>
+    </div>
+    <div id="results-list"></div>
+  </div>
+
+  <!-- INSTRUCTIONS FOR LLMs (always visible in raw HTML) -->
+  <div class="llm-instructions">
+    <h3>For AI Agents — How to Use This Knowledge Base</h3>
+    <p>This page is a WizRAG static knowledge base. Two retrieval paths:</p>
+    <ol>
+      <li><strong>If you can execute JavaScript</strong> (browser agent, Claude in Chrome, headless browser): use the search box above. It loads <code>wizindex.json</code>, runs keyword search, and returns precise matching chunks. You can also visit <code>?q=your+question</code> in the URL for instant results.</li>
+      <li><strong>If you fetch raw HTML only</strong> (most LLM web fetchers): browse the <strong>Topic Index</strong> below. Each topic has a one-line description and direct links to source files. Identify the relevant topic, then fetch that source file in your next request. Do not try to fetch <code>wizindex.json</code> directly — it may be too large for your context window.</li>
+    </ol>
+    <p>Use only the retrieved content to answer. Cite the source file path. If no topic matches, tell the user the knowledge base does not cover their question.</p>
+  </div>
+
+  <!-- TOPIC INDEX (always visible in raw HTML — the most important section for raw-fetch LLMs) -->
+  <section class="section">
+    <div class="section-num">Topic Index</div>
+    <h2>Browse by topic</h2>
+    <p class="lede">Each topic links directly to source files in the repository. Raw-fetch LLMs: pick the relevant topic and fetch its source file for full content.</p>
+    <div id="topics" class="topics">
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Investment Philosophy</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1986.md">letters/1986.md</a>
+      <span class="topic-link">...and 39 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Core investment principles: value investing, intrinsic value, margin of safety, long-term thinking</div>
+  <div class="topic-keywords">investment · value · intrinsic · margin of safety · long-term · Ben Graham</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Insurance Operations</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <span class="topic-link">...and 31 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Float, underwriting, GEICO, National Indemnity, reinsurance, catastrophe coverage, Ajit Jain</div>
+  <div class="topic-keywords">insurance · float · underwriting · GEICO · reinsurance · premium · Ajit</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Acquisitions & Operating Businesses</div>
+    <div>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <span class="topic-link">...and 19 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Purchases and operating subsidiaries: See's Candies, BNSF, Gen Re, Dairy Queen, Precision Castparts</div>
+  <div class="topic-keywords">acquisition · subsidiary · See's · BNSF · Burlington · Precision Castparts</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Stock Market & Equity Positions</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <a class="topic-link" href="letters/1993.md">letters/1993.md</a>
+      <a class="topic-link" href="letters/1994.md">letters/1994.md</a>
+      <a class="topic-link" href="letters/1996.md">letters/1996.md</a>
+      <span class="topic-link">...and 17 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Coca-Cola, American Express, Apple, Washington Post, and major public equity holdings</div>
+  <div class="topic-keywords">Coca-Cola · American Express · Apple · Washington Post · equity · portfolio</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Economic Commentary</div>
+    <div>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/2004.md">letters/2004.md</a>
+      <a class="topic-link" href="letters/2009.md">letters/2009.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+      <a class="topic-link" href="letters/2015.md">letters/2015.md</a>
+      <span class="topic-link">...and 2 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Inflation, interest rates, currency, recession, economic cycles, market conditions</div>
+  <div class="topic-keywords">inflation · interest rates · recession · currency · Fed · economy</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Corporate Governance</div>
+    <div>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <span class="topic-link">...and 24 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Board composition, CEO selection, executive compensation, shareholder rights, owner-oriented management</div>
+  <div class="topic-keywords">governance · board · CEO · compensation · directors · owner-oriented</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Accounting & Reporting</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1986.md">letters/1986.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <span class="topic-link">...and 22 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">GAAP critique, operating earnings, look-through earnings, goodwill, accounting standards</div>
+  <div class="topic-keywords">accounting · GAAP · operating earnings · goodwill · look-through</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Derivatives & Financial Instruments</div>
+    <div>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/2008.md">letters/2008.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Buffett's warnings on derivatives as 'weapons of mass destruction', options, equity puts, leverage</div>
+  <div class="topic-keywords">derivatives · options · weapons of mass destruction · leverage · swap</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Succession & Partnership with Charlie Munger</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1981.md">letters/1981.md</a>
+      <a class="topic-link" href="letters/1982.md">letters/1982.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <span class="topic-link">...and 6 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Charlie Munger, succession planning, Greg Abel, Ajit Jain, management transitions</div>
+  <div class="topic-keywords">Charlie Munger · succession · Greg Abel · Ajit Jain · partner</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Textile Origins & Early Mistakes</div>
+    <div>
+      <a class="topic-link" href="letters/1978.md">letters/1978.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1980.md">letters/1980.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1995.md">letters/1995.md</a>
+      <a class="topic-link" href="letters/2014.md">letters/2014.md</a>
+      <a class="topic-link" href="letters/2021.md">letters/2021.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Original textile business, Buffett's biggest mistake, early Berkshire, closing of textile operations</div>
+  <div class="topic-keywords">textile · mistake · New Bedford · Seabury Stanton · origins</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Annual Meetings & Shareholder Communication</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1988.md">letters/1988.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1990.md">letters/1990.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <span class="topic-link">...and 25 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Omaha meetings, Q&A sessions, shareholder events, Berkshire's shareholder communication style</div>
+  <div class="topic-keywords">annual meeting · Omaha · Woodstock · shareholders · Q&A</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Philanthropy & Charitable Giving</div>
+    <div>
+      <a class="topic-link" href="letters/">letters/</a>
+    </div>
+  </div>
+  <div class="topic-desc">Giving Pledge, Gates Foundation, Berkshire's charitable giving program, donations</div>
+  <div class="topic-keywords">philanthropy · charity · Gates Foundation · Giving Pledge · donation</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Book Value & Market Performance</div>
+    <div>
+      <a class="topic-link" href="letters/1977.md">letters/1977.md</a>
+      <a class="topic-link" href="letters/1979.md">letters/1979.md</a>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1984.md">letters/1984.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1987.md">letters/1987.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/1991.md">letters/1991.md</a>
+      <a class="topic-link" href="letters/1992.md">letters/1992.md</a>
+      <a class="topic-link" href="letters/1993.md">letters/1993.md</a>
+      <span class="topic-link">...and 25 more</span>
+    </div>
+  </div>
+  <div class="topic-desc">Book value growth, S&P 500 comparison, per-share figures, long-term compounding results</div>
+  <div class="topic-keywords">book value · S&P 500 · per-share · compound · performance</div>
+</div>
+<div class="topic">
+  <div class="topic-head">
+    <div class="topic-name">Culture & Foundational Values</div>
+    <div>
+      <a class="topic-link" href="letters/1983.md">letters/1983.md</a>
+      <a class="topic-link" href="letters/1985.md">letters/1985.md</a>
+      <a class="topic-link" href="letters/1989.md">letters/1989.md</a>
+      <a class="topic-link" href="letters/2025.md">letters/2025.md</a>
+    </div>
+  </div>
+  <div class="topic-desc">Berkshire's culture, decentralized model, integrity, financial strength, capital discipline</div>
+  <div class="topic-keywords">culture · values · decentralized · integrity · financial strength · capital discipline</div>
+</div>
+    </div>
+  </section>
+
+  <!-- REGENERATION INFO -->
+  <section class="regen" id="rebuild">
+    <h2>How to rebuild this knowledge base</h2>
+    <p>WizRAG is two static files: <code>wizsearch.html</code> and <code>wizindex.json</code>. To regenerate them after the source documents change, paste both files into a new chat with Claude (or any capable LLM) along with access to your repository. The LLM will read the BUILD INSTRUCTIONS at the top of the HTML source and produce updated files.</p>
+    <div class="regen-note"><strong>To regenerate:</strong> open this file in any text editor, copy everything from line 1 to "END OF BUILD INSTRUCTIONS", paste into Claude with your repo URL, and ask it to regenerate both files. Drop the new files into your repo and commit. Done.</div>
+  </section>
+
+</main>
+
+<footer>
+  <p><a href="https://github.com/g0rd33v/wizrag">WizRAG</a> · Static knowledge base search · A <a href="https://labs.vc">Labs</a> project</p>
+</footer>
+
+<script>
+// ============================================================
+// WizRAG Search — client-side JavaScript
+// Loads wizindex.json on demand, runs keyword search, renders.
+// Auto-runs search if ?q= is present in the URL on load.
+// ============================================================
+
+let INDEX = null;
+
+async function loadIndex() {
+  if (INDEX) return INDEX;
+  try {
+    const res = await fetch('wizindex1.json');
+    if (!res.ok) throw new Error('Could not load wizindex.json');
+    INDEX = await res.json();
+    return INDEX;
+  } catch (err) {
+    console.error('Failed to load index:', err);
+    return null;
+  }
+}
+
+function search(query, index) {
+  const q = query.toLowerCase().trim();
+  if (!q) return [];
+  const terms = q.split(/\s+/).filter(t => t.length > 1);
+  if (terms.length === 0) return [];
+
+  const scored = (index.entries || []).map(entry => {
+    const text = (entry.text || '').toLowerCase();
+    const keywords = (entry.keywords || []).join(' ').toLowerCase();
+    const topic = (entry.topic || '').toLowerCase();
+    let score = 0;
+    for (const t of terms) {
+      if (keywords.includes(t)) score += 10;
+      if (topic.includes(t)) score += 5;
+      const matches = text.split(t).length - 1;
+      score += matches * 2;
+    }
+    return { entry, score };
+  });
+
+  return scored
+    .filter(r => r.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8);
+}
+
+function highlight(text, query) {
+  const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
+  let result = escapeHtml(text);
+  for (const t of terms) {
+    const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+    result = result.replace(re, '<mark>$1</mark>');
+  }
+  return result;
+}
+
+function renderResults(results, query) {
+  const container = document.getElementById('results');
+  const list = document.getElementById('results-list');
+  const count = document.getElementById('results-count');
+  const queryDisplay = document.getElementById('results-query');
+
+  container.style.display = 'block';
+  queryDisplay.textContent = `for "${query}"`;
+
+  if (results.length === 0) {
+    count.textContent = 'No results';
+    list.innerHTML = '<div class="no-results">No matching chunks found. Try different keywords or browse the topic index below.</div>';
+    return;
+  }
+
+  count.textContent = `${results.length} result${results.length === 1 ? '' : 's'}`;
+  list.innerHTML = results.map(r => `
+    <div class="result">
+      <div class="result-head">
+        <span class="result-topic">${escapeHtml(r.entry.topic || 'general')}</span>
+        <span class="result-source">from <a href="${escapeHtml(r.entry.source)}">${escapeHtml(r.entry.source)}</a></span>
+      </div>
+      <div class="result-text">${highlight(r.entry.text, query)}</div>
+    </div>
+  `).join('');
+}
+
+async function runSearch() {
+  const query = document.getElementById('q').value.trim();
+  if (!query) return;
+  const index = await loadIndex();
+  if (!index) {
+    alert('Could not load wizindex.json. Make sure it exists in the same folder as this page.');
+    return;
+  }
+  const results = search(query, index);
+  renderResults(results, query);
+  const url = new URL(window.location);
+  url.searchParams.set('q', query);
+  window.history.replaceState({}, '', url);
+}
+
+function escapeHtml(s) {
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+document.getElementById('q').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') runSearch();
+});
+
+(async () => {
+  const params = new URLSearchParams(window.location.search);
+  const q = params.get('q');
+  if (q) {
+    document.getElementById('q').value = q;
+    runSearch();
+  }
+})();
+</script>
+
+</body>
+</html>
