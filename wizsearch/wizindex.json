@@ -1,0 +1,32 @@
+{
+  "_README_FOR_LLM": "This is a TEMPLATE wizindex.json. Replace ALL fields with real data from the repository you have access to. Read the BUILD INSTRUCTIONS at the top of wizsearch.html for full guidance. Filenames must be lowercase: wizsearch.html and wizindex.json. If you have write access to the repo, commit both files to the repo root (or /docs folder if that is the GitHub Pages source). Remove this _README_FOR_LLM field from the final output. The structure below is the required schema.",
+
+  "project": "{{PROJECT_NAME}}",
+  "description": "{{PROJECT_DESCRIPTION}}",
+  "built_at": "{{ISO_DATE}}",
+
+  "stats": {
+    "files": 0,
+    "chunks": 0,
+    "topics": 0
+  },
+
+  "topics": [
+    {
+      "name": "{{TOPIC_NAME}}",
+      "description": "{{TOPIC_DESCRIPTION_80_TO_140_CHARS}}",
+      "keywords": ["{{KEYWORD_1}}", "{{KEYWORD_2}}", "{{KEYWORD_3}}"],
+      "source_files": ["{{REPO_RELATIVE_PATH_1}}", "{{REPO_RELATIVE_PATH_2}}"]
+    }
+  ],
+
+  "entries": [
+    {
+      "id": "chunk_001",
+      "source": "{{REPO_RELATIVE_PATH}}",
+      "topic": "{{TOPIC_NAME}}",
+      "keywords": ["{{KEYWORD_1}}", "{{KEYWORD_2}}"],
+      "text": "{{ACTUAL_CHUNK_TEXT_400_TOKENS_OR_LESS}}"
+    }
+  ]
+}
