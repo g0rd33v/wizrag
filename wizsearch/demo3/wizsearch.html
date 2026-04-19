@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<!--
+================================================================================
+WIZSEARCH V3 — wizsearch.html
+================================================================================
+
+You are an LLM. To build this page for a user's knowledge base, read README.md
+in this bundle for the full build process. This file is the RUNTIME TEMPLATE.
+
+Replace these placeholders only:
+  Anthropic Agent Skills Archive         — e.g., "Anthropic Skills Archive"
+  Every SKILL.md, guide, and reference for Anthropic's Agent Skills system — pre-built and custom.  — one-line, 80-140 chars
+  2563eb         — hex without #, default "2563eb"
+  19 April 2026             — human-readable date, e.g., "19 April 2026"
+  190         — integer
+  41        — integer
+  11         — integer
+  <li><strong>SKILL.md structure</strong> — The SKILL.md file format — YAML frontmatter, name and description fields, the body as procedural instructions, and why the description is a trigger. (19 chunks)</li>
+<li><strong>Progressive disclosure</strong> — The core design principle: Claude loads skill metadata at startup, the SKILL.md body only when relevant, and bundled files only on demand. (20 chunks)</li>
+<li><strong>Pre-built Skills</strong> — Anthropic-provided Agent Skills for document work: docx, xlsx, pptx, pdf, pdf-reading, file-reading, frontend-design, product-self-knowledge. (5 chunks)</li>
+<li><strong>Custom Skills</strong> — User-built Skills — creating them from scratch, the skill-creator workflow, organizing a skill directory, and effective description writing. (36 chunks)</li>
+<li><strong>Claude Code integration</strong> — How Claude Code discovers and loads Skills — user settings, project settings, plugin skills, built-in skills, and how Skills differ from CLAUDE.md, hooks, and subagents. (5 chunks)</li>
+<li><strong>API and Messages integration</strong> — Using Skills via the Claude API — the container parameter, skill_id, versioning, the code execution tool, and combining Skills in a single request. (1 chunks)</li>
+<li><strong>MCP and tool integration</strong> — How Skills relate to Model Context Protocol (MCP) servers and tools — when to use which, and how to build MCP servers that complement Skills. (54 chunks)</li>
+<li><strong>Sharing and distribution</strong> — Committing Skills to a repository, distributing through plugins, deploying organization-wide via enterprise managed settings. (1 chunks)</li>
+<li><strong>Document creation skills</strong> — Detailed guidance for the docx, xlsx, pptx, and pdf Skills — when to use each, output conventions, and common patterns. (23 chunks)</li>
+<li><strong>Design and theming</strong> — The frontend-design, canvas-design, and theme-factory Skills for visual output — components, tokens, and aesthetic variety. (25 chunks)</li>
+<li><strong>Best practices</strong> — Authoring guidelines — start with evaluation, structure for scale, keep SKILL.md lean, use reference files, test on real tasks. (1 chunks)</li>   — static <li> list of topics, for raw-fetch LLMs
+  ["What is a SKILL.md file and what goes in its frontmatter?", "How does progressive disclosure work for Agent Skills?", "Which Anthropic pre-built Skills are available, and what does each do?", "How do I create a custom Skill with skill-creator?", "How do Skills work in Claude Code vs the Claude API?"] — JSON array of 3-5 strings
+
+DO NOT modify <style>, <script>, or these instructions.
+
+The runtime fetches wizindex-manifest.json on load, then lazy-loads shards.
+================================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>WizSearch 3 · Anthropic Agent Skills Archive</title>
+<meta name="description" content="Every SKILL.md, guide, and reference for Anthropic's Agent Skills system — pre-built and custom.">
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%232563eb'/%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<style>
+  *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f6f6f5;
+    --bg-hover: #efeeed;
+    --ink: #111111;
+    --ink-2: #3f3f3f;
+    --ink-3: #767676;
+    --ink-4: #a9a9a9;
+    --rule: #e8e7e5;
+    --rule-soft: #f0efed;
+    --accent: #2563eb;
+    --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+    --accent-text: var(--accent);
+    --user-bubble: #2563eb;
+    --user-text: #ffffff;
+
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --max: 760px;
+    --input-height: 88px;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0f0f0f;
+    --bg-soft: #1a1a1a;
+    --bg-hover: #252525;
+    --ink: #f5f5f5;
+    --ink-2: #c5c5c5;
+    --ink-3: #8f8f8f;
+    --ink-4: #5a5a5a;
+    --rule: #262626;
+    --rule-soft: #1d1d1d;
+    --accent-soft: color-mix(in srgb, var(--accent) 22%, transparent);
+    --user-text: #ffffff;
+  }
+
+  html, body { height: 100%; background: var(--bg); }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::selection { background: var(--accent); color: #fff; }
+
+  button { font-family: inherit; background: none; border: none; color: inherit; cursor: pointer; padding: 0; }
+  input, textarea { font-family: inherit; font-size: inherit; color: inherit; background: none; border: none; outline: none; }
+
+  /* ============ HEADER ============ */
+  header {
+    flex-shrink: 0;
+    height: 52px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    background: var(--bg);
+    z-index: 10;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+  .brand-dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .brand-name {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .brand-sep {
+    color: var(--ink-4);
+    font-weight: 400;
+    margin: 0 2px;
+  }
+  .brand-project {
+    color: var(--ink-3);
+    font-size: 13px;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .header-actions {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .icon-btn {
+    width: 34px; height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: var(--ink-2);
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: var(--bg-hover); color: var(--ink); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* ============ HISTORY PANEL ============ */
+  .history-panel {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 280px;
+    max-height: 70vh;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-right: none;
+    border-top: none;
+    border-radius: 0 0 0 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    overflow-y: auto;
+    z-index: 20;
+    display: none;
+  }
+  [data-theme="dark"] .history-panel { box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+  .history-panel.open { display: block; }
+  .history-header {
+    padding: 12px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--rule);
+  }
+  .history-empty {
+    padding: 20px 14px;
+    font-size: 13px;
+    color: var(--ink-3);
+    text-align: center;
+  }
+  .history-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule-soft);
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    transition: background 0.12s;
+  }
+  .history-item:hover { background: var(--bg-soft); }
+  .history-item-body { flex: 1; min-width: 0; }
+  .history-item-title {
+    font-size: 13px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 2px;
+  }
+  .history-item-meta {
+    font-size: 11px;
+    color: var(--ink-4);
+    font-family: var(--mono);
+  }
+  .history-item-delete {
+    opacity: 0;
+    transition: opacity 0.15s;
+    color: var(--ink-3);
+    padding: 2px;
+    border-radius: 4px;
+  }
+  .history-item:hover .history-item-delete { opacity: 1; }
+  .history-item-delete:hover { color: var(--ink); background: var(--bg-hover); }
+
+  /* ============ SETTINGS PANEL ============ */
+  .settings-panel {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 340px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-right: none;
+    border-top: none;
+    border-radius: 0 0 0 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    z-index: 20;
+    display: none;
+  }
+  [data-theme="dark"] .settings-panel { box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+  .settings-panel.open { display: block; }
+  .settings-section { padding: 14px; border-bottom: 1px solid var(--rule); }
+  .settings-section:last-child { border-bottom: none; }
+  .settings-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .settings-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .settings-row:last-child { margin-bottom: 0; }
+  .settings-select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    background: var(--bg-soft);
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .settings-input {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    background: var(--bg-soft);
+    font-size: 13px;
+    color: var(--ink);
+    font-family: var(--mono);
+  }
+  .settings-input:focus { border-color: var(--accent); }
+  .settings-hint {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+  .settings-hint a { color: var(--accent); text-decoration: none; }
+  .settings-hint a:hover { text-decoration: underline; }
+  .settings-btn {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .settings-btn:hover { opacity: 0.9; }
+  .settings-btn-secondary {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: var(--bg-soft);
+    color: var(--ink-2);
+    font-size: 13px;
+    border: 1px solid var(--rule);
+  }
+
+  /* ============ CHAT AREA ============ */
+  .chat {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chat-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 28px 20px 140px;
+  }
+
+  .message {
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease both;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .message-user {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .message-user .message-body {
+    background: var(--user-bubble);
+    color: var(--user-text);
+    padding: 10px 14px;
+    border-radius: 16px 16px 4px 16px;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+
+  .message-assistant .message-body {
+    color: var(--ink);
+    padding: 2px 0;
+    line-height: 1.65;
+  }
+  .message-assistant .message-body p { margin-bottom: 0.7em; }
+  .message-assistant .message-body p:last-child { margin-bottom: 0; }
+  .message-assistant .message-body h1, .message-assistant .message-body h2, .message-assistant .message-body h3 {
+    font-weight: 600;
+    margin: 1.2em 0 0.4em;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+  .message-assistant .message-body h1 { font-size: 18px; }
+  .message-assistant .message-body h2 { font-size: 16px; }
+  .message-assistant .message-body h3 { font-size: 15px; }
+  .message-assistant .message-body ul, .message-assistant .message-body ol { margin: 0.5em 0 0.5em 22px; }
+  .message-assistant .message-body li { margin: 0.25em 0; }
+  .message-assistant .message-body strong { font-weight: 600; color: var(--ink); }
+  .message-assistant .message-body code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--bg-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .message-assistant .message-body pre {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    padding: 12px 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0.8em 0;
+    line-height: 1.5;
+  }
+  .message-assistant .message-body pre code { background: none; padding: 0; }
+  .message-assistant .message-body blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 12px;
+    color: var(--ink-2);
+    margin: 0.8em 0;
+  }
+  .message-assistant .message-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .message-assistant .message-body mark {
+    background: var(--accent-soft);
+    color: var(--ink);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  /* Citations */
+  .cite {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 4px;
+    margin: 0 1px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--mono);
+    vertical-align: baseline;
+    line-height: 1.4;
+  }
+  .cite:hover { background: var(--accent); color: #fff; }
+
+  .citations-list {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .citations-list-title {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .citation {
+    padding: 10px 12px;
+    background: var(--bg-soft);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .citation-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+  .citation-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .citation-title {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 13px;
+    flex: 1;
+  }
+  .citation-source {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  .citation-source a { color: var(--ink-3); text-decoration: none; }
+  .citation-source a:hover { color: var(--accent); }
+  .citation-snippet { color: var(--ink-2); }
+  .citation-actions { margin-top: 6px; }
+  .citation-copy {
+    font-size: 11px;
+    color: var(--ink-3);
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+  }
+  .citation-copy:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Message actions */
+  .message-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .message:hover .message-actions { opacity: 1; }
+  .msg-action-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    color: var(--ink-3);
+    border-radius: 4px;
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+  }
+  .msg-action-btn:hover { color: var(--accent); background: var(--bg-hover); }
+  .msg-action-btn.copied { color: var(--accent); }
+
+  /* First message card */
+  .intro-card {
+    padding: 18px;
+    background: var(--bg-soft);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--rule);
+  }
+  .intro-card h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .intro-card .intro-desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+  .intro-stats {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .intro-stat { font-size: 12px; color: var(--ink-3); }
+  .intro-stat strong { color: var(--ink); font-weight: 600; font-size: 13px; margin-right: 4px; font-family: var(--mono); }
+  .intro-topics { margin-bottom: 14px; }
+  .intro-topics-title {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .intro-topics ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .intro-topics li {
+    padding: 4px 10px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .intro-topics li:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .suggested {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .suggested-title {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .suggested-btn {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .suggested-btn:hover {
+    background: var(--accent-soft);
+    color: var(--ink);
+    border-color: var(--accent);
+  }
+  .suggested-btn::before {
+    content: "→ ";
+    color: var(--accent);
+    font-weight: 500;
+    margin-right: 2px;
+  }
+
+  /* ============ INPUT ============ */
+  .input-wrap {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, var(--bg) 60%, transparent);
+    padding: 16px 20px 20px;
+    z-index: 5;
+  }
+  .input-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 8px 8px 8px 14px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .input-inner:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .chat-input {
+    flex: 1;
+    background: none;
+    border: none;
+    resize: none;
+    padding: 8px 0;
+    max-height: 120px;
+    min-height: 22px;
+    line-height: 1.4;
+    font-size: 15px;
+    color: var(--ink);
+    font-family: var(--sans);
+  }
+  .chat-input::placeholder { color: var(--ink-4); }
+  .input-buttons { display: flex; gap: 2px; flex-shrink: 0; }
+  .voice-btn, .send-btn {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
+  .voice-btn { color: var(--ink-3); }
+  .voice-btn:hover { background: var(--bg-hover); color: var(--ink); }
+  .voice-btn.recording { color: #ef4444; background: color-mix(in srgb, #ef4444 12%, transparent); }
+  .send-btn {
+    background: var(--accent);
+    color: #fff;
+  }
+  .send-btn:disabled { background: var(--bg-hover); color: var(--ink-4); cursor: not-allowed; }
+  .send-btn svg { width: 18px; height: 18px; }
+  .voice-btn svg { width: 18px; height: 18px; }
+  .input-footer {
+    max-width: var(--max);
+    margin: 6px auto 0;
+    padding: 0 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--ink-4);
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+  }
+  .mode-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .mode-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ink-4);
+  }
+  .mode-dot.ready { background: #22c55e; }
+  .mode-dot.loading { background: #f59e0b; animation: pulse 1.3s ease infinite; }
+  @keyframes pulse { 50% { opacity: 0.3; } }
+
+  /* ============ LOADING ============ */
+  .typing {
+    display: inline-flex;
+    gap: 4px;
+    padding: 8px 0;
+  }
+  .typing span {
+    width: 6px; height: 6px;
+    background: var(--ink-4);
+    border-radius: 50%;
+    animation: bounce 1.4s ease infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* ============ STATIC FALLBACK (raw-fetch LLMs) ============ */
+  .static-fallback { display: none; }
+  noscript .static-fallback { display: block; padding: 20px; max-width: var(--max); margin: 0 auto; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    .brand-project { display: none; }
+    .intro-card { padding: 14px; }
+    .history-panel, .settings-panel { width: calc(100vw - 32px); max-width: 340px; }
+    .chat-inner { padding: 20px 16px 120px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">WizSearch 3</span>
+    <span class="brand-sep">·</span>
+    <span class="brand-project">Anthropic Agent Skills Archive</span>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="btn-new" title="New chat" aria-label="New chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-history" title="Past chats" aria-label="Past chats">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-theme" title="Toggle theme" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="icon-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HISTORY PANEL -->
+<div class="history-panel" id="history-panel">
+  <div class="history-header">Past chats</div>
+  <div id="history-list"></div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-panel" id="settings-panel">
+  <div class="settings-section">
+    <div class="settings-label">Answer mode</div>
+    <div class="settings-row">
+      <select class="settings-select" id="sel-mode">
+        <option value="retrieval">Retrieval only (instant, no AI)</option>
+        <option value="api">Remote API (fast, requires key)</option>
+        <option value="local" disabled>Local AI in browser (offline, 900MB)</option>
+      </select>
+      <div class="settings-hint" id="mode-hint">Shows top chunks directly. No AI synthesis, no setup.</div>
+    </div>
+  </div>
+  <div class="settings-section" id="api-section" style="display:none">
+    <div class="settings-label">API provider</div>
+    <div class="settings-row">
+      <select class="settings-select" id="sel-provider">
+        <option value="groq">Groq (free tier, fastest)</option>
+        <option value="anthropic">Anthropic</option>
+        <option value="openai">OpenAI</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <input type="password" class="settings-input" id="inp-apikey" placeholder="Paste API key">
+      <div class="settings-hint" id="provider-hint">
+        Free Groq keys at <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>. Stored locally, never sent to us.
+      </div>
+    </div>
+    <div class="settings-row" style="flex-direction:row; gap:6px">
+      <button class="settings-btn" id="btn-save-key">Save</button>
+      <button class="settings-btn-secondary" id="btn-clear-key">Clear</button>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-label">Search</div>
+    <div class="settings-row">
+      <select class="settings-select" id="sel-search">
+        <option value="hybrid">Hybrid (semantic + fuzzy)</option>
+        <option value="semantic">Semantic only</option>
+        <option value="fuzzy">Fuzzy only (instant)</option>
+      </select>
+      <div class="settings-hint">Hybrid is slowest on first query (loads the embedder) but most accurate.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT AREA -->
+<main class="chat" id="chat">
+  <div class="chat-inner" id="chat-inner">
+    <!-- Intro message renders here -->
+  </div>
+</main>
+
+<!-- INPUT -->
+<div class="input-wrap">
+  <div class="input-inner">
+    <textarea
+      class="chat-input"
+      id="chat-input"
+      placeholder="Ask anything about Anthropic Agent Skills Archive…"
+      rows="1"
+      autocomplete="off"
+      spellcheck="false"></textarea>
+    <div class="input-buttons">
+      <button class="voice-btn" id="btn-voice" title="Voice input" aria-label="Voice input">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+      </button>
+      <button class="send-btn" id="btn-send" title="Send" aria-label="Send" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="input-footer">
+    <span class="mode-indicator">
+      <span class="mode-dot" id="mode-dot"></span>
+      <span id="mode-label">Retrieval only</span>
+    </span>
+    <span><kbd>Enter</kbd> send · <kbd>Shift+Enter</kbd> newline</span>
+  </div>
+</div>
+
+<!-- STATIC FALLBACK: visible to raw-fetch LLMs and users without JS -->
+<noscript>
+  <div class="static-fallback">
+    <h1>WizSearch 3 — Anthropic Agent Skills Archive</h1>
+    <p><strong>Every SKILL.md, guide, and reference for Anthropic's Agent Skills system — pre-built and custom.</strong></p>
+    <p>Indexed 19 April 2026 · 190 chunks across 41 sources in 11 topics.</p>
+    <h2>Topics</h2>
+    <ul><li><strong>SKILL.md structure</strong> — The SKILL.md file format — YAML frontmatter, name and description fields, the body as procedural instructions, and why the description is a trigger. (19 chunks)</li>
+<li><strong>Progressive disclosure</strong> — The core design principle: Claude loads skill metadata at startup, the SKILL.md body only when relevant, and bundled files only on demand. (20 chunks)</li>
+<li><strong>Pre-built Skills</strong> — Anthropic-provided Agent Skills for document work: docx, xlsx, pptx, pdf, pdf-reading, file-reading, frontend-design, product-self-knowledge. (5 chunks)</li>
+<li><strong>Custom Skills</strong> — User-built Skills — creating them from scratch, the skill-creator workflow, organizing a skill directory, and effective description writing. (36 chunks)</li>
+<li><strong>Claude Code integration</strong> — How Claude Code discovers and loads Skills — user settings, project settings, plugin skills, built-in skills, and how Skills differ from CLAUDE.md, hooks, and subagents. (5 chunks)</li>
+<li><strong>API and Messages integration</strong> — Using Skills via the Claude API — the container parameter, skill_id, versioning, the code execution tool, and combining Skills in a single request. (1 chunks)</li>
+<li><strong>MCP and tool integration</strong> — How Skills relate to Model Context Protocol (MCP) servers and tools — when to use which, and how to build MCP servers that complement Skills. (54 chunks)</li>
+<li><strong>Sharing and distribution</strong> — Committing Skills to a repository, distributing through plugins, deploying organization-wide via enterprise managed settings. (1 chunks)</li>
+<li><strong>Document creation skills</strong> — Detailed guidance for the docx, xlsx, pptx, and pdf Skills — when to use each, output conventions, and common patterns. (23 chunks)</li>
+<li><strong>Design and theming</strong> — The frontend-design, canvas-design, and theme-factory Skills for visual output — components, tokens, and aesthetic variety. (25 chunks)</li>
+<li><strong>Best practices</strong> — Authoring guidelines — start with evaluation, structure for scale, keep SKILL.md lean, use reference files, test on real tasks. (1 chunks)</li></ul>
+    <p><strong>For AI agents:</strong> Fetch <code>wizindex-manifest.json</code> from the same folder. It lists sharded chunk files and embedding files. Each shard contains fully enriched self-contained chunks you can use to answer questions.</p>
+  </div>
+</noscript>
+
+<!-- Hidden static data for raw-fetch LLMs -->
+<div style="display:none" id="static-meta" data-suggested='["What is a SKILL.md file and what goes in its frontmatter?", "How does progressive disclosure work for Agent Skills?", "Which Anthropic pre-built Skills are available, and what does each do?", "How do I create a custom Skill with skill-creator?", "How do Skills work in Claude Code vs the Claude API?"]'>
+  <h2>Topics in this knowledge base:</h2>
+  <ul><li><strong>SKILL.md structure</strong> — The SKILL.md file format — YAML frontmatter, name and description fields, the body as procedural instructions, and why the description is a trigger. (19 chunks)</li>
+<li><strong>Progressive disclosure</strong> — The core design principle: Claude loads skill metadata at startup, the SKILL.md body only when relevant, and bundled files only on demand. (20 chunks)</li>
+<li><strong>Pre-built Skills</strong> — Anthropic-provided Agent Skills for document work: docx, xlsx, pptx, pdf, pdf-reading, file-reading, frontend-design, product-self-knowledge. (5 chunks)</li>
+<li><strong>Custom Skills</strong> — User-built Skills — creating them from scratch, the skill-creator workflow, organizing a skill directory, and effective description writing. (36 chunks)</li>
+<li><strong>Claude Code integration</strong> — How Claude Code discovers and loads Skills — user settings, project settings, plugin skills, built-in skills, and how Skills differ from CLAUDE.md, hooks, and subagents. (5 chunks)</li>
+<li><strong>API and Messages integration</strong> — Using Skills via the Claude API — the container parameter, skill_id, versioning, the code execution tool, and combining Skills in a single request. (1 chunks)</li>
+<li><strong>MCP and tool integration</strong> — How Skills relate to Model Context Protocol (MCP) servers and tools — when to use which, and how to build MCP servers that complement Skills. (54 chunks)</li>
+<li><strong>Sharing and distribution</strong> — Committing Skills to a repository, distributing through plugins, deploying organization-wide via enterprise managed settings. (1 chunks)</li>
+<li><strong>Document creation skills</strong> — Detailed guidance for the docx, xlsx, pptx, and pdf Skills — when to use each, output conventions, and common patterns. (23 chunks)</li>
+<li><strong>Design and theming</strong> — The frontend-design, canvas-design, and theme-factory Skills for visual output — components, tokens, and aesthetic variety. (25 chunks)</li>
+<li><strong>Best practices</strong> — Authoring guidelines — start with evaluation, structure for scale, keep SKILL.md lean, use reference files, test on real tasks. (1 chunks)</li></ul>
+</div>
+
+<script>
+// ============================================================================
+// WizSearch V3 — chat-first runtime
+// ============================================================================
+
+const MANIFEST_URL = 'wizindex-manifest.json';
+const DB_NAME = 'wizrag-v3';
+const DB_STORE_SHARDS = 'shards';
+const DB_STORE_MANIFEST = 'manifest';
+const LS_PREFIX = 'wiz3:';
+const LS_SETTINGS = LS_PREFIX + 'settings';
+const LS_THEME = LS_PREFIX + 'theme';
+const LS_CURRENT = LS_PREFIX + 'current';
+const LS_HISTORY = LS_PREFIX + 'history';
+
+let MANIFEST = null;
+let ALL_CHUNKS = [];
+let FUSE = null;
+let EMBEDDER = null; // transformers.js pipeline, loaded lazily
+let SHARD_EMBEDDINGS = new Map(); // shard_id -> Float32Array[][]
+let currentChatId = null;
+let currentMessages = [];
+
+// -------- Settings --------
+const defaultSettings = {
+  mode: 'retrieval',
+  provider: 'groq',
+  apiKey: '',
+  search: 'hybrid'
+};
+let settings = { ...defaultSettings };
+
+function loadSettings() {
+  try {
+    const s = localStorage.getItem(LS_SETTINGS);
+    if (s) settings = { ...defaultSettings, ...JSON.parse(s) };
+  } catch {}
+  applySettings();
+}
+function saveSettings() {
+  try { localStorage.setItem(LS_SETTINGS, JSON.stringify(settings)); } catch {}
+  applySettings();
+}
+function applySettings() {
+  document.getElementById('sel-mode').value = settings.mode;
+  document.getElementById('sel-provider').value = settings.provider;
+  document.getElementById('inp-apikey').value = settings.apiKey;
+  document.getElementById('sel-search').value = settings.search;
+  document.getElementById('api-section').style.display = settings.mode === 'api' ? 'block' : 'none';
+  updateModeIndicator();
+  updateModeHint();
+}
+function updateModeIndicator() {
+  const dot = document.getElementById('mode-dot');
+  const label = document.getElementById('mode-label');
+  if (settings.mode === 'retrieval') {
+    dot.className = 'mode-dot ready';
+    label.textContent = 'Retrieval · ' + settings.search;
+  } else if (settings.mode === 'api') {
+    const ok = !!settings.apiKey;
+    dot.className = 'mode-dot ' + (ok ? 'ready' : '');
+    label.textContent = settings.provider + (ok ? ' · ready' : ' · no key');
+  } else {
+    dot.className = 'mode-dot';
+    label.textContent = 'local (not enabled)';
+  }
+}
+function updateModeHint() {
+  const h = document.getElementById('mode-hint');
+  if (settings.mode === 'retrieval') h.textContent = 'Shows top chunks directly. No AI synthesis, no setup.';
+  else if (settings.mode === 'api') h.textContent = 'AI synthesizes answers from retrieved chunks. Requires API key.';
+}
+
+// -------- Theme --------
+function loadTheme() {
+  const saved = localStorage.getItem(LS_THEME);
+  const theme = saved || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(theme);
+}
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelector('.icon-sun').style.display = t === 'dark' ? 'block' : 'none';
+  document.querySelector('.icon-moon').style.display = t === 'dark' ? 'none' : 'block';
+  try { localStorage.setItem(LS_THEME, t); } catch {}
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+}
+
+// -------- IndexedDB --------
+function openDB() {
+  return new Promise((resolve, reject) => {
+    const r = indexedDB.open(DB_NAME, 1);
+    r.onerror = () => reject(r.error);
+    r.onsuccess = () => resolve(r.result);
+    r.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(DB_STORE_SHARDS)) db.createObjectStore(DB_STORE_SHARDS);
+      if (!db.objectStoreNames.contains(DB_STORE_MANIFEST)) db.createObjectStore(DB_STORE_MANIFEST);
+    };
+  });
+}
+async function idbGet(store, key) {
+  try {
+    const db = await openDB();
+    return new Promise(res => {
+      const r = db.transaction(store, 'readonly').objectStore(store).get(key);
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => res(null);
+    });
+  } catch { return null; }
+}
+async function idbSet(store, key, val) {
+  try {
+    const db = await openDB();
+    return new Promise(res => {
+      const tx = db.transaction(store, 'readwrite');
+      tx.objectStore(store).put(val, key);
+      tx.oncomplete = () => res(true);
+      tx.onerror = () => res(false);
+    });
+  } catch { return false; }
+}
+
+// -------- Manifest & shard loading --------
+async function loadManifest() {
+  const cached = await idbGet(DB_STORE_MANIFEST, 'manifest');
+  if (cached) {
+    MANIFEST = cached;
+    // refresh in background
+    fetch(MANIFEST_URL, { cache: 'no-cache' }).then(r => r.ok ? r.json() : null).then(fresh => {
+      if (fresh && fresh.built_at !== MANIFEST.built_at) {
+        MANIFEST = fresh;
+        idbSet(DB_STORE_MANIFEST, 'manifest', fresh);
+      }
+    }).catch(() => {});
+    return MANIFEST;
+  }
+  try {
+    const r = await fetch(MANIFEST_URL);
+    if (!r.ok) throw 0;
+    MANIFEST = await r.json();
+    await idbSet(DB_STORE_MANIFEST, 'manifest', MANIFEST);
+    return MANIFEST;
+  } catch {
+    return null;
+  }
+}
+
+async function loadAllShards() {
+  if (!MANIFEST || !MANIFEST.shards) return;
+  ALL_CHUNKS = [];
+  for (const shard of MANIFEST.shards) {
+    let chunks = await idbGet(DB_STORE_SHARDS, 'chunks:' + shard.id);
+    if (!chunks) {
+      try {
+        const r = await fetch(shard.chunks_url);
+        if (!r.ok) continue;
+        const data = await r.json();
+        chunks = data.chunks || [];
+        await idbSet(DB_STORE_SHARDS, 'chunks:' + shard.id, chunks);
+      } catch { continue; }
+    }
+    for (const c of chunks) c._shard = shard.id;
+    ALL_CHUNKS.push(...chunks);
+  }
+  rebuildFuse();
+}
+
+async function loadShardEmbeddings(shardId) {
+  if (SHARD_EMBEDDINGS.has(shardId)) return SHARD_EMBEDDINGS.get(shardId);
+  const shard = MANIFEST.shards.find(s => s.id === shardId);
+  if (!shard) return null;
+  let buf = await idbGet(DB_STORE_SHARDS, 'embed:' + shardId);
+  if (!buf) {
+    try {
+      const r = await fetch(shard.embeddings_url);
+      if (!r.ok) return null;
+      buf = new Uint8Array(await r.arrayBuffer());
+      await idbSet(DB_STORE_SHARDS, 'embed:' + shardId, buf);
+    } catch { return null; }
+  }
+  // Dequantize int8 -> float32
+  const dim = MANIFEST.embedding_dim;
+  const scale = shard.embedding_scale || 1;
+  const zp = shard.embedding_zero_point || 0;
+  const count = buf.length / dim;
+  const vectors = [];
+  for (let i = 0; i < count; i++) {
+    const v = new Float32Array(dim);
+    for (let j = 0; j < dim; j++) {
+      const b = buf[i * dim + j];
+      // interpret byte as signed int8
+      const s = b > 127 ? b - 256 : b;
+      v[j] = (s - zp) * scale;
+    }
+    vectors.push(v);
+  }
+  SHARD_EMBEDDINGS.set(shardId, vectors);
+  return vectors;
+}
+
+function rebuildFuse() {
+  FUSE = new Fuse(ALL_CHUNKS, {
+    keys: [
+      { name: 'title', weight: 0.30 },
+      { name: 'keywords', weight: 0.25 },
+      { name: 'synonyms', weight: 0.15 },
+      { name: 'alt_phrasings', weight: 0.10 },
+      { name: 'topic', weight: 0.08 },
+      { name: 'text', weight: 0.12 }
+    ],
+    includeScore: true, threshold: 0.4, ignoreLocation: true, minMatchCharLength: 2
+  });
+}
+
+// -------- Embeddings (semantic search) --------
+let embedderLoading = null;
+async function ensureEmbedder() {
+  if (EMBEDDER) return EMBEDDER;
+  if (embedderLoading) return embedderLoading;
+  embedderLoading = (async () => {
+    try {
+      const { pipeline } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+      EMBEDDER = await pipeline('feature-extraction', MANIFEST.embedding_model || 'Xenova/all-MiniLM-L6-v2', { quantized: true });
+      return EMBEDDER;
+    } catch (e) {
+      console.error('Embedder load failed:', e);
+      return null;
+    }
+  })();
+  return embedderLoading;
+}
+
+async function embedQuery(text) {
+  const e = await ensureEmbedder();
+  if (!e) return null;
+  const out = await e(text, { pooling: 'mean', normalize: true });
+  return new Float32Array(out.data);
+}
+
+function cosineSim(a, b) {
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d += a[i] * b[i];
+  return d; // both normalized
+}
+
+async function semanticSearch(query, k = 10) {
+  if (!MANIFEST.embedding_dtype) return [];
+  const qv = await embedQuery(query);
+  if (!qv) return [];
+  const scored = [];
+  for (const shard of MANIFEST.shards) {
+    const vecs = await loadShardEmbeddings(shard.id);
+    if (!vecs) continue;
+    const shardChunks = ALL_CHUNKS.filter(c => c._shard === shard.id);
+    for (let i = 0; i < vecs.length && i < shardChunks.length; i++) {
+      scored.push({ chunk: shardChunks[i], score: cosineSim(qv, vecs[i]) });
+    }
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, k);
+}
+
+async function fuzzySearch(query, k = 10) {
+  if (!FUSE) return [];
+  const res = FUSE.search(query, { limit: k });
+  return res.map(m => ({ chunk: m.item, score: 1 - m.score }));
+}
+
+async function hybridSearch(query, k = 10) {
+  const [sem, fuz] = await Promise.all([
+    semanticSearch(query, k * 2).catch(() => []),
+    Promise.resolve(fuzzySearch(query, k * 2))
+  ]);
+  // merge by chunk id, sem*0.6 + fuz*0.4
+  const map = new Map();
+  for (const r of sem) map.set(r.chunk.id, { chunk: r.chunk, sem: r.score, fuz: 0 });
+  for (const r of fuz) {
+    const e = map.get(r.chunk.id) || { chunk: r.chunk, sem: 0, fuz: 0 };
+    e.fuz = r.score;
+    map.set(r.chunk.id, e);
+  }
+  const merged = [...map.values()].map(e => ({
+    chunk: e.chunk,
+    score: (e.sem * 0.6) + (e.fuz * 0.4)
+  }));
+  merged.sort((a, b) => b.score - a.score);
+  return merged.slice(0, k);
+}
+
+async function runRetrieval(query, k = 5) {
+  const mode = settings.search;
+  if (mode === 'fuzzy' || !MANIFEST.embedding_dim) return fuzzySearch(query, k);
+  if (mode === 'semantic') return semanticSearch(query, k);
+  return hybridSearch(query, k);
+}
+
+// -------- LLM calls --------
+async function callAPI(question, chunks) {
+  const prompt = buildPrompt(question, chunks);
+  const provider = settings.provider;
+  const key = settings.apiKey;
+  if (!key) throw new Error('No API key configured');
+
+  if (provider === 'anthropic') {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!r.ok) throw new Error('Anthropic: ' + r.status);
+    const data = await r.json();
+    return data.content?.[0]?.text || '';
+  }
+  if (provider === 'openai') {
+    const r = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + key },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 1024
+      })
+    });
+    if (!r.ok) throw new Error('OpenAI: ' + r.status);
+    const data = await r.json();
+    return data.choices?.[0]?.message?.content || '';
+  }
+  if (provider === 'groq') {
+    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'authorization': 'Bearer ' + key },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 1024
+      })
+    });
+    if (!r.ok) throw new Error('Groq: ' + r.status);
+    const data = await r.json();
+    return data.choices?.[0]?.message?.content || '';
+  }
+  throw new Error('Unknown provider: ' + provider);
+}
+
+function buildPrompt(question, chunks) {
+  const context = chunks.map((c, i) => `[${i + 1}] ${c.chunk.title || 'Untitled'}\nSource: ${c.chunk.source_label || c.chunk.source}\n\n${c.chunk.text}`).join('\n\n---\n\n');
+  return `You are answering a question using ONLY the following chunks from a knowledge base. If the answer is not in the chunks, say so honestly.
+
+When you reference information from a chunk, cite it inline using [1], [2], etc. matching the chunk numbers below.
+
+KNOWLEDGE BASE CHUNKS:
+
+${context}
+
+QUESTION: ${question}
+
+Write a concise, accurate answer with inline citations. Use markdown for formatting.`;
+}
+
+// -------- Message handling --------
+async function handleUserMessage(text) {
+  if (!text.trim()) return;
+
+  // Add user message
+  addMessage({ role: 'user', content: text });
+
+  // Show typing indicator
+  const typingEl = addMessage({ role: 'assistant', content: '', isTyping: true });
+
+  try {
+    const results = await runRetrieval(text, 5);
+
+    if (settings.mode === 'retrieval' || (settings.mode === 'api' && !settings.apiKey)) {
+      // Retrieval-only: show top chunks
+      typingEl.remove();
+      currentMessages.pop();
+      addAssistantResponse(retrievalAnswer(text, results), results);
+    } else if (settings.mode === 'api') {
+      const answer = await callAPI(text, results);
+      typingEl.remove();
+      currentMessages.pop();
+      addAssistantResponse(answer, results);
+    } else {
+      typingEl.remove();
+      currentMessages.pop();
+      addAssistantResponse('Local LLM mode is not yet available in this build. Switch to "Retrieval only" or "Remote API" in settings.', []);
+    }
+  } catch (err) {
+    typingEl.remove();
+    currentMessages.pop();
+    addAssistantResponse(`**Error:** ${err.message}\n\nFalling back to retrieval-only. Top chunks:`, []);
+    const results = await runRetrieval(text, 5).catch(() => []);
+    if (results.length) {
+      const last = currentMessages[currentMessages.length - 1];
+      last.citations = results;
+      updateLastMessageCitations(results);
+    }
+  }
+  saveCurrentChat();
+}
+
+function retrievalAnswer(query, results) {
+  if (!results.length) return `No relevant chunks found for "${escapeHtml(query)}". Try a different phrasing.`;
+  const lines = [
+    `Found ${results.length} relevant ${results.length === 1 ? 'chunk' : 'chunks'}. Here are the top matches — click a citation below to read the full source.`,
+    '',
+  ];
+  results.slice(0, 3).forEach((r, i) => {
+    const title = r.chunk.title || 'Untitled';
+    const preview = r.chunk.text.substring(0, 180).replace(/\n/g, ' ');
+    lines.push(`**[${i + 1}] ${title}** — ${preview}${r.chunk.text.length > 180 ? '…' : ''}`);
+  });
+  return lines.join('\n\n');
+}
+
+// -------- Render messages --------
+function renderIntro() {
+  const inner = document.getElementById('chat-inner');
+  inner.innerHTML = '';
+  const topics = MANIFEST?.topics || [];
+  const suggested = JSON.parse(document.getElementById('static-meta').dataset.suggested || '[]');
+
+  const card = document.createElement('div');
+  card.className = 'message message-assistant';
+  card.innerHTML = `
+    <div class="intro-card">
+      <h2>${escapeHtml(MANIFEST?.project || 'Anthropic Agent Skills Archive')}</h2>
+      <p class="intro-desc">${escapeHtml(MANIFEST?.description || 'Every SKILL.md, guide, and reference for Anthropic's Agent Skills system — pre-built and custom.')}</p>
+      <div class="intro-stats">
+        <div class="intro-stat"><strong>${MANIFEST?.stats?.chunks ?? '190'}</strong>chunks</div>
+        <div class="intro-stat"><strong>${MANIFEST?.stats?.sources ?? '41'}</strong>sources</div>
+        <div class="intro-stat"><strong>${topics.length || '11'}</strong>topics</div>
+      </div>
+      ${topics.length ? `
+        <div class="intro-topics">
+          <div class="intro-topics-title">Topics</div>
+          <ul>${topics.map(t => `<li data-topic="${escapeHtml(t.name)}">${escapeHtml(t.name)}</li>`).join('')}</ul>
+        </div>
+      ` : ''}
+      <div class="suggested">
+        <div class="suggested-title">Try asking</div>
+        ${suggested.map(q => `<button class="suggested-btn" data-q="${escapeHtml(q)}">${escapeHtml(q)}</button>`).join('')}
+      </div>
+    </div>
+  `;
+  inner.appendChild(card);
+
+  // wire topic chips and suggestions
+  card.querySelectorAll('[data-topic]').forEach(el => el.addEventListener('click', () => sendPreset(el.dataset.topic)));
+  card.querySelectorAll('[data-q]').forEach(el => el.addEventListener('click', () => sendPreset(el.dataset.q)));
+}
+
+function sendPreset(text) {
+  const ta = document.getElementById('chat-input');
+  ta.value = text;
+  document.getElementById('btn-send').disabled = false;
+  handleUserMessage(text);
+  ta.value = '';
+  ta.style.height = 'auto';
+  document.getElementById('btn-send').disabled = true;
+}
+
+function addMessage({ role, content, isTyping = false, citations = null }) {
+  currentMessages.push({ role, content, citations });
+  const inner = document.getElementById('chat-inner');
+  const el = document.createElement('div');
+  el.className = 'message message-' + role;
+
+  if (role === 'user') {
+    el.innerHTML = `<div class="message-body">${escapeHtml(content).replace(/\n/g, '<br>')}</div>`;
+  } else {
+    if (isTyping) {
+      el.innerHTML = `<div class="message-body"><div class="typing"><span></span><span></span><span></span></div></div>`;
+    } else {
+      el.innerHTML = `<div class="message-body">${renderMarkdown(content)}</div>`;
+      appendActions(el, content);
+    }
+  }
+  inner.appendChild(el);
+  scrollToBottom();
+  return el;
+}
+
+function addAssistantResponse(content, citations) {
+  currentMessages.push({ role: 'assistant', content, citations });
+  const inner = document.getElementById('chat-inner');
+  const el = document.createElement('div');
+  el.className = 'message message-assistant';
+
+  let html = `<div class="message-body">${renderMarkdownWithCitations(content, citations)}</div>`;
+  if (citations && citations.length) {
+    html += renderCitationsList(citations);
+  }
+  el.innerHTML = html;
+  appendActions(el, content);
+  inner.appendChild(el);
+  wireCitationClicks(el);
+  scrollToBottom();
+  return el;
+}
+
+function updateLastMessageCitations(citations) {
+  const msgs = document.querySelectorAll('#chat-inner .message-assistant');
+  const last = msgs[msgs.length - 1];
+  if (!last) return;
+  last.insertAdjacentHTML('beforeend', renderCitationsList(citations));
+  wireCitationClicks(last);
+}
+
+function renderCitationsList(citations) {
+  const items = citations.map((r, i) => {
+    const c = r.chunk;
+    const snippet = c.text.substring(0, 200).replace(/\n/g, ' ');
+    const sourceLink = c.source ? `<a href="${escapeHtml(c.source)}" target="_blank" rel="noopener">${escapeHtml(truncate(c.source_label || c.source, 30))}</a>` : escapeHtml(c.source_label || '');
+    return `
+      <div class="citation" id="cite-${i + 1}">
+        <div class="citation-header">
+          <span class="citation-num">[${i + 1}]</span>
+          <span class="citation-title">${escapeHtml(c.title || 'Untitled')}</span>
+          <span class="citation-source">${sourceLink}</span>
+        </div>
+        <div class="citation-snippet">${escapeHtml(snippet)}${c.text.length > 200 ? '…' : ''}</div>
+        <div class="citation-actions">
+          <button class="citation-copy" data-chunk-id="${escapeHtml(c.id)}">Copy chunk</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+  return `<div class="citations-list"><div class="citations-list-title">Sources</div>${items}</div>`;
+}
+
+function wireCitationClicks(root) {
+  // Inline [N] links jump to citation
+  root.querySelectorAll('.cite').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const n = a.dataset.n;
+      const target = root.querySelector('#cite-' + n);
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+  root.querySelectorAll('.citation-copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.chunkId;
+      const last = currentMessages[currentMessages.length - 1];
+      const ch = (last?.citations || []).find(r => r.chunk.id === id);
+      if (!ch) return;
+      const md = `# ${ch.chunk.title}\n\n${ch.chunk.text}\n\n_Source: ${ch.chunk.source_label || ch.chunk.source}_`;
+      navigator.clipboard.writeText(md).then(() => {
+        btn.textContent = 'Copied';
+        setTimeout(() => btn.textContent = 'Copy chunk', 1200);
+      });
+    });
+  });
+}
+
+function appendActions(el, content) {
+  const actions = document.createElement('div');
+  actions.className = 'message-actions';
+  actions.innerHTML = `<button class="msg-action-btn" data-act="copy">Copy</button>`;
+  el.appendChild(actions);
+  actions.querySelector('[data-act="copy"]').addEventListener('click', (e) => {
+    navigator.clipboard.writeText(content).then(() => {
+      const b = e.target;
+      b.textContent = 'Copied';
+      b.classList.add('copied');
+      setTimeout(() => { b.textContent = 'Copy'; b.classList.remove('copied'); }, 1200);
+    });
+  });
+}
+
+function renderMarkdown(text) {
+  if (typeof marked === 'undefined') return escapeHtml(text).replace(/\n/g, '<br>');
+  marked.setOptions({ breaks: true, gfm: true });
+  return marked.parse(text);
+}
+
+function renderMarkdownWithCitations(text, citations) {
+  let html = renderMarkdown(text);
+  // turn [N] into clickable citations
+  html = html.replace(/\[(\d+)\]/g, (m, n) => {
+    const idx = parseInt(n, 10);
+    if (!citations || idx < 1 || idx > citations.length) return m;
+    return `<a class="cite" data-n="${n}" href="#cite-${n}">${n}</a>`;
+  });
+  return html;
+}
+
+function scrollToBottom() {
+  const chat = document.getElementById('chat');
+  chat.scrollTop = chat.scrollHeight;
+}
+
+// -------- Chat history (persistence) --------
+function saveCurrentChat() {
+  if (!currentChatId || !currentMessages.length) return;
+  const snapshot = {
+    id: currentChatId,
+    title: deriveTitle(currentMessages),
+    updated_at: Date.now(),
+    messages: currentMessages
+  };
+  try { localStorage.setItem(LS_CURRENT, JSON.stringify(snapshot)); } catch {}
+  // add to history
+  let history = [];
+  try { history = JSON.parse(localStorage.getItem(LS_HISTORY) || '[]'); } catch {}
+  history = history.filter(h => h.id !== currentChatId);
+  history.unshift({ id: snapshot.id, title: snapshot.title, updated_at: snapshot.updated_at });
+  history = history.slice(0, 50); // keep last 50
+  try {
+    localStorage.setItem(LS_HISTORY, JSON.stringify(history));
+    localStorage.setItem(LS_PREFIX + 'chat:' + currentChatId, JSON.stringify(snapshot));
+  } catch {}
+}
+
+function deriveTitle(messages) {
+  const firstUser = messages.find(m => m.role === 'user');
+  if (!firstUser) return 'New chat';
+  return truncate(firstUser.content, 50);
+}
+
+function loadChat(id) {
+  try {
+    const raw = localStorage.getItem(LS_PREFIX + 'chat:' + id);
+    if (!raw) return false;
+    const snap = JSON.parse(raw);
+    currentChatId = snap.id;
+    currentMessages = [];
+    renderIntro();
+    for (const m of snap.messages) {
+      if (m.role === 'user') addMessage({ role: 'user', content: m.content });
+      else {
+        if (m.citations) addAssistantResponse(m.content, m.citations);
+        else addMessage({ role: 'assistant', content: m.content });
+        // addAssistantResponse/addMessage both push to currentMessages, so we need to dedupe
+      }
+    }
+    // Replace currentMessages with the loaded set (to avoid double-push)
+    currentMessages = snap.messages;
+    return true;
+  } catch { return false; }
+}
+
+function newChat() {
+  currentChatId = 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+  currentMessages = [];
+  renderIntro();
+  try { localStorage.removeItem(LS_CURRENT); } catch {}
+}
+
+function loadHistoryList() {
+  const list = document.getElementById('history-list');
+  let history = [];
+  try { history = JSON.parse(localStorage.getItem(LS_HISTORY) || '[]'); } catch {}
+  if (!history.length) {
+    list.innerHTML = '<div class="history-empty">No past chats yet.</div>';
+    return;
+  }
+  list.innerHTML = history.map(h => `
+    <div class="history-item" data-id="${h.id}">
+      <div class="history-item-body">
+        <div class="history-item-title">${escapeHtml(h.title)}</div>
+        <div class="history-item-meta">${timeAgo(h.updated_at)}</div>
+      </div>
+      <button class="history-item-delete" data-del="${h.id}" title="Delete">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+      </button>
+    </div>
+  `).join('');
+  list.querySelectorAll('.history-item').forEach(el => {
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('[data-del]')) return;
+      loadChat(el.dataset.id);
+      document.getElementById('history-panel').classList.remove('open');
+    });
+  });
+  list.querySelectorAll('[data-del]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.del;
+      try {
+        localStorage.removeItem(LS_PREFIX + 'chat:' + id);
+        let h = JSON.parse(localStorage.getItem(LS_HISTORY) || '[]');
+        h = h.filter(x => x.id !== id);
+        localStorage.setItem(LS_HISTORY, JSON.stringify(h));
+      } catch {}
+      loadHistoryList();
+    });
+  });
+}
+
+// -------- Voice input --------
+let recognition = null;
+let isRecording = false;
+function initVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    document.getElementById('btn-voice').style.display = 'none';
+    return;
+  }
+  recognition = new SR();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  recognition.lang = navigator.language || 'en-US';
+  recognition.onresult = (e) => {
+    let transcript = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      transcript += e.results[i][0].transcript;
+    }
+    document.getElementById('chat-input').value = transcript;
+    document.getElementById('btn-send').disabled = !transcript.trim();
+    autoResizeInput();
+  };
+  recognition.onend = () => {
+    isRecording = false;
+    document.getElementById('btn-voice').classList.remove('recording');
+  };
+  recognition.onerror = () => {
+    isRecording = false;
+    document.getElementById('btn-voice').classList.remove('recording');
+  };
+}
+function toggleVoice() {
+  if (!recognition) return;
+  if (isRecording) {
+    recognition.stop();
+  } else {
+    try { recognition.start(); isRecording = true; document.getElementById('btn-voice').classList.add('recording'); }
+    catch {}
+  }
+}
+
+// -------- Utils --------
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function truncate(s, n) { return s.length <= n ? s : s.substring(0, n - 1) + '…'; }
+function timeAgo(ts) {
+  const s = Math.floor((Date.now() - ts) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.floor(s / 60) + 'm ago';
+  if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+  return Math.floor(s / 86400) + 'd ago';
+}
+
+function autoResizeInput() {
+  const ta = document.getElementById('chat-input');
+  ta.style.height = 'auto';
+  ta.style.height = Math.min(ta.scrollHeight, 120) + 'px';
+}
+
+// -------- UI wiring --------
+function wireUI() {
+  document.getElementById('btn-theme').addEventListener('click', toggleTheme);
+  document.getElementById('btn-new').addEventListener('click', newChat);
+
+  document.getElementById('btn-history').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const p = document.getElementById('history-panel');
+    document.getElementById('settings-panel').classList.remove('open');
+    p.classList.toggle('open');
+    if (p.classList.contains('open')) loadHistoryList();
+  });
+  document.getElementById('btn-settings').addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('history-panel').classList.remove('open');
+    document.getElementById('settings-panel').classList.toggle('open');
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.history-panel') && !e.target.closest('#btn-history')) {
+      document.getElementById('history-panel').classList.remove('open');
+    }
+    if (!e.target.closest('.settings-panel') && !e.target.closest('#btn-settings')) {
+      document.getElementById('settings-panel').classList.remove('open');
+    }
+  });
+
+  // settings
+  document.getElementById('sel-mode').addEventListener('change', (e) => {
+    settings.mode = e.target.value; saveSettings();
+  });
+  document.getElementById('sel-provider').addEventListener('change', (e) => {
+    settings.provider = e.target.value;
+    const h = document.getElementById('provider-hint');
+    if (settings.provider === 'groq') h.innerHTML = 'Free Groq keys at <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>. Stored locally.';
+    else if (settings.provider === 'anthropic') h.innerHTML = 'Get a key at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. Stored locally.';
+    else h.innerHTML = 'Get a key at <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener">platform.openai.com/api-keys</a>. Stored locally.';
+  });
+  document.getElementById('btn-save-key').addEventListener('click', () => {
+    settings.apiKey = document.getElementById('inp-apikey').value;
+    saveSettings();
+    document.getElementById('settings-panel').classList.remove('open');
+  });
+  document.getElementById('btn-clear-key').addEventListener('click', () => {
+    settings.apiKey = '';
+    document.getElementById('inp-apikey').value = '';
+    saveSettings();
+  });
+  document.getElementById('sel-search').addEventListener('change', (e) => {
+    settings.search = e.target.value; saveSettings();
+  });
+
+  // input
+  const ta = document.getElementById('chat-input');
+  const send = document.getElementById('btn-send');
+  ta.addEventListener('input', () => {
+    send.disabled = !ta.value.trim();
+    autoResizeInput();
+  });
+  ta.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!send.disabled) submitInput();
+    }
+  });
+  send.addEventListener('click', submitInput);
+  document.getElementById('btn-voice').addEventListener('click', toggleVoice);
+}
+
+function submitInput() {
+  const ta = document.getElementById('chat-input');
+  const txt = ta.value.trim();
+  if (!txt) return;
+  ta.value = '';
+  ta.style.height = 'auto';
+  document.getElementById('btn-send').disabled = true;
+  handleUserMessage(txt);
+}
+
+// -------- Boot --------
+(async () => {
+  loadTheme();
+  loadSettings();
+  wireUI();
+  initVoice();
+
+  const m = await loadManifest();
+  if (!m) {
+    document.getElementById('chat-inner').innerHTML = `<div class="message message-assistant"><div class="message-body"><p><strong>Index not available.</strong></p><p>This page expects a <code>wizindex-manifest.json</code> in the same folder. If you're seeing this, the index hasn't been deployed yet.</p></div></div>`;
+    return;
+  }
+
+  // try to restore current chat
+  try {
+    const cur = JSON.parse(localStorage.getItem(LS_CURRENT) || 'null');
+    if (cur && cur.id) {
+      currentChatId = cur.id;
+      currentMessages = cur.messages;
+      renderIntro();
+      for (const msg of cur.messages) {
+        if (msg.role === 'user') addMessage({ role: 'user', content: msg.content });
+        else addAssistantResponse(msg.content, msg.citations || []);
+      }
+      currentMessages = cur.messages;
+    } else {
+      newChat();
+    }
+  } catch { newChat(); }
+
+  // load shards in background
+  loadAllShards();
+})();
+</script>
+
+</body>
+</html>
