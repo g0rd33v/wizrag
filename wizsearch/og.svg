@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#000"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#fff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- subtle grid dots -->
+  <g fill="#1a1a1a">
+    <circle cx="100" cy="100" r="1.5"/><circle cx="200" cy="100" r="1.5"/><circle cx="300" cy="100" r="1.5"/><circle cx="400" cy="100" r="1.5"/><circle cx="500" cy="100" r="1.5"/><circle cx="600" cy="100" r="1.5"/><circle cx="700" cy="100" r="1.5"/><circle cx="800" cy="100" r="1.5"/><circle cx="900" cy="100" r="1.5"/><circle cx="1000" cy="100" r="1.5"/><circle cx="1100" cy="100" r="1.5"/>
+    <circle cx="100" cy="530" r="1.5"/><circle cx="200" cy="530" r="1.5"/><circle cx="300" cy="530" r="1.5"/><circle cx="400" cy="530" r="1.5"/><circle cx="500" cy="530" r="1.5"/><circle cx="600" cy="530" r="1.5"/><circle cx="700" cy="530" r="1.5"/><circle cx="800" cy="530" r="1.5"/><circle cx="900" cy="530" r="1.5"/><circle cx="1000" cy="530" r="1.5"/><circle cx="1100" cy="530" r="1.5"/>
+  </g>
+
+  <!-- Eyebrow -->
+  <g transform="translate(80, 110)">
+    <circle cx="4" cy="8" r="4" fill="#666"/>
+    <text x="18" y="13" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="16" font-weight="500" fill="#888" letter-spacing="2.5">RESEARCH · V0.1</text>
+  </g>
+
+  <!-- Title -->
+  <text x="80" y="240" font-family="Inter, -apple-system, sans-serif" font-size="112" font-weight="800" fill="#fff" letter-spacing="-4">Search, built</text>
+  <text x="80" y="350" font-family="Inter, -apple-system, sans-serif" font-size="112" font-weight="800" fill="#fff" letter-spacing="-4">in chat.</text>
+
+  <!-- Subtitle -->
+  <text x="80" y="415" font-family="Inter, -apple-system, sans-serif" font-size="26" font-weight="400" fill="#9a9a9a">Semantic search over curated corpora — two tools only.</text>
+
+  <!-- Tool chips -->
+  <g transform="translate(80, 455)">
+    <rect x="0" y="0" width="220" height="54" rx="27" fill="#0f0f0f" stroke="#222" stroke-width="1"/>
+    <path d="M24 13 25.7 24.3 36 26 25.7 27.7 24 39 22.3 27.7 12 26 22.3 24.3Z" fill="#e5e5e5" transform="scale(0.85) translate(4,2)"/>
+    <text x="55" y="34" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#fff">Claude Opus 4.7</text>
+  </g>
+  <g transform="translate(320, 455)">
+    <rect x="0" y="0" width="140" height="54" rx="27" fill="#0f0f0f" stroke="#222" stroke-width="1"/>
+    <path transform="translate(18, 13) scale(1.2)" fill="#e5e5e5" d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.4.6.1.8-.26.8-.58v-2.1c-3.34.73-4.04-1.6-4.04-1.6-.55-1.38-1.33-1.75-1.33-1.75-1.09-.75.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.07 1.84 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.23-3.22-.12-.3-.53-1.52.12-3.17 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.65.24 2.87.12 3.17.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.3c0 .32.2.7.81.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+    <text x="55" y="34" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#fff">GitHub</text>
+  </g>
+
+  <!-- Bar chart mini on right -->
+  <g transform="translate(780, 130)">
+    <text x="0" y="0" font-family="'JetBrains Mono', monospace" font-size="14" fill="#666" letter-spacing="1.5">CORPUS SCALE</text>
+
+    <g transform="translate(0, 40)">
+      <text x="0" y="12" font-family="'JetBrains Mono', monospace" font-size="13" fill="#888">demo 03</text>
+      <rect x="90" y="4" width="240" height="10" rx="5" fill="#121212"/>
+      <rect x="90" y="4" width="240" height="10" rx="5" fill="url(#bar)"/>
+      <text x="340" y="13" font-family="'JetBrains Mono', monospace" font-size="13" fill="#e5e5e5" text-anchor="end" transform="translate(20, 0)"> </text>
+      <text x="345" y="13" font-family="'JetBrains Mono', monospace" font-size="13" fill="#e5e5e5">2,305</text>
+    </g>
+
+    <g transform="translate(0, 80)">
+      <text x="0" y="12" font-family="'JetBrains Mono', monospace" font-size="13" fill="#888">demo 01</text>
+      <rect x="90" y="4" width="240" height="10" rx="5" fill="#121212"/>
+      <rect x="90" y="4" width="79" height="10" rx="5" fill="url(#bar)"/>
+      <text x="345" y="13" font-family="'JetBrains Mono', monospace" font-size="13" fill="#e5e5e5">762</text>
+    </g>
+
+    <g transform="translate(0, 120)">
+      <text x="0" y="12" font-family="'JetBrains Mono', monospace" font-size="13" fill="#888">demo 02</text>
+      <rect x="90" y="4" width="240" height="10" rx="5" fill="#121212"/>
+      <rect x="90" y="4" width="5" height="10" rx="2.5" fill="url(#bar)"/>
+      <text x="345" y="13" font-family="'JetBrains Mono', monospace" font-size="13" fill="#e5e5e5">49</text>
+    </g>
+  </g>
+
+  <!-- Flow diagram on right -->
+  <g transform="translate(780, 320)">
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="70" height="70" rx="14" fill="#0f0f0f" stroke="#222" stroke-width="1"/>
+      <path d="M35 15 L37 32 L54 35 L37 38 L35 55 L33 38 L16 35 L33 32Z" fill="#d4d4d4"/>
+    </g>
+    <path d="M80 35 L115 35 M108 30 L115 35 L108 40" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <g transform="translate(120, 0)">
+      <rect x="0" y="0" width="70" height="70" rx="14" fill="#0f0f0f" stroke="#222" stroke-width="1"/>
+      <circle cx="25" cy="22" r="5" fill="none" stroke="#d4d4d4" stroke-width="2"/>
+      <circle cx="25" cy="48" r="5" fill="none" stroke="#d4d4d4" stroke-width="2"/>
+      <circle cx="50" cy="35" r="5" fill="none" stroke="#d4d4d4" stroke-width="2"/>
+      <path d="M25 27 L25 43 M30 22 L45 30" stroke="#d4d4d4" stroke-width="2" fill="none"/>
+    </g>
+    <path d="M200 35 L235 35 M228 30 L235 35 L228 40" stroke="#333" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <g transform="translate(240, 0)">
+      <rect x="0" y="0" width="70" height="70" rx="14" fill="#0f0f0f" stroke="#222" stroke-width="1"/>
+      <rect x="12" y="18" width="46" height="38" rx="3" fill="none" stroke="#d4d4d4" stroke-width="2"/>
+      <path d="M12 28 L58 28" stroke="#d4d4d4" stroke-width="2"/>
+      <circle cx="28" cy="42" r="5" fill="none" stroke="#d4d4d4" stroke-width="2"/>
+      <path d="M32 46 L37 51" stroke="#d4d4d4" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <text x="0" y="90" font-family="'JetBrains Mono', monospace" font-size="11" fill="#666">CHAT</text>
+    <text x="120" y="90" font-family="'JetBrains Mono', monospace" font-size="11" fill="#666">COMMIT</text>
+    <text x="240" y="90" font-family="'JetBrains Mono', monospace" font-size="11" fill="#666">SEARCH</text>
+  </g>
+
+  <!-- Footer byline -->
+  <g transform="translate(80, 570)">
+    <text x="0" y="0" font-family="'JetBrains Mono', monospace" font-size="16" fill="#666" letter-spacing="1">EUGENE GORD · @EGORDEEV · WIZSEARCH.2026</text>
+  </g>
+
+</svg>
