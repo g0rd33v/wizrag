@@ -123,7 +123,7 @@ STEP-BY-STEP BUILD PROCESS
    - Nearly five decades of annual letters from Warren Buffett and Greg Abel — searchable, offline-capable, in a single static page. — one-line description (80-140 chars)
    - e5817f — hex WITHOUT # (default: "e5817f")
    - 19 April 2026 — human-readable date ("18 April 2026")
-   - 2026-04-19T01:37:09Z — ISO timestamp for <time datetime="">
+   - 2026-04-19T01:39:01Z — ISO timestamp for <time datetime="">
    - 49 — number of source files
    - 1,206 — number of chunks
    - 14 — number of topics
@@ -1352,7 +1352,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
       <span>Vol. II · No. 01</span>
     </div>
     <div class="masthead-right">
-      <time datetime="2026-04-19T01:37:09Z">19 April 2026</time>
+      <time datetime="2026-04-19T01:39:01Z">19 April 2026</time>
       <span class="sep">·</span>
       <span class="cache-pill">
         <span class="cache-dot" id="cache-dot"></span>
@@ -1376,7 +1376,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
   </div>
   <div class="nameplate-right">
     <strong>Edition</strong>
-    Built <time datetime="2026-04-19T01:37:09Z">19 April 2026</time><br>WizRAG v2.0
+    Built <time datetime="2026-04-19T01:39:01Z">19 April 2026</time><br>WizRAG v2.0
   </div>
 </header>
 
@@ -1724,7 +1724,8 @@ async function loadIndex() {
     return INDEX;
   }
   try {
-    const res = await fetch(INDEX_URL);
+    // Cache-bust: bypass HTTP cache so we always get the current index on first load
+    const res = await fetch(INDEX_URL + '?v=' + Date.now(), { cache: 'no-cache' });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     INDEX = await res.json();
     await cacheSet(CACHE_KEY, INDEX);
