@@ -15,7 +15,9 @@
         "integration",
         "tool use",
         "request",
-        "endpoint"
+        "endpoint",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "Messages API",
@@ -36,12 +38,15 @@
       "title": "Loading Skills in API requests",
       "topic": "API and Messages integration",
       "keywords": [
+        "skills",
         "skill_id",
         "api request",
         "loading",
         "beta header",
         "enable skills",
-        "agent skills api"
+        "agent skills api",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "enabling Skills",
@@ -62,6 +67,7 @@
       "title": "Pre-built Skill IDs available through the API",
       "topic": "Pre-built Skills",
       "keywords": [
+        "skills",
         "pdf",
         "docx",
         "pptx",
@@ -69,7 +75,9 @@
         "pre-built",
         "prebuilt",
         "skill id",
-        "anthropic skills"
+        "anthropic skills",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "built-in Skills",
@@ -90,12 +98,15 @@
       "title": "Custom Skills in Claude Code",
       "topic": "Claude Code integration",
       "keywords": [
+        "skills",
         "claude code",
         "custom skills",
         "cli",
         "filesystem",
         "project skills",
-        ".claude"
+        ".claude",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "Code Skills",
@@ -116,12 +127,15 @@
       "title": "Skill discovery in Claude Code",
       "topic": "Claude Code integration",
       "keywords": [
+        "skills",
         "discovery",
         "auto-load",
         "claude code",
         "skill detection",
         "metadata",
-        "trigger"
+        "trigger",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "Skill autoloading",
@@ -141,12 +155,15 @@
       "title": "The pdf pre-built Skill",
       "topic": "Pre-built Skills",
       "keywords": [
+        "skills",
         "pdf",
         "pdf reading",
         "pdf creation",
         "forms",
         "attachments",
-        "pypdf"
+        "pypdf",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "PDF Skill",
@@ -167,6 +184,7 @@
       "title": "The docx, pptx, and xlsx pre-built Skills",
       "topic": "Pre-built Skills",
       "keywords": [
+        "skills",
         "docx",
         "word",
         "pptx",
@@ -174,7 +192,9 @@
         "xlsx",
         "excel",
         "office",
-        "office documents"
+        "office documents",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "Microsoft Office Skills",
@@ -196,12 +216,15 @@
       "title": "Custom Skill sharing scope by surface",
       "topic": "Sharing and distribution",
       "keywords": [
+        "skills",
         "sharing",
         "workspace",
         "team",
         "personal",
         "visibility",
-        "scope"
+        "scope",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "Skill visibility",
@@ -222,12 +245,15 @@
       "title": "Cross-surface Skill availability",
       "topic": "Sharing and distribution",
       "keywords": [
+        "skills",
         "cross-surface",
         "sync",
         "portability",
         "transfer",
         "import",
-        "export"
+        "export",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "moving Skills between surfaces",
@@ -247,13 +273,16 @@
       "title": "Skill trust and security",
       "topic": "Best practices",
       "keywords": [
+        "skills",
         "security",
         "trust",
         "untrusted",
         "sandbox",
         "code execution",
         "risks",
-        "prompt injection"
+        "prompt injection",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "Skill safety",
@@ -274,6 +303,7 @@
       "title": "Skill runtime environment constraints",
       "topic": "Best practices",
       "keywords": [
+        "skills",
         "runtime",
         "environment",
         "vm",
@@ -281,7 +311,9 @@
         "limits",
         "packages",
         "python",
-        "node"
+        "node",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "execution environment",
@@ -302,12 +334,15 @@
       "title": "Skill authoring best practices",
       "topic": "Best practices",
       "keywords": [
+        "skills",
         "authoring",
         "writing skills",
         "best practices",
         "skill.md",
         "frontmatter quality",
-        "description"
+        "description",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "Skill design",
@@ -327,11 +362,14 @@
       "title": "Data retention and Skills",
       "topic": "Best practices",
       "keywords": [
+        "skills",
         "data retention",
         "zdr",
         "zero data retention",
         "privacy",
-        "compliance"
+        "compliance",
+        "skill",
+        "agent skills"
       ],
       "synonyms": [
         "ZDR",
