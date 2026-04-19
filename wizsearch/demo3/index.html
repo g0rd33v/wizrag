@@ -655,7 +655,7 @@ function tokensOf(q) {
 
   // Multi-token fallback uses a more lenient per-token cutoff than the
   // phrase search, since combining multiple token hits filters noise naturally.
-  const MT_PER_TOKEN_CUTOFF = 0.5;
+  const MT_PER_TOKEN_CUTOFF = 0.42;
 
   function multiTokenSearch(tokens) {
     // Run Fuse once per token, merge by chunk id.
