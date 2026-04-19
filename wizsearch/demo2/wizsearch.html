@@ -123,7 +123,7 @@ STEP-BY-STEP BUILD PROCESS
    - Nearly five decades of annual letters from Warren Buffett and Greg Abel — searchable, offline-capable, in a single static page. — one-line description (80-140 chars)
    - e5817f — hex WITHOUT # (default: "e5817f")
    - 19 April 2026 — human-readable date ("18 April 2026")
-   - 2026-04-19T01:24:52Z — ISO timestamp for <time datetime="">
+   - 2026-04-19T01:28:32Z — ISO timestamp for <time datetime="">
    - 49 — number of source files
    - 1,206 — number of chunks
    - 14 — number of topics
@@ -1352,7 +1352,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
       <span>Vol. II · No. 01</span>
     </div>
     <div class="masthead-right">
-      <time datetime="2026-04-19T01:24:52Z">19 April 2026</time>
+      <time datetime="2026-04-19T01:28:32Z">19 April 2026</time>
       <span class="sep">·</span>
       <span class="cache-pill">
         <span class="cache-dot" id="cache-dot"></span>
@@ -1376,7 +1376,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
   </div>
   <div class="nameplate-right">
     <strong>Edition</strong>
-    Built <time datetime="2026-04-19T01:24:52Z">19 April 2026</time><br>WizRAG v2.0
+    Built <time datetime="2026-04-19T01:28:32Z">19 April 2026</time><br>WizRAG v2.0
   </div>
 </header>
 
@@ -1672,6 +1672,7 @@ const CACHE_KEY = location.pathname;
 
 let INDEX = null;
 let FUSE = null;
+let ACRONYMS = null;
 
 // -------- IndexedDB cache --------
 function openDB() {
@@ -1763,12 +1764,20 @@ function buildFuse() {
       { name: 'text',          weight: 0.12 }
     ],
     includeScore: true,
-    threshold: 0.3,
+    threshold: 0.4,
     distance: 120,
     ignoreLocation: true,
     minMatchCharLength: 3,
     useExtendedSearch: true
   });
+  // Build a single acronym map once (dedup across entries) to avoid query bloat
+  ACRONYMS = {};
+  for (const entry of INDEX.entries) {
+    if (!entry.acronyms) continue;
+    for (const [acr, full] of Object.entries(entry.acronyms)) {
+      if (!(acr in ACRONYMS)) ACRONYMS[acr] = full;
+    }
+  }
 }
 
 async function runSearch() {
@@ -1777,18 +1786,17 @@ async function runSearch() {
   const idx = await loadIndex();
   if (!idx) return;
 
+  // Expand acronyms ONCE each, not per chunk
   let expandedQ = q;
-  for (const entry of idx.entries) {
-    if (entry.acronyms) {
-      for (const [acr, full] of Object.entries(entry.acronyms)) {
-        const re = new RegExp('\\b' + acr + '\\b', 'gi');
-        if (re.test(q)) expandedQ += ' ' + full;
-      }
+  if (ACRONYMS) {
+    for (const [acr, full] of Object.entries(ACRONYMS)) {
+      const re = new RegExp('\\b' + acr.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+      if (re.test(q)) expandedQ += ' ' + full;
     }
   }
 
-  // Pull a wider candidate set, then filter by score so nonsense queries → 0 hits
-  const SCORE_CUTOFF = 0.45;   // Fuse: 0 = perfect, 1 = unrelated
+  // Pull a wide candidate set, then filter by score so nonsense queries → 0
+  const SCORE_CUTOFF = 0.38;
   const MAX_RESULTS = 25;
   const raw = FUSE.search(expandedQ, { limit: 80 });
   const matches = raw.filter(m => m.score <= SCORE_CUTOFF).slice(0, MAX_RESULTS);
