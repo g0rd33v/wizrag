@@ -3,137 +3,188 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WizSearch â€” A research project by Eugene Gord</title>
-<meta name="description" content="Semantic search over curated corpora. Built entirely in chat by Eugene Gord.">
+<title>WizSearch â€” Your personal Google in any AI chat</title>
+<meta name="description" content="WizSearch turns any corpus into a shareable search URL. Drop it into any AI chat and it becomes an instant knowledge base. A research project by Eugene Gord.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body{
-  background:#000;color:#d4d4d4;
+  background:#000;color:#eaeaea;
   font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  font-weight:400;font-size:16px;line-height:1.65;
+  font-weight:400;font-size:16px;line-height:1.7;
   padding:72px 24px 120px;min-height:100vh;
 }
 .wrap{max-width:760px;margin:0 auto}
 .eyebrow{
-  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
-  letter-spacing:0.08em;text-transform:uppercase;color:#666;margin-bottom:20px;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;color:#8a8a8a;margin-bottom:22px;
 }
 h1{
-  font-size:56px;font-weight:800;letter-spacing:-0.045em;
-  line-height:1;color:#fff;margin-bottom:20px;
+  font-size:58px;font-weight:800;letter-spacing:-0.045em;
+  line-height:1.02;color:#fff;margin-bottom:22px;
+}
+.highlight{
+  font-family:'IBM Plex Sans',sans-serif;font-weight:700;
+  color:#fff;
 }
 .lede{
-  font-size:19px;line-height:1.55;color:#9a9a9a;
+  font-size:19px;line-height:1.55;color:#c4c4c4;
   max-width:640px;margin-bottom:56px;
 }
 h2{
-  font-size:13px;font-family:'JetBrains Mono',monospace;font-weight:500;
-  letter-spacing:0.1em;text-transform:uppercase;color:#666;
-  margin:56px 0 18px;
+  font-size:13px;font-family:'IBM Plex Mono',monospace;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;color:#8a8a8a;
+  margin:56px 0 20px;
 }
-p{margin-bottom:16px;color:#bdbdbd}
+p{margin-bottom:16px;color:#d4d4d4}
 a{
-  color:#fff;text-decoration:underline;text-decoration-color:#444;
+  color:#fff;text-decoration:underline;text-decoration-color:#555;
   text-decoration-thickness:1px;text-underline-offset:3px;
   transition:text-decoration-color 120ms ease;
 }
 a:hover{text-decoration-color:#fff}
-em{color:#e5e5e5;font-style:normal;font-weight:500}
+em{color:#fff;font-style:normal;font-weight:500}
 code{
-  background:#0f0f0f;border:1px solid rgba(255,255,255,0.06);
+  background:#121212;border:1px solid rgba(255,255,255,0.08);
   padding:2px 7px;border-radius:5px;
-  font-family:'JetBrains Mono',monospace;font-size:13px;color:#d4d4d4;
+  font-family:'IBM Plex Mono',monospace;font-size:13px;color:#eaeaea;
 }
 .stack{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 24px}
 .chip{
-  background:#0f0f0f;border:1px solid rgba(255,255,255,0.07);
-  border-radius:999px;padding:6px 14px;font-size:13px;font-weight:500;color:#d4d4d4;
+  background:#121212;border:1px solid rgba(255,255,255,0.1);
+  border-radius:999px;padding:7px 15px;font-size:13px;font-weight:500;color:#eaeaea;
+  font-family:'IBM Plex Sans',sans-serif;
 }
 .rule{
-  height:1px;background:linear-gradient(to right, rgba(255,255,255,0.12), rgba(255,255,255,0));
+  height:1px;background:linear-gradient(to right, rgba(255,255,255,0.16), rgba(255,255,255,0));
   margin:44px 0;border:0;
 }
+
+/* demo cards */
 .card{
-  background:#0b0b0b;border:1px solid rgba(255,255,255,0.07);
-  border-radius:14px;padding:26px 28px;margin-bottom:12px;
+  background:#0c0c0c;border:1px solid rgba(255,255,255,0.09);
+  border-radius:14px;padding:28px 30px;margin-bottom:12px;
   transition:border-color 160ms ease;
 }
-.card:hover{border-color:rgba(255,255,255,0.14)}
+.card:hover{border-color:rgba(255,255,255,0.18)}
 .card-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
 .card-num{
-  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
-  color:#555;letter-spacing:0.06em;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;
+  color:#666;letter-spacing:0.06em;
 }
 .card h3{
-  font-size:20px;font-weight:700;letter-spacing:-0.015em;color:#fff;
+  font-size:21px;font-weight:700;letter-spacing:-0.015em;color:#fff;
 }
 .meta{
-  font-family:'JetBrains Mono',monospace;font-size:12px;
-  color:#666;margin-bottom:14px;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:#8a8a8a;margin-bottom:16px;
 }
-.card p{color:#a8a8a8;font-size:15px;line-height:1.6;margin-bottom:14px}
+.card p{color:#c8c8c8;font-size:15.5px;line-height:1.6;margin-bottom:14px}
 ul.features{
   list-style:none;margin:0 0 18px;padding:0;
-  font-size:14px;color:#9a9a9a;line-height:1.55;
+  font-size:14px;color:#bababa;line-height:1.6;
 }
 ul.features li{
-  position:relative;padding-left:20px;margin-bottom:6px;
+  position:relative;padding-left:20px;margin-bottom:7px;
 }
 ul.features li::before{
   content:"";position:absolute;left:4px;top:10px;
-  width:4px;height:4px;border-radius:50%;background:#555;
+  width:4px;height:4px;border-radius:50%;background:#777;
 }
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .btn{
-  display:inline-block;color:#e5e5e5;font-size:13px;font-weight:500;
-  text-decoration:none;padding:8px 14px;
-  border:1px solid rgba(255,255,255,0.12);border-radius:8px;
+  display:inline-block;color:#f0f0f0;font-size:13px;font-weight:500;
+  text-decoration:none;padding:9px 15px;
+  border:1px solid rgba(255,255,255,0.16);border-radius:8px;
   transition:all 140ms ease;
+  font-family:'IBM Plex Sans',sans-serif;
 }
 .btn:hover{
-  background:rgba(255,255,255,0.04);
-  border-color:rgba(255,255,255,0.28);color:#fff;
+  background:rgba(255,255,255,0.06);
+  border-color:rgba(255,255,255,0.35);color:#fff;
 }
-.btn.ghost{color:#888;border-color:rgba(255,255,255,0.07)}
-.btn.ghost:hover{color:#d4d4d4}
-.story{
-  border-left:2px solid #2a2a2a;
-  padding:4px 0 4px 22px;margin:8px 0 0;
+.btn.ghost{color:#a0a0a0;border-color:rgba(255,255,255,0.09)}
+.btn.ghost:hover{color:#eaeaea}
+
+/* story with pictograms */
+.story-intro{
+  font-size:17px;color:#d4d4d4;margin-bottom:24px;line-height:1.6;
 }
-.story p{color:#a8a8a8}
+.story-steps{
+  display:grid;grid-template-columns:repeat(3, 1fr);gap:12px;
+  margin:12px 0 24px;
+}
+.step{
+  padding:24px 22px;background:#0c0c0c;
+  border:1px solid rgba(255,255,255,0.09);border-radius:14px;
+  display:flex;flex-direction:column;
+}
+.step .icon{
+  width:42px;height:42px;color:#eaeaea;margin-bottom:18px;display:block;
+}
+.step-label{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:0.1em;color:#8a8a8a;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.step h4{
+  font-family:'IBM Plex Sans',sans-serif;font-size:16px;
+  font-weight:600;color:#fff;margin-bottom:10px;letter-spacing:-0.01em;
+}
+.step p{
+  font-size:14px;color:#c0c0c0;line-height:1.55;margin:0;
+}
+.story-closer{
+  padding:20px 22px;background:#080808;
+  border:1px solid rgba(255,255,255,0.09);
+  border-left:2px solid #e0e0e0;border-radius:10px;
+  font-size:15px;color:#d0d0d0;line-height:1.6;
+}
+.story-closer strong{
+  font-family:'IBM Plex Sans',sans-serif;color:#fff;font-weight:600;
+}
+
+/* kicker + archives */
 .kicker{
-  font-size:14px;color:#7a7a7a;
-  padding:14px 18px;background:#0a0a0a;
-  border:1px solid rgba(255,255,255,0.06);border-radius:10px;
-  margin-bottom:14px;
+  font-size:15px;color:#c8c8c8;
+  padding:16px 20px;background:#0c0c0c;
+  border:1px solid rgba(255,255,255,0.09);border-radius:10px;
+  margin-bottom:14px;line-height:1.55;
 }
-.kicker strong{color:#d4d4d4;font-weight:600}
+.kicker strong{
+  font-family:'IBM Plex Sans',sans-serif;
+  color:#fff;font-weight:600;
+}
 .archive-row{
   display:flex;justify-content:space-between;align-items:center;
-  gap:14px;padding:14px 18px;
-  background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);
+  gap:14px;padding:16px 20px;
+  background:#0c0c0c;border:1px solid rgba(255,255,255,0.09);
   border-radius:10px;margin-bottom:8px;flex-wrap:wrap;
 }
-.archive-row .left{flex:1;min-width:200px}
+.archive-row .left{flex:1;min-width:220px}
 .archive-row h4{
-  font-size:15px;font-weight:600;color:#fff;margin-bottom:2px;
-  font-family:'JetBrains Mono',monospace;
+  font-size:15px;font-weight:500;color:#fff;margin-bottom:3px;
+  font-family:'IBM Plex Mono',monospace;
 }
-.archive-row p{font-size:13px;color:#888;margin:0}
+.archive-row p{font-size:13.5px;color:#b0b0b0;margin:0}
+
 footer{
   margin-top:88px;padding-top:32px;
-  border-top:1px solid rgba(255,255,255,0.07);
-  font-family:'JetBrains Mono',monospace;font-size:12px;color:#555;
+  border-top:1px solid rgba(255,255,255,0.09);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;color:#7a7a7a;
   display:flex;gap:24px;flex-wrap:wrap;
 }
-footer a{color:#999;text-decoration:none}
+footer a{color:#b0b0b0;text-decoration:none}
 footer a:hover{color:#fff}
+
+@media (max-width:720px){
+  .story-steps{grid-template-columns:1fr}
+}
 @media (max-width:640px){
-  body{padding:48px 20px 80px}
+  body{padding:48px 20px 80px;font-size:15.5px}
   h1{font-size:40px;letter-spacing:-0.035em}
   .lede{font-size:17px}
   .card{padding:22px}
@@ -144,8 +195,8 @@ footer a:hover{color:#fff}
 <div class="wrap">
 
 <div class="eyebrow">Research Â· WizSearch</div>
-<h1>Search, built in chat.</h1>
-<p class="lede">A small research project on semantic search over curated corpora &mdash; with one constraint: every file, every commit, every byte shipped through conversation. No code written by hand.</p>
+<h1>Your personal Google <span class="highlight">in any AI chat</span>.</h1>
+<p class="lede">WizSearch turns any body of knowledge into a shareable search URL. Drop that URL into Claude, GPT, Gemini &mdash; <span class="highlight">any AI</span> &mdash; and it becomes an instant, queryable knowledge base. Built entirely by talking to Claude, over a two-day weekend.</p>
 
 <h2>The researcher</h2>
 <p>I'm <em>Eugene Gord</em> (<a href="https://x.com/egordeev">@egordeev</a> on X). I don't code. I don't open a terminal, don't run a CLI, don't use Claude Code, don't use Cowork. This whole project was built using exactly two tools:</p>
@@ -154,115 +205,13 @@ footer a:hover{color:#fff}
 <span class="chip">GitHub</span>
 </div>
 <p>Pure chat and a repository. That's it.</p>
-<p>I have retinitis pigmentosa, type RP25 &mdash; a genetic condition that narrows the visual field. Working through voice and chat instead of IDEs, dashboards, and terminals isn't a workaround for me; it's the native mode. That a person with failing vision can build something this involved, by talking, is a real blessing of this moment in AI.</p>
-<p>Everything on this page &mdash; the engine, three demos, the crawler, the 2,000+ item index &mdash; was built inside <em>a two-day weekend sprint</em>. Roughly 24 hours of actual work.</p>
-
-<h2>What it is</h2>
-<p>WizSearch turns a body of text into a fast, semantic search engine that lives on a static web page. No backend, no database, no server &mdash; a JSON index and a little JavaScript in the browser. Each demo points the same engine at a different corpus.</p>
-
-<h2>How it works</h2>
-<p>Every demo accepts a <code>?q=</code> parameter. Append a query to any demo URL and it loads with that search already run. Example: <code>demo3/?q=github</code> opens the page and immediately shows matches for <em>github</em>. That makes results shareable &mdash; drop a link, the other person sees what you saw.</p>
-<p>The design has a second, more interesting property: <em>you can drop any of these URLs into any AI &mdash; Claude, GPT, Gemini &mdash; and it will work with the collected index.</em> The page is static, the index is public JSON, and the search is deterministic. An AI that fetches the page gets a knowledge base on the spot.</p>
-
-<hr class="rule">
-
-<h2>Three demos</h2>
-
-<div class="card">
-<div class="card-head"><span class="card-num">01</span><h3>The Claude Capability Validator</h3></div>
-<div class="meta">2,305 chunks Â· 2,045 skills Â· 67 sources Â· 75 topics</div>
-<p>The biggest and most active index. Covers the full Claude ecosystem &mdash; every official Anthropic skill, MCP reference servers, and 2,000+ community servers from <code>awesome-mcp-servers</code>. Built so Claude itself can validate: given a task, search here and decide which skill or MCP fits.</p>
-<ul class="features">
-<li>13-shard index, loaded on demand &mdash; scales to thousands of entries</li>
-<li>Multi-token search with strict and loose fallback tiers</li>
-<li>Up to 500 ranked results, no hard cap</li>
-<li>Suggested queries seeded in the manifest</li>
-<li>Source + topic facets for quick scoping</li>
-<li>Shareable searches via <code>?q=</code></li>
-</ul>
-<div class="actions">
-<a class="btn" href="./demo3/">Open demo 01</a>
-<a class="btn ghost" href="./demo3/?q=github">Try: <em>github</em></a>
-<a class="btn ghost" href="./demo3/?q=pdf">Try: <em>pdf</em></a>
-</div>
-</div>
-
-<div class="card">
-<div class="card-head"><span class="card-num">02</span><h3>Warren Buffett &middot; Berkshire Letters</h3></div>
-<div class="meta">49 letters Â· 1977â€“2025</div>
-<p>Same engine, different corpus. Forty-nine years of Buffett's annual letters indexed as one searchable body. Ask about moats, float, capital allocation, mistakes &mdash; you get the exact passages, across every year.</p>
-<ul class="features">
-<li>Cross-year semantic retrieval in a single query</li>
-<li>Passage-level results with clear year attribution</li>
-<li>Perfect for idea-level study of long-form writing</li>
-<li>Proof the engine generalizes past software documentation</li>
-</ul>
-<div class="actions">
-<a class="btn" href="./demo2/">Open demo 02</a>
-<a class="btn ghost" href="./demo2/?q=moat">Try: <em>moat</em></a>
-<a class="btn ghost" href="./demo2/?q=float">Try: <em>float</em></a>
-</div>
-</div>
-
-<div class="card">
-<div class="card-head"><span class="card-num">03</span><h3>Anthropic Agent Skills</h3></div>
-<div class="meta">762 chunks Â· 10 topics</div>
-<p>The first prototype. Indexed Anthropic's Agent Skills documentation so it could be searched the way it should be searched. The version that proved the pattern worked, and every later demo is built on what this one taught.</p>
-<ul class="features">
-<li>Single-index architecture &mdash; simplest form of the engine</li>
-<li>Topic-scoped browsing</li>
-<li>Tight, focused corpus &mdash; good starting point to read the engine end-to-end</li>
-</ul>
-<div class="actions">
-<a class="btn" href="./demo/">Open demo 03</a>
-<a class="btn ghost" href="./demo/?q=artifact">Try: <em>artifact</em></a>
-</div>
-</div>
-
-<hr class="rule">
-
-<h2>Run it yourself</h2>
-<div class="kicker"><strong>Drop an archive into a new Claude chat and start working.</strong> That's the whole setup. The archives below contain the engine, a sample index, and the crawler. Claude reads them, you ask questions, you ship.</div>
-
-<div class="archive-row">
-<div class="left">
-<h4>wiz.zip</h4>
-<p>Original engine archive. Smallest, cleanest version.</p>
-</div>
-<a class="btn" href="./wiz.zip">Download</a>
-</div>
-
-<div class="archive-row">
-<div class="left">
-<h4>wiz2.zip</h4>
-<p>Current engine archive. Use this one by default.</p>
-</div>
-<a class="btn" href="./wiz2.zip">Download</a>
-</div>
-
-<div class="archive-row">
-<div class="left">
-<h4>wizcrawler.zip</h4>
-<p>The crawler. Use it to build a new index from any set of sources &mdash; websites, repos, documents &mdash; then feed that index into the engine.</p>
-</div>
-<a class="btn" href="./wizcrawler.zip">Download</a>
-</div>
-
-<hr class="rule">
-
-<h2>A small story about demo 01</h2>
-<div class="story">
-<p>Early on, I needed Claude to manage a GitHub repository on my behalf &mdash; commits, pushes, file deletions. The obvious approaches were slow and expensive in tokens.</p>
-<p>So we searched demo 01. Somewhere in those 2,045 skills was the right one. We found it, Claude used it, and a task that had been burning minutes and tokens collapsed to seconds. I won't spoil the trick. The point is: the catalog works. You drop a question in, it hands back a capability.</p>
-<p>That moment is the reason demo 01 exists in its current form.</p>
-</div>
-
-<footer>
-<a href="https://x.com/egordeev">@egordeev</a>
-<a href="https://github.com/g0rd33v/wizrag">github.com/g0rd33v/wizrag</a>
-<span>Eugene Gord Â· 2026</span>
-</footer>
-
-</div>
-</body>
-</html>
+<p>I have retinitis pigmentosa, type RP25 &mdash; a genetic condition that narrows the visual field. Working through voice and chat instead of IDEs, dashboards, and terminals isn't a workaround for me; <span class="highlight">it's the native mode</span>. That a person with failing vision can build something this involved, by talking, is a real blessing of uÑ¡¥Ìµ½µ•¹Ğ¥¸$¸ğ½Àø(ñÀùÙ•ÉåÑ¡¥¹œ½¸Ñ¡¥ÌÁ…”€™µ‘…Í ìÑ¡”•¹¥¹”°Ñ¡É•”‘•µ½Ì°Ñ¡”É…İ±•È°Ñ¡”€È°ÀÀÀ¬¥Ñ•´¥¹‘•à€™µ‘…Í ìİ…Ì‰Õ¥±Ğ¥¹Í¥‘”€ñ•´ù„Ñİ¼µ‘…äİ••­•¹ÍÁÉ¥¹Ğğ½•´ø¸I½Õ¡±ä€ÈĞ¡½ÕÉÌ½˜…ÑÕ…°İ½É¬¸ğ½Àø((ñ Èù]¡…Ğ¥Ğ¥Ìğ½ Èø(ñÀù]¥éM•…É ÑÕÉ¹Ì„‰½‘ä½˜Ñ•áĞ¥¹Ñ¼„™…ÍĞ°Í•µ…¹Ñ¥ŒÍ•…É •¹¥¹”Ñ¡…Ğ±¥Ù•Ì½¸„ÍÑ…Ñ¥Œİ•ˆÁ…”¸9¼‰…­•¹°¹¼‘…Ñ…‰…Í”°¹¼Í•ÉÙ•È€™µ‘…Í ì„)M=8¥¹‘•à…¹„±¥ÑÑ±”)…Ù…MÉ¥ÁĞ¥¸Ñ¡”‰É½İÍ•È¸… ‘•µ¼Á½¥¹ÑÌÑ¡”Í…µ”•¹¥¹”…Ğ„‘¥™™•É•¹Ğ½ÉÁÕÌ¸ğ½Àø((ñ Èù!½Ü¥Ğİ½É­Ìğ½ Èø(ñÀùÙ•Éä‘•µ¼…•ÁÑÌ„€ñ½‘”øıÄôğ½½‘”øÁ…É…µ•Ñ•È¸ÁÁ•¹„ÅÕ•ÉäÑ¼…¹ä‘•µ¼UI0…¹¥Ğ±½…‘Ìİ¥Ñ Ñ¡…ĞÍ•…É …±É•…‘äÉÕ¸¸á…µÁ±”è€ñ½‘”ù‘•µ¼Ì¼ıÄõ¥Ñ¡Õˆğ½½‘”ø½Á•¹ÌÑ¡”Á…”…¹¥µµ•‘¥…Ñ•±äÍ¡½İÌµ…Ñ¡•Ì™½È€ñ•´ù¥Ñ¡Õˆğ½•´ø¸Q¡…Ğµ…­•ÌÉ•ÍÕ±ÑÌÍ¡…É•…‰±”€™µ‘…Í ì‘É½À„±¥¹¬°Ñ¡”½Ñ¡•ÈÁ•ÉÍ½¸Í••Ìİ¡…Ğå½ÔÍ…Ü¸ğ½Àø(ñÀùQ¡”‘•Í¥¸¡…Ì„Í•½¹°µ½É”¥¹Ñ•É•ÍÑ¥¹œÁÉ½Á•ÉÑäè€ñÍÁ…¸±…ÍÌô‰¡¥¡±¥¡Ğˆù‘É½À…¹ä½˜Ñ¡•Í”UI1Ì¥¹Ñ¼…¹ä$€™µ‘…Í ì±…Õ‘”°AP°•µ¥¹¤€™µ‘…Í ì…¹¥Ğİ¥±°İ½É¬İ¥Ñ Ñ¡”½±±•Ñ•¥¹‘•à¸ğ½ÍÁ…¸øQ¡”Á…”¥ÌÍÑ…Ñ¥Œ°Ñ¡”¥¹‘•à¥ÌÁÕ‰±¥Œ)M=8°…¹Ñ¡”Í•…É ¥Ì‘•Ñ•Éµ¥¹¥ÍÑ¥Œ¸¸$Ñ¡…Ğ™•Ñ¡•ÌÑ¡”Á…”•ÑÌ„­¹½İ±•‘”‰…Í”½¸Ñ¡”ÍÁ½Ğ¸ğ½Àø((ñ¡È±…ÍÌô‰ÉÕ±”ˆø((ñ ÈùQ¡É•”‘•µ½Ìğ½ Èø((ñ‘¥Ø±…ÍÌô‰…Éˆø(ñ‘¥Ø±…ÍÌô‰…Éµ¡•…ˆøñÍÁ…¸±…ÍÌô‰…Éµ¹Õ´ˆøÀÄğ½ÍÁ…¸øñ ÌùQ¡”±…Õ‘”…Á…‰¥±¥ÑäY…±¥‘…Ñ½Èğ½ Ìøğ½‘¥Øø(ñ‘¥Ø±…ÍÌô‰µ•Ñ„ˆøÈ°ÌÀÔ¡Õ¹­Ìƒ
+Ü€È°ÀĞÔÍ­¥±±Ìƒ
+Ü€ØÜÍ½ÕÉ•Ìƒ
+Ü€ÜÔÑ½Á¥Ìğ½‘¥Øø(ñÀùQ¡”‰¥•ÍĞ…¹µ½ÍĞ…Ñ¥Ù”¥¹‘•à¸½Ù•ÉÌÑ¡”™Õ±°±…Õ‘”•½ÍåÍÑ•´€™µ‘…Í ì•Ù•Éä½™™¥¥…°¹Ñ¡É½Á¥ŒÍ­¥±°°5@É•™•É•¹”Í•ÉÙ•ÉÌ°…¹€È°ÀÀÀ¬½µµÕ¹¥ÑäÍ•ÉÙ•ÉÌ™É½´€ñ½‘”ù…İ•Í½µ”µµÀµÍ•ÉÙ•ÉÌğ½½‘”ø¸	Õ¥±ĞÍ¼±…Õ‘”¥ÑÍ•±˜…¸Ù…±¥‘…Ñ”è¥Ù•¸„Ñ…Í¬°Í•…É ¡•É”…¹‘•¥‘”İ¡¥ Í­¥±°½È5@™¥ÑÌ¸ğ½Àø(ñÕ°±…ÍÌô‰™•…ÑÕÉ•Ìˆø(ñ±¤øÄÌµÍ¡…É¥¹‘•à°±½…‘•½¸‘•µ…¹€™µ‘…Í ìÍ…±•ÌÑ¼Ñ¡½ÕÍ…¹‘Ì½˜•¹ÑÉ¥•Ìğ½±¤ø(ñ±¤ù5Õ±Ñ¤µÑ½­•¸Í•…É İ¥Ñ ÍÑÉ¥Ğ…¹±½½Í”™…±±‰…¬Ñ¥•ÉÌğ½±¤ø(ñ±¤ùUÀÑ¼€ÔÀÀÉ…¹­•É•ÍÕ±ÑÌ°¹¼¡…É…Àğ½±¤ø(ñ±¤ùMÕ•ÍÑ•ÅÕ•É¥•ÌÍ••‘•¥¸Ñ¡”µ…¹¥™•ÍĞğ½±¤ø(ñ±¤ùM½ÕÉ”€¬Ñ½Á¥Œ™…•ÑÌ™½ÈÅÕ¥¬Í½Á¥¹œğ½±¤ø(ñ±¤ùM¡…É•…‰±”Í•…É¡•ÌÙ¥„€ñ½‘”øıÄôğ½½‘”øğ½±¤ø(ğ½Õ°ø(ñ‘¥Ø±…ÍÌô‰…Ñ¥½¹Ìˆø(ñ„±…ÍÌô‰‰Ñ¸ˆ¡É•˜ôˆ¸½‘•µ¼Ì¼ˆù=Á•¸‘•µ¼€ÀÄğ½„ø(ñ„±…ÍÌô‰‰Ñ¸¡½ÍĞˆ¡É•˜ôˆ¸½‘•µ¼Ì¼ıÄõ¥Ñ¡ÕˆˆùQÉäè€ñ•´ù¥Ñ¡Õˆğ½•´øğ½„ø(ñ„±…ÍÌô‰‰Ñ¸¡½ÍĞˆ¡É•˜ôˆ¸½‘•µ¼Ì¼ıÄõÁ‘˜ˆùQÉäè€ñ•´ùÁ‘˜ğ½•´øğ½„ø(ğ½‘¥Øø(ğ½‘¥Øø((ñ‘¥Ø±…ÍÌô‰…Éˆø(ñ‘¥Ø±…ÍÌô‰…Éµ¡•…ˆøñÍÁ…¸±…ÍÌô‰…Éµ¹Õ´ˆøÀÈğ½ÍÁ…¸øñ Ìù]…ÉÉ•¸	Õ™™•ÑĞ€™µ¥‘‘½Ğì	•É­Í¡¥É”1•ÑÑ•ÉÌğ½ Ìøğ½‘¥Øø(ñ‘¥Ø±…ÍÌô‰µ•Ñ„ˆøĞä±•ÑÑ•ÉÌƒ
+Ü€ÄäÜßŠLÈÀÈÔğ½‘¥Øø(ñÀùM…µ”•¹¥¹”°‘¥™™•É•¹Ğ½ÉÁÕÌ¸½ÉÑäµ¹¥¹”å•…ÉÌ½˜	Õ™™•ÑĞÌ…¹¹Õ…°±•ÑÑ•ÉÌ¥¹‘•á•…Ì½¹”Í•…É¡…‰±”‰½‘ä¸Í¬…‰½ÕĞµ½…ÑÌ°™±½…Ğ°…Á¥Ñ…°…±±½…Ñ¥½¸°µ¥ÍÑ…­•Ì€™µ‘…Í ìå½Ô•ĞÑ¡”•á…ĞÁ…ÍÍ…•Ì°…É½ÍÌ•Ù•Éäå•…È¸ğ½Àø(ñÕ°±…ÍÌô‰™•…ÑÕÉ•Ìˆø(ñ±¤ùÉ½ÍÌµå•…ÈÍ•µ…¹Ñ¥ŒÉ•ÑÉ¥•Ù…°¥¸„Í¥¹±”ÅÕ•Éäğ½±¤ø(ñ±¤ùA…ÍÍ…”µ±•Ù•°É•ÍÕ±ÑÌİ¥Ñ ±•…Èå•…È…ÑÑÉ¥‰ÕÑ¥½¸ğ½±¤ø(ñ±¤ùA•É™•Ğ™½È¥‘•„µ±•Ù•°ÍÑÕ‘ä½˜±½¹œµ™½É´İÉ¥Ñ¥¹œğ½±¤ø(ñ±¤ùAÉ½½˜Ñ¡”•¹¥¹”•¹•É…±¥é•ÌÁ…ÍĞÍ½™Ñİ…É”‘½Õµ•¹Ñ…Ñ¥½¸ğ½±¤ø(ğ½Õ°ø(ñ‘¥Ø±…ÍÌô‰…Ñ¥½¹Ìˆø(ñ„±…ÍÌô‰‰Ñ¸ˆ¡É•˜ôˆ¸½‘•µ¼È¼ˆù=Á•¸‘•µ¼€ÀÈğ½„ø(ñ„±…ÍÌô‰‰Ñ¸¡½ÍĞˆ¡É•˜ôˆ¸½‘•µ¼È¼ıÄõµ½…ĞˆùQÉäè€ñ•´ùµ½…Ğğ½•´øğ½„ø(ñ„±…ÍÌô‰‰Ñ¸¡½ÍĞˆ¡É•˜ôˆ¸½‘•µ¼È¼ıÄõ™±½…ĞˆùQÉäè€ñ•´ù™±½…Ğğ½•´øğ½„ø(ğ½‘¥Øø(ğ½‘¥Øø((ñ‘¥Ø±…ÍÌô‰…Éˆø(ñ‘¥Ø±…ÍÌô‰…Éµ¡•…ˆøñÍÁ…¸±…ÍÌô‰…Éµ¹Õ´ˆøÀÌğ½ÍÁ…¸øñ Ìù¹Ñ¡É½Á¥Œ•¹ĞM­¥±±Ìğ½ Ìøğ½‘¥Øø(ñ‘¥Ø±…ÍÌô‰µ•Ñ„ˆøÜØÈ¡Õ¹­Ìƒ
+Ü€ÄÀÑ½Á¥Ìğ½‘¥Øø(ñÀùQ¡”™¥ÉÍĞÁÉ½Ñ½ÑåÁ”¸%¹‘•á•¹Ñ¡É½Á¥ŒÌ•¹ĞM­¥±±Ì‘½Õµ•¹Ñ…Ñ¥½¸Í¼¥Ğ½Õ±‰”Í•…É¡•Ñ¡”İ…ä¥ĞÍ¡½Õ±‰”Í•…É¡•¸Q¡”Ù•ÉÍ¥½¸Ñ¡…ĞÁÉ½Ù•Ñ¡”Á…ÑÑ•É¸İ½É­•°…¹•Ù•Éä±…Ñ•È‘•µ¼¥Ì‰Õ¥±Ğ½¸İ¡…ĞÑ¡¥Ì½¹”Ñ…Õ¡Ğ¸ğ½Àø(ñÕ°±…ÍÌô‰™•…ÑÕÉ•Ìˆø(ñ±¤ùM¥¹±”µ¥¹‘•à…É¡¥Ñ•ÑÕÉ”€™µ‘…Í ìÍ¥µÁ±•ÍĞ™½É´½˜Ñ¡”•¹¥¹”ğ½±¤ø(ñ±¤ùQ½Á¥ŒµÍ½Á•‰É½İÍ¥¹œğ½±¤ø(ñ±¤ùQ¥¡Ğ°™½ÕÍ•½ÉÁÕÌ€™µ‘…Í ì½½ÍÑ…ÉÑ¥¹œÁ½¥¹ĞÑ¼É•…Ñ¡”•¹¥¹”•¹µÑ¼µ•¹ğ½±¤ø(ğ½Õ°ø(ñ‘¥Ø±…ÍÌô‰…Ñ¥½¹Ìˆø(ñ„±…ÍÌô‰‰Ñ¸ˆ¡É•˜ôˆ¸½‘•µ¼¼ˆù=Á•¸‘•µ¼€ÀÌğ½„ø(ñ„±…ÍÌô‰‰Ñ¸¡½ÍĞˆ¡É•˜ôˆ¸½‘•µ¼¼ıÄõ…ÉÑ¥™…ĞˆùQÉäè€ñ•´ù…ÉÑ¥™…Ğğ½•´øğ½„ø(ğ½‘¥Øø((ğ½‘¥Øø((ñ¡È±…ÍÌô‰ÉÕ±”ˆø((ñ ÈùIÕ¸¥Ğå½ÕÉÍ•±˜ğ½ Èø(ñ‘¥Ø±…ÍÌô‰­¥­•ÈˆøñÍÑÉ½¹œùÉ½À…¸…É¡¥Ù”¥¹Ñ¼„¹•Ü±…Õ‘”¡…Ğ…¹ÍÑ…ÉĞİ½É­¥¹œ¸ğ½ÍÑÉ½¹œøQ¡…ĞÌÑ¡”İ¡½±”Í•ÑÕÀ¸Q¡”…É¡¥Ù•Ì‰•±½Ü½¹Ñ…¥¸Ñ¡”•¹¥¹”°„Í…µÁ±”¥¹‘•à°…¹Ñ¡”É…İ±•È¸±…Õ‘”É•…‘ÌÑ¡•´°å½Ô…Í¬ÅÕ•ÍÑ¥½¹Ì°å½ÔÍ¡¥À¸ğ½‘¥Øø((ñ‘¥Ø±…ÍÌô‰…É¡¥Ù”µÉ½Üˆø(ñ‘¥Ø±…ÍÌô‰±•™Ğˆø(ñ Ğùİ¥è¹é¥Àğ½ Ğø(ñÀù=É¥¥¹…°•¹¥¹”…É¡¥Ù”¸Mµ…±±•ÍĞ°±•…¹•ÍĞÙ•ÉÍ¥½¸¸ğ½Àø(ğ½‘¥Øø(ñ„±…ÍÌô‰‰Ñ¸ˆ¡É•˜ôˆ¸½İ¥è¹é¥Àˆù½İ¹±½…ğ½„ø(ğ½‘¥Øø((ñ‘¥Ø±…ÍÌô‰…É¡¥Ù”µÉ½Üˆø(ñ‘¥Ø±…ÍÌô‰±•™Ğˆø(ñ Ğùİ¥èÈ¹é¥Àğ½ Ğø(ñÀùÕÉÉ•¹Ğ•¹¥¹”…É¡¥Ù”¸UÍ”Ñ¡¥Ì½¹”‰ä‘•™…Õ±Ğ¸ğ½Àø(ğ½‘¥Øø(ñ„±…ÍÌô‰‰Ñ¸ˆ¡É•˜ôˆ¸½İ¥èÈ¹é¥Àˆù½İ¹±½…ğ½„ø(ğ½‘¥Øø((ñ‘¥Ø±…ÍÌô‰…É¡¥Ù”µÉ½Üˆø(ñ‘¥Ø±…ÍÌô‰±•™Ğˆø(ñ Ğùİ¥éÉ…İ±•È¹é¥Àğ½ Ğø(ñÀùQ¡”É…İ±•È¸UÍ”¥ĞÑ¼‰Õ¥±„¹•Ü¥¹‘•à™É½´…¹äÍ•Ğ½˜Í½ÕÉ•Ì€™µ‘…Í ìİ•‰Í¥Ñ•Ì°É•Á½Ì°‘½Õµ•¹ÑÌ€™µ‘…Í ìÑ¡•¸™••Ñ¡…Ğ¥¹‘•à¥¹Ñ¼Ñ¡”•¹¥¹”¸ğ½Àø(ğ½‘¥Øø(ñ„±…ÍÌô‰‰Ñ¸ˆ¡É•˜ôˆ¸½İ¥éÉ…İ±•È¹é¥Àˆù½İ¹±½…ğ½„ø(ğ½‘¥Øø((ñ¡È±…ÍÌô‰ÉÕ±”ˆø((ñ ÈùÍµ…±°ÍÑ½Éä…‰½ÕĞ‘•µ¼€ÀÄğ½ Èø(ñÀ±…ÍÌô‰ÍÑ½Éäµ¥¹ÑÉ¼ˆù]¡ä‘•µ¼€ÀÄ•á¥ÍÑÌ¥¸¥ÑÌÕÉÉ•¹Ğ™½É´°¥¸Ñ¡É•”ÍÑ•ÁÌ¸ğ½Àø((ñ‘¥Ø±…ÍÌô‰ÍÑ½ÉäµÍÑ•ÁÌˆø((ñ‘¥Ø±…ÍÌô‰ÍÑ•Àˆø(ñÍÙœ±…ÍÌô‰¥½¸ˆÙ¥•İ	½àôˆÀ€À€Ğà€Ğàˆ™¥±°ô‰¹½¹”ˆÍÑÉ½­”ô‰ÕÉÉ•¹Ñ½±½ÈˆÍÑÉ½­”µİ¥‘Ñ ôˆÄ¸ÔˆÍÑÉ½­”µ±¥¹•…Àô‰É½Õ¹ˆÍÑÉ½­”µ±¥¹•©½¥¸ô‰É½Õ¹ˆ…É¥„µ¡¥‘‘•¸ô‰ÑÉÕ”ˆø(ñÉ•ĞàôˆàˆäôˆÜˆİ¥‘Ñ ôˆÈàˆ¡•¥¡ĞôˆÌĞˆÉàôˆÌˆ¼ø(ñ±¥¹”àÄôˆÄĞˆäÄôˆÄÔˆàÈôˆÌÀˆäÈôˆÄÔˆ¼ø(ñ±¥¹”àÄôˆÄĞˆäÄôˆÈÈˆàÈôˆÌÀˆäÈôˆÈÈˆ¼ø(ñ±¥¹”àÄôˆÄĞˆäÄôˆÈäˆàÈôˆÈĞˆäÈôˆÈäˆ¼ø(ñ¥É±”àôˆÌØˆäôˆÌØˆÈôˆØˆ™¥±°ôˆŒÀÀÀˆ¼ø(ñÁ½±å±¥¹”Á½¥¹ÑÌôˆÌØ°ÌÌ€ÌØ°ÌØ€Ìà¸Ô°Ìàˆ¼ø(ğ½ÍÙœø(ñ‘¥Ø±…ÍÌô‰ÍÑ•Àµ±…‰•°ˆøÀÄƒ
+ÜAÉ½‰±•´ğ½‘¥Øø(ñ ĞùM±½Ü€™…µÀìÑ½­•¸µ¡•…Ùäğ½ Ğø(ñÀù±…Õ‘”¹••‘•Ñ¼µ…¹…”„¥Ñ!ÕˆÉ•Á½Í¥Ñ½Éä½¸µä‰•¡…±˜€™µ‘…Í ì½µµ¥ÑÌ°ÁÕÍ¡•Ì°‘•±•Ñ¥½¹Ì¸Ù•Éä½‰Ù¥½ÕÌ…ÁÁÉ½… İ…ÌÍ±½Ü…¹•áÁ•¹Í¥Ù”¸ğ½Àø(ğ½‘¥Øø((ñ‘¥Ø±…ÍÌô‰ÍÑ•Àˆø(ñÍÙœ±…ÍÌô‰¥½¸ˆÙ¥•İ	½àôˆÀ€À€Ğà€Ğàˆ™¥±°ô‰¹½¹”ˆÍÑÉ½­”ô‰ÕÉÉ•¹Ñ½±½ÈˆÍÑÉ½­”µİ¥‘Ñ ôˆÄ¸ÔˆÍÑÉ½­”µ±¥¹•…Àô‰É½Õ¹ˆÍÑÉ½­”µ±¥¹•©½¥¸ô‰É½Õ¹ˆ…É¥„µ¡¥‘‘•¸ô‰ÑÉÕ”ˆø(ñ¥É±”àôˆäˆäôˆÄÀˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÄÜˆäôˆÄÀˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÈÔˆäôˆÄÀˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÌÌˆäôˆÄÀˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆäˆäôˆÄàˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÄÜˆäôˆÄàˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÈÔˆäôˆÄàˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÌÌˆäôˆÄàˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆäˆäôˆÈØˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÄÜˆäôˆÈØˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÈÔˆäôˆÈØˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÌÌˆäôˆÈØˆÈôˆÄ¸Äˆ™¥±°ô‰ÕÉÉ•¹Ñ½±½Èˆ¼ø(ñ¥É±”àôˆÈäˆäôˆÌÀˆÈôˆÄÀˆ™¥±°ôˆŒÀÀÀˆ¼ø(ñ±¥¹”àÄôˆÌÜˆäÄôˆÌàˆàÈôˆĞÌˆäÈôˆĞĞˆ¼ø(ğ½ÍÙœø(ñ‘¥Ø±…ÍÌô‰ÍÑ•Àµ±…‰•°ˆøÀÈƒ
+ÜM•…É ğ½‘¥Øø(ñ ĞùI…¸„ÅÕ•Éä½¸‘•µ¼€ÀÄğ½ Ğø(ñÀùM½µ•İ¡•É”¥¸Ñ¡½Í”€È°ÀĞÔÍ­¥±±Ìİ…ÌÑ¡”É¥¡Ğ½¹”¸]”Á½¥¹Ñ•Ñ¡”Ù…±¥‘…Ñ½È…ĞÑ¡”Ñ…Í¬…¹±•Ğ¥ĞÉ…¹¬¸ğ½Àø(ğ½‘¥Øø((ñ‘¥Ø±…ÍÌô‰ÍÑ•Àˆø(ñÍÙœ±…ÍÌô‰¥½¸ˆÙ¥•İ	½àôˆÀ€À€Ğà€Ğàˆ™¥±°ô‰¹½¹”ˆÍÑÉ½­”ô‰ÕÉÉ•¹Ñ½±½ÈˆÍÑÉ½­”µİ¥‘Ñ ôˆÄ¸ÔˆÍÑÉ½­”µ±¥¹•…Àô‰É½Õ¹ˆÍÑÉ½­”µ±¥¹•©½¥¸ô‰É½Õ¹ˆ…É¥„µ¡¥‘‘•¸ô‰ÑÉÕ”ˆø(ñÁ…Ñ ô‰4ÈØ€Ø0ÄÄ€ÈØ ÄÀ0Äà€ĞÈ0ÌÜ€ÈÀ ÈĞ0ÈØ€Øhˆ™¥±°ô‰É‰„ ÈÔÔ°ÈÔÔ°ÈÔÔ°À¸ÀĞ¤ˆ¼ø(ğ½ÍÙœø(ñ‘¥Ø±…ÍÌô‰ÍÑ•Àµ±…‰•°ˆøÀÌƒ
+Ü¹Íİ•Èğ½‘¥Øø(ñ Ğù5¥¹ÕÑ•Ì€™É…ÉÈìÍ•½¹‘Ìğ½ Ğø(ñÀù±…Õ‘”ÕÍ•Ñ¡”Í­¥±°İ”™½Õ¹¸©½ˆÑ¡…Ğ¡…‰••¸‰ÕÉ¹¥¹œµ¥¹ÕÑ•Ì…¹Ñ½­•¹Ì½±±…ÁÍ•Ñ¼„™•ÜÍ•½¹‘Ì¸ğ½Àø(ğ½‘¥Øø((ğ½‘¥Øø((ñ‘¥Ø±…ÍÌô‰ÍÑ½Éäµ±½Í•Èˆø(ñÍÑÉ½¹œù$İ½¸ĞÍÁ½¥°Ñ¡”ÑÉ¥¬¸ğ½ÍÑÉ½¹œøQ¡”Á½¥¹ĞèÑ¡”…Ñ…±½œİ½É­Ì¸É½À„ÅÕ•ÍÑ¥½¸¥¸°¥Ğ¡…¹‘Ì‰…¬„…Á…‰¥±¥Ñä¸Q¡…ĞÌÑ¡”İ¡½±”Ñ¡•Í¥Ì¸(ğ½‘¥Øø((ñ™½½Ñ•Èø(ñ„¡É•˜ô‰¡ÑÑÁÌè¼½à¹½´½•½É‘••Øˆù•½É‘••Øğ½„ø(ñ„¡É•˜ô‰¡ÑÑÁÌè¼½¥Ñ¡Õˆ¹½´½œÁÉÌÍØ½İ¥éÉ…œˆù¥Ñ¡Õˆ¹½´½œÁÉÌÍØ½İ¥éÉ…œğ½„ø(ñÍÁ…¸ùÕ•¹”½Éƒ
+Ü€ÈÀÈØğ½ÍÁ…¸ø(ğ½™½½Ñ•Èø((ğ½‘¥Øø(ğ½‰½‘äø(ğ½¡Ñµ°ø(
