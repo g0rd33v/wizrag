@@ -45,8 +45,8 @@ The runtime fetches wizindex-manifest.json on load, then lazy-loads shards.
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%232563eb'/%3E%3C/svg%3E">
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js" defer></script>
 <style>
   *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -1753,7 +1753,26 @@ function __mark(label) {
   console.log('[boot]', t + 'ms', label);
 }
 __mark('script-start');
+// Wait for DOM + deferred libs (marked, Fuse) to be ready before running init
+function __waitForDeps() {
+  return new Promise((resolve) => {
+    const ready = () => typeof Fuse !== 'undefined' && typeof marked !== 'undefined';
+    if (document.readyState === 'complete' && ready()) { resolve(); return; }
+    const check = () => {
+      if (ready()) { resolve(); return; }
+      setTimeout(check, 30);
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', check, { once: true });
+    } else {
+      check();
+    }
+  });
+}
 (async () => {
+  __mark('waiting-for-deps');
+  await __waitForDeps();
+  __mark('deps-ready');
   __mark('boot-begin');
   try { loadTheme(); __mark('after-loadTheme'); } catch(e) { __mark('loadTheme-ERR:'+e.message); }
   try { loadSettings(); __mark('after-loadSettings'); } catch(e) { __mark('loadSettings-ERR:'+e.message); }
