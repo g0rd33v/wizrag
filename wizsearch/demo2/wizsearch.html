@@ -123,7 +123,7 @@ STEP-BY-STEP BUILD PROCESS
    - Nearly five decades of annual letters from Warren Buffett and Greg Abel — searchable, offline-capable, in a single static page. — one-line description (80-140 chars)
    - e5817f — hex WITHOUT # (default: "e5817f")
    - 19 April 2026 — human-readable date ("18 April 2026")
-   - 2026-04-19T00:50:29Z — ISO timestamp for <time datetime="">
+   - 2026-04-19T01:11:41Z — ISO timestamp for <time datetime="">
    - 49 — number of source files
    - 1,206 — number of chunks
    - 14 — number of topics
@@ -607,16 +607,14 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
     border: none;
     outline: none;
     padding: 8px 0;
-    font-size: clamp(20px, 2.5vw, 28px);
-    font-family: var(--serif-display);
-    font-style: italic;
+    font-size: clamp(18px, 2.2vw, 24px);
+    font-family: var(--sans);
     font-weight: 400;
     color: var(--ink);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.005em;
   }
   .search-box input::placeholder {
     color: var(--ink-dim);
-    font-style: italic;
   }
   .search-hint {
     font-family: var(--mono);
@@ -636,6 +634,11 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
     color: var(--ink-soft);
     background: var(--paper-raised);
   }
+
+  /* Search now lives inside hero: give it room on top and bottom */
+  .hero-main .search-box { margin-top: 32px; }
+  .hero-main .search-examples { margin-top: 14px; }
+  .hero-main .hero-dek { margin-top: 28px; }
 
   .search-examples {
     margin-top: 18px;
@@ -712,30 +715,29 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
   /* ============ RESULTS ============ */
   #results-section { padding-top: 32px; }
   .results-summary {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--ink-muted);
-    padding: 0 0 24px;
-    letter-spacing: 0.02em;
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--ink-soft);
+    padding: 0 0 20px;
+    letter-spacing: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--rule);
     margin-bottom: 24px;
   }
-  .results-summary strong { color: var(--accent); font-weight: 600; }
+  .results-summary strong { color: var(--ink); font-weight: 600; }
   .results-summary .clear-btn {
     background: none;
     border: none;
     color: var(--ink-muted);
-    font-family: inherit;
-    font-size: inherit;
+    font-family: var(--sans);
+    font-size: 13px;
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 3px;
-    letter-spacing: inherit;
   }
-  .results-summary .clear-btn:hover { color: var(--accent); }
+  .results-summary .clear-btn:hover { color: var(--ink); }
 
   .result {
     padding: 28px 0;
@@ -759,44 +761,35 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
     font-weight: 400;
   }
   .result-title {
-    font-family: var(--serif-display);
-    font-weight: 700;
-    font-size: 26px;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: -0.005em;
     color: var(--ink);
     margin-bottom: 14px;
   }
   .result-body {
-    font-family: var(--serif-body);
-    font-size: 16px;
-    line-height: 1.65;
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
     color: var(--ink-soft);
     max-width: 70ch;
   }
   .result-body h1, .result-body h2, .result-body h3, .result-body h4 {
-    font-family: var(--serif-display);
-    font-weight: 700;
+    font-family: var(--sans);
+    font-weight: 600;
     margin-top: 1.2em;
     margin-bottom: 0.3em;
     color: var(--ink);
-    letter-spacing: -0.01em;
-    line-height: 1.2;
+    letter-spacing: -0.005em;
+    line-height: 1.25;
   }
-  .result-body h1 { font-size: 22px; }
-  .result-body h2 { font-size: 19px; }
-  .result-body h3 { font-size: 17px; }
+  .result-body h1 { font-size: 19px; }
+  .result-body h2 { font-size: 17px; }
+  .result-body h3 { font-size: 15px; }
   .result-body p { margin: 0.7em 0; }
   .result-body p:first-child { margin-top: 0; }
-  .result-body p:first-child::first-letter {
-    font-family: var(--serif-display);
-    font-weight: 700;
-    font-size: 3.2em;
-    float: left;
-    line-height: 0.85;
-    margin: 0.06em 0.08em 0 0;
-    color: var(--accent);
-  }
   .result-body ul, .result-body ol { margin: 0.6em 0 0.6em 24px; }
   .result-body li { margin: 0.25em 0; }
   .result-body strong { color: var(--ink); font-weight: 700; }
@@ -1301,7 +1294,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
       <span>Vol. II · No. 01</span>
     </div>
     <div class="masthead-right">
-      <time datetime="2026-04-19T00:50:29Z">19 April 2026</time>
+      <time datetime="2026-04-19T01:11:41Z">19 April 2026</time>
       <span class="sep">·</span>
       <span class="cache-pill">
         <span class="cache-dot" id="cache-dot"></span>
@@ -1325,14 +1318,29 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
   </div>
   <div class="nameplate-right">
     <strong>Edition</strong>
-    Built <time datetime="2026-04-19T00:50:29Z">19 April 2026</time><br>WizRAG v2.0
+    Built <time datetime="2026-04-19T01:11:41Z">19 April 2026</time><br>WizRAG v2.0
   </div>
 </header>
 
 <section class="hero" style="border-bottom: 1px solid var(--rule);">
-  <div>
+  <div class="hero-main">
     <div class="hero-kicker">The Knowledge Record</div>
-    <h1>Everything, <em>searchable</em>. In one static file.</h1>
+    <h1>Everything searchable. In one static file.</h1>
+
+    <form class="search-box" id="search-form" onsubmit="event.preventDefault(); runSearch();">
+      <span class="search-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="m20 20-3.5-3.5"></path>
+        </svg>
+      </span>
+      <input id="q" type="text" placeholder="Pose a question, or enter a keyword…" autocomplete="off" spellcheck="false" />
+      <span class="search-hint"><kbd>↵</kbd></span>
+    </form>
+    <div class="search-examples" id="search-examples">
+      <span class="ex-label">Suggested</span>
+    </div>
+
     <p class="hero-dek">Nearly five decades of annual letters from Warren Buffett and Greg Abel — searchable, offline-capable, in a single static page.</p>
   </div>
   <aside class="hero-byline">
@@ -1347,23 +1355,6 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
   </aside>
 </section>
 
-<div class="search-wrap">
-  <div class="search-label">Inquire within</div>
-  <form class="search-box" id="search-form" onsubmit="event.preventDefault(); runSearch();">
-    <span class="search-icon">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="7"></circle>
-        <path d="m20 20-3.5-3.5"></path>
-      </svg>
-    </span>
-    <input id="q" type="text" placeholder="Pose a question, or enter a keyword…" autocomplete="off" spellcheck="false" />
-    <span class="search-hint"><kbd>↵</kbd></span>
-  </form>
-  <div class="search-examples" id="search-examples">
-    <span class="ex-label">Suggested</span>
-  </div>
-</div>
-
 <section id="results-section" style="display:none;">
   <div class="results-summary">
     <span id="results-count"></span>
@@ -1375,7 +1366,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
 <section>
   <div class="section-head">
     <div class="section-num">§ I · Overview</div>
-    <h2>Volume at a <em>glance</em></h2>
+    <h2>Volume at a glance</h2>
     <div class="section-meta">Rebuilt 19 April 2026</div>
   </div>
 
@@ -1414,7 +1405,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
 <section>
   <div class="section-head">
     <div class="section-num">§ II · Directory</div>
-    <h2>Topics, <em>ranked</em></h2>
+    <h2>Topics, ranked</h2>
     <div class="section-meta">Click any entry to query it</div>
   </div>
   <div class="topics-grid" id="topics-list">
@@ -1550,7 +1541,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
 <section>
   <div class="section-head">
     <div class="section-num">§ III · Protocol</div>
-    <h2>For <em>AI agents</em></h2>
+    <h2>For AI agents</h2>
     <div class="section-meta">Raw-HTML retrieval guidance</div>
   </div>
   <div class="llm-wrap">
