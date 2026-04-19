@@ -15,7 +15,13 @@
     "topics": 75,
     "sources": 67,
     "total_characters": 307702,
-    "index_size_kb": 461
+    "index_size_kb": 461,
+    "skills": 2045,
+    "skill_breakdown": {
+      "anthropic_official": 17,
+      "mcp_reference_servers": 7,
+      "awesome_mcp_servers": 2021
+    }
   },
   "topics": [
     {
