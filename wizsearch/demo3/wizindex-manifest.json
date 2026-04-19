@@ -1,9 +1,9 @@
 {
   "version": "3.0",
-  "project": "Anthropic Claude Capabilities Index",
-  "description": "A search index over Anthropic Claude capabilities — Agent Skills, Claude API features (tool use, vision, prompt caching, extended thinking, computer use, MCP), Claude Code, Claude.ai (Projects, Artifacts, Research, Memory), beta products (Claude for Chrome, Excel, Cowork), and more.",
+  "project": "Claude Skills & MCP Capability Index",
+  "description": "A searchable catalog of Anthropic Skills, MCP servers, and Claude capabilities — designed as a reference index that Claude itself can query to validate and select skills/tools for any given task. Covers: 17 official Anthropic Skills, 7 MCP reference servers, 2,021 MCP servers from awesome-mcp-servers, 8 major marketplaces (Smithery, Claude Marketplaces, Skills Directory, SkillsMP, etc.), plus native Claude capabilities (tool use, vision, prompt caching, extended thinking, computer use, Claude Code, Claude.ai features).",
   "topic": "Full list + details of original (Anthropic pre-built) and user-built (custom/community) Skills for Claude: SKILL.md format, progressive disclosure, integration across Claude.ai / Claude Code / API, best practices.",
-  "built_at": "2026-04-19T20:14:35Z",
+  "built_at": "2026-04-19T20:59:57Z",
   "accent_color": "2563eb",
   "embedding_model": "Xenova/all-MiniLM-L6-v2",
   "embedding_dim": 0,
@@ -11,13 +11,63 @@
   "embeddings_pending": true,
   "stats": {
     "files": 53,
-    "chunks": 235,
-    "topics": 24,
-    "sources": 59,
+    "chunks": 2305,
+    "topics": 75,
+    "sources": 67,
     "total_characters": 307702,
     "index_size_kb": 461
   },
   "topics": [
+    {
+      "name": "MCP: Developer Tools",
+      "chunk_count": 306,
+      "description": "MCP servers in the Developer Tools category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Finance & Fintech",
+      "chunk_count": 234,
+      "description": "MCP servers in the Finance & Fintech category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Other Tools and Integrations",
+      "chunk_count": 158,
+      "description": "MCP servers in the Other Tools and Integrations category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Knowledge & Memory",
+      "chunk_count": 139,
+      "description": "MCP servers in the Knowledge & Memory category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Search & Data Extraction",
+      "chunk_count": 131,
+      "description": "MCP servers in the Search & Data Extraction category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Security",
+      "chunk_count": 107,
+      "description": "MCP servers in the Security category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Databases",
+      "chunk_count": 103,
+      "description": "MCP servers in the Databases category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Communication",
+      "chunk_count": 76,
+      "description": "MCP servers in the Communication category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Cloud Platforms",
+      "chunk_count": 68,
+      "description": "MCP servers in the Cloud Platforms category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Aggregators",
+      "chunk_count": 63,
+      "description": "MCP servers in the Aggregators category (from awesome-mcp-servers)"
+    },
     {
       "name": "MCP and tool integration",
       "description": "How Skills relate to Model Context Protocol (MCP) servers and tools — when to use which, and how to build MCP servers that complement Skills.",
@@ -31,6 +81,36 @@
       "chunk_count": 54
     },
     {
+      "name": "MCP: Browser Automation",
+      "chunk_count": 52,
+      "description": "MCP servers in the Browser Automation category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Coding Agents",
+      "chunk_count": 50,
+      "description": "MCP servers in the Coding Agents category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Workplace & Productivity",
+      "chunk_count": 48,
+      "description": "MCP servers in the Workplace & Productivity category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Monitoring",
+      "chunk_count": 45,
+      "description": "MCP servers in the Monitoring category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Art & Culture",
+      "chunk_count": 42,
+      "description": "MCP servers in the Art & Culture category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Gaming",
+      "chunk_count": 37,
+      "description": "MCP servers in the Gaming category (from awesome-mcp-servers)"
+    },
+    {
       "name": "Custom Skills",
       "description": "User-built Skills — creating them from scratch, the skill-creator workflow, organizing a skill directory, and effective description writing.",
       "keywords": [
@@ -42,6 +122,31 @@
         "template"
       ],
       "chunk_count": 36
+    },
+    {
+      "name": "Anthropic official Skills",
+      "chunk_count": 34,
+      "description": "Canonical Skills published at github.com/anthropics/skills"
+    },
+    {
+      "name": "MCP: Location Services",
+      "chunk_count": 29,
+      "description": "MCP servers in the Location Services category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Data Science Tools",
+      "chunk_count": 28,
+      "description": "MCP servers in the Data Science Tools category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Marketing",
+      "chunk_count": 27,
+      "description": "MCP servers in the Marketing category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Multimedia Process",
+      "chunk_count": 26,
+      "description": "MCP servers in the Multimedia Process category (from awesome-mcp-servers)"
     },
     {
       "name": "Design and theming",
@@ -58,6 +163,16 @@
       "chunk_count": 25
     },
     {
+      "name": "MCP: Data Platforms",
+      "chunk_count": 25,
+      "description": "MCP servers in the Data Platforms category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: File Systems",
+      "chunk_count": 24,
+      "description": "MCP servers in the File Systems category (from awesome-mcp-servers)"
+    },
+    {
       "name": "Document creation skills",
       "description": "Detailed guidance for the docx, xlsx, pptx, and pdf Skills — when to use each, output conventions, and common patterns.",
       "keywords": [
@@ -72,6 +187,11 @@
       "chunk_count": 23
     },
     {
+      "name": "MCP: Social Media",
+      "chunk_count": 22,
+      "description": "MCP servers in the Social Media category (from awesome-mcp-servers)"
+    },
+    {
       "name": "Progressive disclosure",
       "description": "The core design principle: Claude loads skill metadata at startup, the SKILL.md body only when relevant, and bundled files only on demand.",
       "keywords": [
@@ -82,6 +202,11 @@
         "bundled files"
       ],
       "chunk_count": 20
+    },
+    {
+      "name": "MCP: Biology, Medicine and Bioinformatics",
+      "chunk_count": 20,
+      "description": "MCP servers in the Biology, Medicine and Bioinformatics category (from awesome-mcp-servers)"
     },
     {
       "name": "SKILL.md structure",
@@ -95,6 +220,41 @@
         "trigger"
       ],
       "chunk_count": 19
+    },
+    {
+      "name": "MCP: Travel & Transportation",
+      "chunk_count": 18,
+      "description": "MCP servers in the Travel & Transportation category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Version Control",
+      "chunk_count": 17,
+      "description": "MCP servers in the Version Control category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Sports",
+      "chunk_count": 15,
+      "description": "MCP servers in the Sports category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Code Execution",
+      "chunk_count": 14,
+      "description": "MCP servers in the Code Execution category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Research",
+      "chunk_count": 12,
+      "description": "MCP servers in the Research category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Customer Data Platforms",
+      "chunk_count": 11,
+      "description": "MCP servers in the Customer Data Platforms category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Embedded System",
+      "chunk_count": 10,
+      "description": "MCP servers in the Embedded System category (from awesome-mcp-servers)"
     },
     {
       "name": "Pre-built Skills",
@@ -111,6 +271,16 @@
       "chunk_count": 8
     },
     {
+      "name": "Skill and MCP marketplaces",
+      "chunk_count": 8,
+      "description": "Meta chunks: Smithery, awesome-mcp-servers, ClaudeMarketplaces, SkillsDirectory, SkillsMP, anthropics/skills, modelcontextprotocol"
+    },
+    {
+      "name": "MCP: E-Commerce",
+      "chunk_count": 8,
+      "description": "MCP servers in the E-Commerce category (from awesome-mcp-servers)"
+    },
+    {
       "name": "Claude Code integration",
       "description": "How Claude Code discovers and loads Skills — user settings, project settings, plugin skills, built-in skills, and how Skills differ from CLAUDE.md, hooks, and subagents.",
       "keywords": [
@@ -123,6 +293,26 @@
         "subagent"
       ],
       "chunk_count": 7
+    },
+    {
+      "name": "MCP reference servers",
+      "chunk_count": 7,
+      "description": "Official reference servers at github.com/modelcontextprotocol/servers"
+    },
+    {
+      "name": "MCP: Support & Service Management",
+      "chunk_count": 7,
+      "description": "MCP servers in the Support & Service Management category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Legal",
+      "chunk_count": 6,
+      "description": "MCP servers in the Legal category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Text-to-Speech",
+      "chunk_count": 6,
+      "description": "MCP servers in the Text-to-Speech category (from awesome-mcp-servers)"
     },
     {
       "name": "Best practices",
@@ -139,6 +329,16 @@
       "chunk_count": 5
     },
     {
+      "name": "MCP: Architecture & Design",
+      "chunk_count": 5,
+      "description": "MCP servers in the Architecture & Design category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Product Management",
+      "chunk_count": 5,
+      "description": "MCP servers in the Product Management category (from awesome-mcp-servers)"
+    },
+    {
       "name": "Claude.ai features",
       "chunk_count": 4,
       "description": "Projects, Artifacts, Research, Memory"
@@ -147,6 +347,16 @@
       "name": "API fundamentals",
       "chunk_count": 4,
       "description": "Batch API, Files API, Streaming, Rate limits"
+    },
+    {
+      "name": "MCP: Command Line",
+      "chunk_count": 4,
+      "description": "MCP servers in the Command Line category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Data Visualization",
+      "chunk_count": 4,
+      "description": "MCP servers in the Data Visualization category (from awesome-mcp-servers)"
     },
     {
       "name": "API and Messages integration",
@@ -191,6 +401,26 @@
       "description": "Claude for Chrome, Claude in Excel, Cowork"
     },
     {
+      "name": "MCP: Delivery",
+      "chunk_count": 3,
+      "description": "MCP servers in the Delivery category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Home Automation",
+      "chunk_count": 3,
+      "description": "MCP servers in the Home Automation category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: end to end RAG platforms",
+      "chunk_count": 3,
+      "description": "MCP servers in the end to end RAG platforms category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Translation Services",
+      "chunk_count": 3,
+      "description": "MCP servers in the Translation Services category (from awesome-mcp-servers)"
+    },
+    {
       "name": "Vision and multimodal",
       "chunk_count": 2,
       "description": "Images, PDFs, visual input to Claude"
@@ -226,9 +456,34 @@
       "description": "Prompting principles, XML tags, best practices"
     },
     {
+      "name": "MCP: Aerospace & Astrodynamics",
+      "chunk_count": 2,
+      "description": "MCP servers in the Aerospace & Astrodynamics category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Education",
+      "chunk_count": 2,
+      "description": "MCP servers in the Education category (from awesome-mcp-servers)"
+    },
+    {
       "name": "Admin and governance",
       "chunk_count": 1,
       "description": "Admin API, workspaces, usage reporting"
+    },
+    {
+      "name": "MCP: Environment & Nature",
+      "chunk_count": 1,
+      "description": "MCP servers in the Environment & Nature category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: OS Automation",
+      "chunk_count": 1,
+      "description": "MCP servers in the OS Automation category (from awesome-mcp-servers)"
+    },
+    {
+      "name": "MCP: Real Estate",
+      "chunk_count": 1,
+      "description": "MCP servers in the Real Estate category (from awesome-mcp-servers)"
     }
   ],
   "sources": [
@@ -567,6 +822,46 @@
       "url": "https://platform.claude.com/docs/en/build-with-claude/administration-api",
       "label": "Admin API — Claude API Docs",
       "chunk_count": 1
+    },
+    {
+      "url": "https://github.com/anthropics/skills",
+      "label": "anthropics/skills (official Agent Skills repo, 120k stars)",
+      "chunk_count": 34
+    },
+    {
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "label": "modelcontextprotocol/servers (official MCP reference, 84k stars)",
+      "chunk_count": 7
+    },
+    {
+      "url": "https://github.com/punkpeye/awesome-mcp-servers",
+      "label": "awesome-mcp-servers (community MCP index, 85k stars)",
+      "chunk_count": 2021
+    },
+    {
+      "url": "https://smithery.ai",
+      "label": "Smithery (MCP + Skill marketplace, 131k+ skills)",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://claudemarketplaces.com",
+      "label": "ClaudeMarketplaces (4200+ Claude Code skills)",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://skillsdirectory.com",
+      "label": "SkillsDirectory (security-scanned skills)",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://skillsmp.com",
+      "label": "SkillsMP (aggregated ~1M skills)",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://modelcontextprotocol.io",
+      "label": "modelcontextprotocol.io (canonical MCP spec)",
+      "chunk_count": 1
     }
   ],
   "shards": [
@@ -645,16 +940,45 @@
     {
       "chunks_url": "chunks/shard-006.json",
       "chunk_count": 32
+    },
+    {
+      "chunks_url": "chunks/shard-007.json",
+      "chunk_count": 34
+    },
+    {
+      "chunks_url": "chunks/shard-008.json",
+      "chunk_count": 15
+    },
+    {
+      "chunks_url": "chunks/shard-009.json",
+      "chunk_count": 405
+    },
+    {
+      "chunks_url": "chunks/shard-010.json",
+      "chunk_count": 405
+    },
+    {
+      "chunks_url": "chunks/shard-011.json",
+      "chunk_count": 405
+    },
+    {
+      "chunks_url": "chunks/shard-012.json",
+      "chunk_count": 405
+    },
+    {
+      "chunks_url": "chunks/shard-013.json",
+      "chunk_count": 401
     }
   ],
   "suggested_questions": [
-    "How does tool use / function calling work?",
-    "How do I enable prompt caching?",
-    "What is MCP and how do I build an MCP server?",
-    "How does computer use work?",
-    "What is a SKILL.md file and what goes in its frontmatter?",
-    "What can Claude in Chrome do?",
-    "Which Claude model should I use?"
+    "MCP server for Postgres",
+    "MCP server for Gmail",
+    "skill for creating PDFs",
+    "skill for building web apps",
+    "browser automation MCP",
+    "security scanner for skills",
+    "official Anthropic skills",
+    "how to write a SKILL.md"
   ],
   "llm": {
     "note": "Runtime supports three answer tiers: API key (remote LLM), local browser LLM, or retrieval-only. User picks at runtime.",
