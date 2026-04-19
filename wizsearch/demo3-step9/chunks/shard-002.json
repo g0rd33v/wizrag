@@ -1,0 +1,1350 @@
+{
+  "shard_id": "shard-002",
+  "chunks": [
+    {
+      "id": "chunk_0051",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/editing.md",
+      "source_label": "Skills-Public/Pptx/Editing",
+      "topic": "Pre-built Skills",
+      "title": "Template-Based Workflow",
+      "text": "When using an existing presentation as a template:\n\n1. **Analyze existing slides**:\n   ```bash\n   python scripts/thumbnail.py template.pptx\n   extract-text template.pptx\n   ```\n   Review `thumbnails.jpg` to see layouts, and `extract-text` output to see placeholder text.\n\n2. **Plan slide mapping**: For each content section, choose a template slide.\n\n   ⚠️ **USE VARIED LAYOUTS** — monotonous presentations are a common failure mode. Don't default to basic title + bullet slides. Actively seek out:\n   - Multi-column layouts (2-column, 3-column)\n   - Image + text combinations\n   - Full-bleed images with text overlay\n   - Quote or callout slides\n   - Section dividers\n   - Stat/number callouts\n   - Icon grids or icon + text rows\n\n   **Avoid:** Repeating the same text-heavy layout for every slide.\n\n   Match content type to layout style (e.g., key points → bullet slide, team info → multi-column, testimonials → quote slide).\n\n3. **Unpack**: `python scripts/office/unpack.py template.pptx unpacked/`\n\n4. **Build presentation** (do this yourself, not with subagents):\n   - Delete unwanted slides (remove from `<p:sldIdLst>`)\n   - Duplicate slides you want to reuse (`add_slide.py`)\n   - Reorder slides in `<p:sldIdLst>`\n   - **Complete all structural changes before step 5**\n\n5. **Edit content**: Update text in each `slide{N}.xml`.\n   **Use subagents here if available** — slides are separate XML files, so subagents can edit in parallel.\n\n6. **Clean**: `python scripts/clean.py unpacked/`\n\n7. **Pack**: `python scripts/office/pack.py unpacked/ output.pptx --original template.pptx`\n\n---",
+      "keywords": [
+        "Pre-built Skills",
+        "pptx",
+        "Team",
+        "python"
+      ],
+      "synonyms": [
+        "official skills",
+        "Anthropic skills",
+        "built-in skills",
+        "stock skills"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Template-Based Workflow?",
+        "How do I use pre-built skills?",
+        "Explain Template-Based Workflow in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0052",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/editing.md",
+      "source_label": "Skills-Public/Pptx/Editing",
+      "topic": "SKILL.md structure",
+      "title": "Scripts",
+      "text": "| Script | Purpose |\n|--------|---------|\n| `unpack.py` | Extract and pretty-print PPTX |\n| `add_slide.py` | Duplicate slide or create from layout |\n| `clean.py` | Remove orphaned files |\n| `pack.py` | Repack with validation |\n| `thumbnail.py` | Create visual grid of slides |\n\n### unpack.py\n\n```bash\npython scripts/office/unpack.py input.pptx unpacked/\n```\n\nExtracts PPTX, pretty-prints XML, escapes smart quotes.\n\n### add_slide.py\n\n```bash\npython scripts/add_slide.py unpacked/ slide2.xml      # Duplicate slide\npython scripts/add_slide.py unpacked/ slideLayout2.xml # From layout\n```\n\nPrints `<p:sldId>` to add to `<p:sldIdLst>` at desired position.\n\n### clean.py\n\n```bash\npython scripts/clean.py unpacked/\n```\n\nRemoves slides not in `<p:sldIdLst>`, unreferenced media, orphaned rels.\n\n### pack.py\n\n```bash\npython scripts/office/pack.py unpacked/ output.pptx --original input.pptx\n```\n\nValidates, repairs, condenses XML, re-encodes smart quotes.\n\n### thumbnail.py\n\n```bash\npython scripts/thumbnail.py input.pptx [output_prefix] [--cols N]\n```\n\nCreates `thumbnails.jpg` with slide filenames as labels. Default 3 columns, max 12 per grid.\n\n**Use for template analysis only** (choosing layouts). For visual QA, use `soffice` + `pdftoppm` to create full-resolution individual slide images—see SKILL.md.\n\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "pptx",
+        "pdf",
+        "SKILL.md",
+        "SKILL",
+        "Max",
+        "python"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Scripts?",
+        "How do I use skill.md structure?",
+        "Explain Scripts in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0053",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/editing.md",
+      "source_label": "Skills-Public/Pptx/Editing",
+      "topic": "SKILL.md structure",
+      "title": "Editing Content",
+      "text": "**Subagents:** If available, use them here (after completing step 4). Each slide is a separate XML file, so subagents can edit in parallel. In your prompt to subagents, include:\n- The slide file path(s) to edit\n- **\"Use the Edit tool for all changes\"**\n- The formatting rules and common pitfalls below\n\nFor each slide:\n1. Read the slide's XML\n2. Identify ALL placeholder content—text, images, charts, icons, captions\n3. Replace each placeholder with final content\n\n**Use the Edit tool, not sed or Python scripts.** The Edit tool forces specificity about what to replace and where, yielding better reliability.\n\n### Formatting Rules\n\n- **Bold all headers, subheadings, and inline labels**: Use `b=\"1\"` on `<a:rPr>`. This includes:\n  - Slide titles\n  - Section headers within a slide\n  - Inline labels like (e.g.: \"Status:\", \"Description:\") at the start of a line\n- **Never use unicode bullets (•)**: Use proper list formatting with `<a:buChar>` or `<a:buAutoNum>`\n- **Bullet consistency**: Let bullets inherit from the layout. Only specify `<a:buChar>` or `<a:buNone>`.\n\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "Pro",
+        "pptx",
+        "python"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Editing Content?",
+        "How do I use skill.md structure?",
+        "Explain Editing Content in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0054",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/editing.md",
+      "source_label": "Skills-Public/Pptx/Editing",
+      "topic": "Design and theming",
+      "title": "Common Pitfalls",
+      "text": "### Template Adaptation\n\nWhen source content has fewer items than the template:\n- **Remove excess elements entirely** (images, shapes, text boxes), don't just clear text\n- Check for orphaned visuals after clearing text content\n- Run visual QA to catch mismatched counts\n\nWhen replacing text with different length content:\n- **Shorter replacements**: Usually safe\n- **Longer replacements**: May overflow or wrap unexpectedly\n- Test with visual QA after text changes\n- Consider truncating or splitting content to fit the template's design constraints\n\n**Template slots ≠ Source items**: If template has 4 team members but source has 3 users, delete the 4th member's entire group (image + text boxes), not just the text.\n\n### Multi-Item Content\n\nIf source has multiple items (numbered lists, multiple sections), create separate `<a:p>` elements for each — **never concatenate into one string**.\n\n**❌ WRONG** — all items in one paragraph:\n```xml\n<a:p>\n  <a:r><a:rPr .../><a:t>Step 1: Do the first thing. Step 2: Do the second thing.</a:t></a:r>\n</a:p>\n```\n\n**✅ CORRECT** — separate paragraphs with bold headers:\n```xml\n<a:p>\n  <a:pPr algn=\"l\"><a:lnSpc><a:spcPts val=\"3919\"/></a:lnSpc></a:pPr>\n  <a:r><a:rPr lang=\"en-US\" sz=\"2799\" b=\"1\" .../><a:t>Step 1</a:t></a:r>\n</a:p>\n<a:p>\n  <a:pPr algn=\"l\"><a:lnSpc><a:spcPts val=\"3919\"/></a:lnSpc></a:pPr>\n  <a:r><a:rPr lang=\"en-US\" sz=\"2799\" .../><a:t>Do the first thing.</a:t></a:r>\n</a:p>\n<a:p>\n  <a:pPr algn=\"l\"><a:lnSpc><a:spcPts val=\"3919\"/></a:lnSpc></a:pPr>\n  <a:r><a:rPr lang=\"en-US\" sz=\"2799\" b=\"1\" .../><a:t>Step 2</a:t></a:r>\n</a:p>\n<!-- continue pattern -->\n```\n\nCopy `<a:pPr>` from the original paragraph to preserve line spacing. Use `b=\"1\"` on headers.\n\n### Smart Quotes\n\nHandled automatically by unpack/pack. But the Edit tool converts smart quotes to ASCII.\n\n**When adding new text with quotes, use XML entities:**\n\n```xml\n<a:t>the &#x201C;Agreement&#x201D;</a:t>\n```\n\n| Character | Name | Unicode | XML Entity |\n|-----------|------|---------|------------|\n| `“` | Left double quote | U+201C | `&#x201C;` |\n| `”` | Right double quote | U+201D | `&#x201D;` |\n| `‘` | Left single quote | U+2018 | `&#x2018;` |\n| `’` | Right single quote | U+2019 | `&#x2019;` |\n\n### Other\n\n- **Whitespace**: Use `xml:space=\"preserve\"` on `<a:t>` with leading/trailing spaces\n- **XML parsing**: Use `defusedxml.minidom`, not `xml.etree.ElementTree` (corrupts namespaces)",
+      "keywords": [
+        "Design and theming",
+        "Team",
+        "pptx"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Common Pitfalls?",
+        "How do I use design and theming?",
+        "Explain Common Pitfalls in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0055",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/pptxgenjs.md",
+      "source_label": "Skills-Public/Pptx/Pptxgenjs",
+      "topic": "Design and theming",
+      "title": "Text & Formatting",
+      "text": "```javascript\n// Basic text\nslide.addText(\"Simple Text\", {\n  x: 1, y: 1, w: 8, h: 2, fontSize: 24, fontFace: \"Arial\",\n  color: \"363636\", bold: true, align: \"center\", valign: \"middle\"\n});\n\n// Character spacing (use charSpacing, not letterSpacing which is silently ignored)\nslide.addText(\"SPACED TEXT\", { x: 1, y: 1, w: 8, h: 1, charSpacing: 6 });\n\n// Rich text arrays\nslide.addText([\n  { text: \"Bold \", options: { bold: true } },\n  { text: \"Italic \", options: { italic: true } }\n], { x: 1, y: 3, w: 8, h: 1 });\n\n// Multi-line text (requires breakLine: true)\nslide.addText([\n  { text: \"Line 1\", options: { breakLine: true } },\n  { text: \"Line 2\", options: { breakLine: true } },\n  { text: \"Line 3\" }  // Last item doesn't need breakLine\n], { x: 0.5, y: 0.5, w: 8, h: 2 });\n\n// Text box margin (internal padding)\nslide.addText(\"Title\", {\n  x: 0.5, y: 0.3, w: 9, h: 0.6,\n  margin: 0  // Use 0 when aligning text with other elements like shapes or icons\n});\n```\n\n**Tip:** Text boxes have internal margin by default. Set `margin: 0` when you need text to align precisely with shapes, lines, or icons at the same x-position.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "pptx"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Text & Formatting?",
+        "How do I use design and theming?",
+        "Explain Text & Formatting in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0056",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/pptxgenjs.md",
+      "source_label": "Skills-Public/Pptx/Pptxgenjs",
+      "topic": "Design and theming",
+      "title": "Shapes",
+      "text": "```javascript\nslide.addShape(pres.shapes.RECTANGLE, {\n  x: 0.5, y: 0.8, w: 1.5, h: 3.0,\n  fill: { color: \"FF0000\" }, line: { color: \"000000\", width: 2 }\n});\n\nslide.addShape(pres.shapes.OVAL, { x: 4, y: 1, w: 2, h: 2, fill: { color: \"0000FF\" } });\n\nslide.addShape(pres.shapes.LINE, {\n  x: 1, y: 3, w: 5, h: 0, line: { color: \"FF0000\", width: 3, dashType: \"dash\" }\n});\n\n// With transparency\nslide.addShape(pres.shapes.RECTANGLE, {\n  x: 1, y: 1, w: 3, h: 2,\n  fill: { color: \"0088CC\", transparency: 50 }\n});\n\n// Rounded rectangle (rectRadius only works with ROUNDED_RECTANGLE, not RECTANGLE)\n// ⚠️ Don't pair with rectangular accent overlays — they won't cover rounded corners. Use RECTANGLE instead.\nslide.addShape(pres.shapes.ROUNDED_RECTANGLE, {\n  x: 1, y: 1, w: 3, h: 2,\n  fill: { color: \"FFFFFF\" }, rectRadius: 0.1\n});\n\n// With shadow\nslide.addShape(pres.shapes.RECTANGLE, {\n  x: 1, y: 1, w: 3, h: 2,\n  fill: { color: \"FFFFFF\" },\n  shadow: { type: \"outer\", color: \"000000\", blur: 6, offset: 2, angle: 135, opacity: 0.15 }\n});\n```\n\nShadow options:\n\n| Property | Type | Range | Notes |\n|----------|------|-------|-------|\n| `type` | string | `\"outer\"`, `\"inner\"` | |\n| `color` | string | 6-char hex (e.g. `\"000000\"`) | No `#` prefix, no 8-char hex — see Common Pitfalls |\n| `blur` | number | 0-100 pt | |\n| `offset` | number | 0-200 pt | **Must be non-negative** — negative values corrupt the file |\n| `angle` | number | 0-359 degrees | Direction the shadow falls (135 = bottom-right, 270 = upward) |\n| `opacity` | number | 0.0-1.0 | Use this for transparency, never encode in color string |\n\nTo cast a shadow upward (e.g. on a footer bar), use `angle: 270` with a positive offset — do **not** use a negative offset.\n\n**Note**: Gradient fills are not natively supported. Use a gradient image as a background instead.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "Pro",
+        "pptx"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Shapes?",
+        "How do I use design and theming?",
+        "Explain Shapes in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0057",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/pptxgenjs.md",
+      "source_label": "Skills-Public/Pptx/Pptxgenjs",
+      "topic": "Document creation skills",
+      "title": "Images",
+      "text": "### Image Sources\n\n```javascript\n// From file path\nslide.addImage({ path: \"images/photo.jpg\", x: 1, y: 1, w: 5, h: 3 });\n\n// From URL\nslide.addImage({ path: \"https://example.com/image.jpg\", x: 1, y: 1, w: 5, h: 3 });\n\n// From base64 (faster, no file I/O)\nslide.addImage({ data: \"image/png;base64,iVBORw0KGgo...\", x: 1, y: 1, w: 5, h: 3 });\n```\n\n### Image Options\n\n```javascript\nslide.addImage({\n  path: \"image.png\",\n  x: 1, y: 1, w: 5, h: 3,\n  rotate: 45,              // 0-359 degrees\n  rounding: true,          // Circular crop\n  transparency: 50,        // 0-100\n  flipH: true,             // Horizontal flip\n  flipV: false,            // Vertical flip\n  altText: \"Description\",  // Accessibility\n  hyperlink: { url: \"https://example.com\" }\n});\n```\n\n### Image Sizing Modes\n\n```javascript\n// Contain - fit inside, preserve ratio\n{ sizing: { type: 'contain', w: 4, h: 3 } }\n\n// Cover - fill area, preserve ratio (may crop)\n{ sizing: { type: 'cover', w: 4, h: 3 } }\n\n// Crop - cut specific portion\n{ sizing: { type: 'crop', x: 0.5, y: 0.5, w: 2, h: 2 } }\n```\n\n### Calculate Dimensions (preserve aspect ratio)\n\n```javascript\nconst origWidth = 1978, origHeight = 923, maxHeight = 3.0;\nconst calcWidth = maxHeight * (origWidth / origHeight);\nconst centerX = (10 - calcWidth) / 2;\n\nslide.addImage({ path: \"image.png\", x: centerX, y: 1.2, w: calcWidth, h: maxHeight });\n```\n\n### Supported Formats\n\n- **Standard**: PNG, JPG, GIF (animated GIFs work in Microsoft 365)\n- **SVG**: Works in modern PowerPoint/Microsoft 365\n\n---",
+      "keywords": [
+        "Document creation skills",
+        "Max",
+        "pptx"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Images?",
+        "How do I use document creation skills?",
+        "Explain Images in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0058",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/pptxgenjs.md",
+      "source_label": "Skills-Public/Pptx/Pptxgenjs",
+      "topic": "Design and theming",
+      "title": "Icons",
+      "text": "Use react-icons to generate SVG icons, then rasterize to PNG for universal compatibility.\n\n### Setup\n\n```javascript\nconst React = require(\"react\");\nconst ReactDOMServer = require(\"react-dom/server\");\nconst sharp = require(\"sharp\");\nconst { FaCheckCircle, FaChartLine } = require(\"react-icons/fa\");\n\nfunction renderIconSvg(IconComponent, color = \"#000000\", size = 256) {\n  return ReactDOMServer.renderToStaticMarkup(\n    React.createElement(IconComponent, { color, size: String(size) })\n  );\n}\n\nasync function iconToBase64Png(IconComponent, color, size = 256) {\n  const svg = renderIconSvg(IconComponent, color, size);\n  const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();\n  return \"image/png;base64,\" + pngBuffer.toString(\"base64\");\n}\n```\n\n### Add Icon to Slide\n\n```javascript\nconst iconData = await iconToBase64Png(FaCheckCircle, \"#4472C4\", 256);\n\nslide.addImage({\n  data: iconData,\n  x: 1, y: 1, w: 0.5, h: 0.5  // Size in inches\n});\n```\n\n**Note**: Use size 256 or higher for crisp icons. The size parameter controls the rasterization resolution, not the display size on the slide (which is set by `w` and `h` in inches).\n\n### Icon Libraries\n\nInstall: `npm install -g react-icons react react-dom sharp`\n\nPopular icon sets in react-icons:\n- `react-icons/fa` - Font Awesome\n- `react-icons/md` - Material Design\n- `react-icons/hi` - Heroicons\n- `react-icons/bi` - Bootstrap Icons\n\n---",
+      "keywords": [
+        "Design and theming",
+        "pptx"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Icons?",
+        "How do I use design and theming?",
+        "Explain Icons in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0059",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/pptxgenjs.md",
+      "source_label": "Skills-Public/Pptx/Pptxgenjs",
+      "topic": "Document creation skills",
+      "title": "Charts",
+      "text": "**Keep charts native and editable. Choose your approach by what PowerPoint can represent, not by what's quickest to code:**\n\n1. **Library-native** (bar, column, line, pie, area, scatter, bubble, radar, doughnut, combo): use `addChart()` below. For combo charts pass an array of `{type, data, options}` objects. Never render these to an image.\n2. **PowerPoint-native but not exposed by the library** (trendlines, error bars): stay native — either compute the extra series yourself (e.g., regression line as a second `LINE`/`SCATTER` series) or inject the OOXML element (e.g., `<c:trendline>`) by post-processing the generated `.pptx` XML. Do **not** fall back to a matplotlib PNG; the user loses editability.\n3. **Genuinely no native PowerPoint representation** (Sankey, network/graph, chord, complex statistical plots): only here is rendering to an image and inserting via `addImage()` appropriate.\n\n```javascript\n// Bar chart\nslide.addChart(pres.charts.BAR, [{\n  name: \"Sales\", labels: [\"Q1\", \"Q2\", \"Q3\", \"Q4\"], values: [4500, 5500, 6200, 7100]\n}], {\n  x: 0.5, y: 0.6, w: 6, h: 3, barDir: 'col',\n  showTitle: true, title: 'Quarterly Sales'\n});\n\n// Line chart\nslide.addChart(pres.charts.LINE, [{\n  name: \"Temp\", labels: [\"Jan\", \"Feb\", \"Mar\"], values: [32, 35, 42]\n}], { x: 0.5, y: 4, w: 6, h: 3, lineSize: 3, lineSmooth: true });\n\n// Pie chart\nslide.addChart(pres.charts.PIE, [{\n  name: \"Share\", labels: [\"A\", \"B\", \"Other\"], values: [35, 45, 20]\n}], { x: 7, y: 1, w: 5, h: 4, showPercent: true });\n\n// Scatter with a computed trend line (tier-2: stay native, add regression as a second series)\nconst xs = [8, 12, 18, 22, 25, 31], ys = [102, 145, 198, 241, 267, 312];\nconst n = xs.length, sx = xs.reduce((a,b)=>a+b), sy = ys.reduce((a,b)=>a+b);\nconst sxy = xs.reduce((a,x,i)=>a+x*ys[i],0), sxx = xs.reduce((a,x)=>a+x*x,0);\nconst m = (n*sxy - sx*sy)/(n*sxx - sx*sx), b = (sy - m*sx)/n;\nslide.addChart(pres.charts.SCATTER, [\n  { name: \"X\",     values: xs },\n  { name: \"Data\",  values: ys },\n  { name: \"Trend\", values: xs.map(x => m*x + b) },\n], { x: 0.5, y: 1, w: 9, h: 4 });\n```\n\n### Better-Looking Charts\n\nDefault charts look dated. Apply these options for a modern, clean appearance:\n\n```javascript\nslide.addChart(pres.charts.BAR, chartData, {\n  x: 0.5, y: 1, w: 9, h: 4, barDir: \"col\",\n\n  // Custom colors (match your presentation palette)\n  chartColors: [\"0D9488\", \"14B8A6\", \"5EEAD4\"],\n\n  // Clean background\n  chartArea: { fill: { color: \"FFFFFF\" }, roundedCorners: true },\n\n  // Muted axis labels\n  catAxisLabelColor: \"64748B\",\n  valAxisLabelColor: \"64748B\",\n\n  // Subtle grid (value axis only)\n  valGridLine: { color: \"E2E8F0\", size: 0.5 },\n  catGridLine: { style: \"none\" },\n\n  // Data labels on bars\n  showValue: true,\n  dataLabelPosition: \"outEnd\",\n  dataLabelColor: \"1E293B\",\n\n  // Hide legend for single series\n  showLegend: false,\n});\n```\n\n**Key styling options:**\n- `chartColors: [...]` - hex colors for series/segments\n- `chartArea: { fill, border, roundedCorners }` - chart background\n- `catGridLine/valGridLine: { color, style, size }` - grid lines (`style: \"none\"` to hide)\n- `lineSmooth: true` - curved lines (line charts)\n- `legendPos: \"r\"` - legend position: \"b\", \"t\", \"l\", \"r\", \"tr\"\n\n---",
+      "keywords": [
+        "Document creation skills",
+        "pptx",
+        "Pro"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Charts?",
+        "How do I use document creation skills?",
+        "Explain Charts in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0060",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/pptxgenjs.md",
+      "source_label": "Skills-Public/Pptx/Pptxgenjs",
+      "topic": "Pre-built Skills",
+      "title": "Common Pitfalls",
+      "text": "⚠️ These issues cause file corruption, visual bugs, or broken output. Avoid them.\n\n1. **NEVER use \"#\" with hex colors** - causes file corruption\n   ```javascript\n   color: \"FF0000\"      // ✅ CORRECT\n   color: \"#FF0000\"     // ❌ WRONG\n   ```\n\n2. **NEVER encode opacity in hex color strings** - 8-char colors (e.g., `\"00000020\"`) corrupt the file. Use the `opacity` property instead.\n   ```javascript\n   shadow: { type: \"outer\", blur: 6, offset: 2, color: \"00000020\" }          // ❌ CORRUPTS FILE\n   shadow: { type: \"outer\", blur: 6, offset: 2, color: \"000000\", opacity: 0.12 }  // ✅ CORRECT\n   ```\n\n3. **Use `bullet: true`** - NEVER unicode symbols like \"•\" (creates double bullets)\n\n4. **Use `breakLine: true`** between array items or text runs together\n\n5. **Avoid `lineSpacing` with bullets** - causes excessive gaps; use `paraSpaceAfter` instead\n\n6. **Each presentation needs fresh instance** - don't reuse `pptxgen()` objects\n\n7. **NEVER reuse option objects across calls** - PptxGenJS mutates objects in-place (e.g. converting shadow values to EMU). Sharing one object between multiple calls corrupts the second shape.\n   ```javascript\n   const shadow = { type: \"outer\", blur: 6, offset: 2, color: \"000000\", opacity: 0.15 };\n   slide.addShape(pres.shapes.RECTANGLE, { shadow, ... });  // ❌ second call gets already-converted values\n   slide.addShape(pres.shapes.RECTANGLE, { shadow, ... });\n\n   const makeShadow = () => ({ type: \"outer\", blur: 6, offset: 2, color: \"000000\", opacity: 0.15 });\n   slide.addShape(pres.shapes.RECTANGLE, { shadow: makeShadow(), ... });  // ✅ fresh object each time\n   slide.addShape(pres.shapes.RECTANGLE, { shadow: makeShadow(), ... });\n   ```\n\n8. **Don't use `ROUNDED_RECTANGLE` with accent borders** - rectangular overlay bars won't cover rounded corners. Use `RECTANGLE` instead.\n   ```javascript\n   // ❌ WRONG: Accent bar doesn't cover rounded corners\n   slide.addShape(pres.shapes.ROUNDED_RECTANGLE, { x: 1, y: 1, w: 3, h: 1.5, fill: { color: \"FFFFFF\" } });\n   slide.addShape(pres.shapes.RECTANGLE, { x: 1, y: 1, w: 0.08, h: 1.5, fill: { color: \"0891B2\" } });\n\n   // ✅ CORRECT: Use RECTANGLE for clean alignment\n   slide.addShape(pres.shapes.RECTANGLE, { x: 1, y: 1, w: 3, h: 1.5, fill: { color: \"FFFFFF\" } });\n   slide.addShape(pres.shapes.RECTANGLE, { x: 1, y: 1, w: 0.08, h: 1.5, fill: { color: \"0891B2\" } });\n   ```\n\n---",
+      "keywords": [
+        "Pre-built Skills",
+        "pptx",
+        "Pro",
+        "pptxgenjs"
+      ],
+      "synonyms": [
+        "official skills",
+        "Anthropic skills",
+        "built-in skills",
+        "stock skills"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Common Pitfalls?",
+        "How do I use pre-built skills?",
+        "Explain Common Pitfalls in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0061",
+      "source": "https://github.com/anthropics/skills/blob/main/product-self-knowledge/SKILL.md",
+      "source_label": "SKILL.md — product-self-knowledge",
+      "topic": "SKILL.md structure",
+      "title": "product-self-knowledge — SKILL.md frontmatter",
+      "text": "---\nname: product-self-knowledge\ndescription: \"Stop and consult this skill whenever your response would include specific facts about Anthropic's products. Covers: Claude Code (how to install, Node.js requirements, platform/OS support, MCP server integration, configuration), Claude API (function calling/tool use, batch processing, SDK usage, rate limits, pricing, models, streaming), and Claude.ai (Pro vs Team vs Enterprise plans, feature limits). Trigger this even for coding tasks that use the Anthropic SDK, content creation mentioning Claude capabilities or pricing, or LLM provider comparisons. Any time you would otherwise rely on memory for Anthropic product details, verify here instead — your training data may be outdated or wrong.\"\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "Claude",
+        "Claude Code",
+        "Claude API",
+        "Claude.ai",
+        "Anthropic",
+        "product-self-knowledge",
+        "SKILL",
+        "MCP",
+        "Pro",
+        "Team",
+        "Enterprise",
+        "yaml frontmatter",
+        "tool use"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "MCP": "Model Context Protocol",
+        "API": "Application Programming Interface",
+        "LLM": "Large Language Model",
+        "SDK": "Software Development Kit"
+      },
+      "alt_phrasings": [
+        "What is product-self-knowledge — SKILL.md frontmatter?",
+        "How do I use skill.md structure?",
+        "Explain product-self-knowledge — SKILL.md frontmatter in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0062",
+      "source": "https://github.com/anthropics/skills/blob/main/product-self-knowledge/SKILL.md",
+      "source_label": "SKILL.md — product-self-knowledge",
+      "topic": "Claude Code integration",
+      "title": "Quick Reference",
+      "text": "**Claude API:**\n\n- Documentation: https://docs.claude.com/en/api/overview\n- Docs Map: https://docs.claude.com/en/docs_site_map.md\n\n**Claude Code:**\n\n- Documentation: https://docs.claude.com/en/docs/claude-code/overview\n- Docs Map: https://docs.anthropic.com/en/docs/claude-code/claude_code_docs_map.md\n- npm Package: https://www.npmjs.com/package/@anthropic-ai/claude-code\n\n**Claude.ai:**\n\n- Support Center: https://support.claude.com\n- Getting Help: https://support.claude.com/en/articles/9015913-how-to-get-support\n\n**Other:**\n\n- Product News: https://www.anthropic.com/news\n- Enterprise Sales: https://www.anthropic.com/contact-sales",
+      "keywords": [
+        "Claude Code integration",
+        "Claude",
+        "Claude Code",
+        "Claude API",
+        "Claude.ai",
+        "Anthropic",
+        "Pro",
+        "Enterprise",
+        "product-self-knowledge"
+      ],
+      "synonyms": [
+        "skills in CLI",
+        "Claude Code skills",
+        "terminal skills",
+        "CC skills"
+      ],
+      "acronyms": {
+        "API": "Application Programming Interface"
+      },
+      "alt_phrasings": [
+        "What is Quick Reference?",
+        "How do I use claude code integration?",
+        "Explain Quick Reference in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0063",
+      "source": "https://github.com/anthropics/skills/blob/main/xlsx/SKILL.md",
+      "source_label": "SKILL.md — xlsx",
+      "topic": "Document creation skills",
+      "title": "xlsx — SKILL.md frontmatter",
+      "text": "---\nname: xlsx\ndescription: \"Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like \\\"the xlsx in my downloads\\\") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved.\"\nlicense: Proprietary. LICENSE.txt has complete terms\n---",
+      "keywords": [
+        "Document creation skills",
+        "xlsx",
+        "SKILL",
+        "Pro",
+        "yaml frontmatter",
+        "python"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {
+        "API": "Application Programming Interface"
+      },
+      "alt_phrasings": [
+        "What is xlsx — SKILL.md frontmatter?",
+        "How do I use document creation skills?",
+        "Explain xlsx — SKILL.md frontmatter in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0064",
+      "source": "https://github.com/anthropics/skills/blob/main/xlsx/SKILL.md",
+      "source_label": "SKILL.md — xlsx",
+      "topic": "Document creation skills",
+      "title": "Financial models",
+      "text": "### Color Coding Standards\nUnless otherwise stated by the user or existing template\n\n#### Industry-Standard Color Conventions\n- **Blue text (RGB: 0,0,255)**: Hardcoded inputs, and numbers users will change for scenarios\n- **Black text (RGB: 0,0,0)**: ALL formulas and calculations\n- **Green text (RGB: 0,128,0)**: Links pulling from other worksheets within same workbook\n- **Red text (RGB: 255,0,0)**: External links to other files\n- **Yellow background (RGB: 255,255,0)**: Key assumptions needing attention or cells that need to be updated\n\n### Number Formatting Standards\n\n#### Required Format Rules\n- **Years**: Format as text strings (e.g., \"2024\" not \"2,024\")\n- **Currency**: Use $#,##0 format; ALWAYS specify units in headers (\"Revenue ($mm)\")\n- **Zeros**: Use number formatting to make all zeros \"-\", including percentages (e.g., \"$#,##0;($#,##0);-\")\n- **Percentages**: Default to 0.0% format (one decimal)\n- **Multiples**: Format as 0.0x for valuation multiples (EV/EBITDA, P/E)\n- **Negative numbers**: Use parentheses (123) not minus -123\n\n### Formula Construction Rules\n\n#### Assumptions Placement\n- Place ALL assumptions (growth rates, margins, multiples, etc.) in separate assumption cells\n- Use cell references instead of hardcoded values in formulas\n- Example: Use =B5*(1+$B$6) instead of =B5*1.05\n\n#### Formula Error Prevention\n- Verify all cell references are correct\n- Check for off-by-one errors in ranges\n- Ensure consistent formulas across all projection periods\n- Test with edge cases (zero values, negative numbers)\n- Verify no unintended circular references\n\n#### Documentation Requirements for Hardcodes\n- Comment or in cells beside (if end of table). Format: \"Source: [System/Document], [Date], [Specific Reference], [URL if applicable]\"\n- Examples:\n  - \"Source: Company 10-K, FY2024, Page 45, Revenue Note, [SEC EDGAR URL]\"\n  - \"Source: Company 10-Q, Q2 2025, Exhibit 99.1, [SEC EDGAR URL]\"\n  - \"Source: Bloomberg Terminal, 8/15/2025, AAPL US Equity\"\n  - \"Source: FactSet, 8/20/2025, Consensus Estimates Screen\"",
+      "keywords": [
+        "Document creation skills",
+        "Pro",
+        "xlsx"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Financial models?",
+        "How do I use document creation skills?",
+        "Explain Financial models in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0065",
+      "source": "https://github.com/anthropics/skills/blob/main/xlsx/SKILL.md",
+      "source_label": "SKILL.md — xlsx",
+      "topic": "Document creation skills",
+      "title": "Common Workflow",
+      "text": "1. **Choose tool**: pandas for data, openpyxl for formulas/formatting\n2. **Create/Load**: Create new workbook or load existing file\n3. **Modify**: Add/edit data, formulas, and formatting\n4. **Save**: Write to file\n5. **Recalculate formulas (MANDATORY IF USING FORMULAS)**: Use the scripts/recalc.py script\n   ```bash\n   python scripts/recalc.py output.xlsx\n   ```\n6. **Verify and fix any errors**: \n   - The script returns JSON with error details\n   - If `status` is `errors_found`, check `error_summary` for specific error types and locations\n   - Fix the identified errors and recalculate again\n   - Common errors to fix:\n     - `#REF!`: Invalid cell references\n     - `#DIV/0!`: Division by zero\n     - `#VALUE!`: Wrong data type in formula\n     - `#NAME?`: Unrecognized formula name\n\n### Creating new Excel files\n\n```python",
+      "keywords": [
+        "Document creation skills",
+        "xlsx",
+        "openpyxl",
+        "python",
+        "json"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {
+        "JSON": "JavaScript Object Notation"
+      },
+      "alt_phrasings": [
+        "What is Common Workflow?",
+        "How do I use document creation skills?",
+        "Explain Common Workflow in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0066",
+      "source": "https://github.com/anthropics/skills/blob/main/xlsx/SKILL.md",
+      "source_label": "SKILL.md — xlsx",
+      "topic": "Document creation skills",
+      "title": "Formula Verification Checklist",
+      "text": "Quick checks to ensure formulas work correctly:\n\n### Essential Verification\n- [ ] **Test 2-3 sample references**: Verify they pull correct values before building full model\n- [ ] **Column mapping**: Confirm Excel columns match (e.g., column 64 = BL, not BK)\n- [ ] **Row offset**: Remember Excel rows are 1-indexed (DataFrame row 5 = Excel row 6)\n\n### Common Pitfalls\n- [ ] **NaN handling**: Check for null values with `pd.notna()`\n- [ ] **Far-right columns**: FY data often in columns 50+ \n- [ ] **Multiple matches**: Search all occurrences, not just first\n- [ ] **Division by zero**: Check denominators before using `/` in formulas (#DIV/0!)\n- [ ] **Wrong references**: Verify all cell references point to intended cells (#REF!)\n- [ ] **Cross-sheet references**: Use correct format (Sheet1!A1) for linking sheets\n\n### Formula Testing Strategy\n- [ ] **Start small**: Test formulas on 2-3 cells before applying broadly\n- [ ] **Verify dependencies**: Check all cells referenced in formulas exist\n- [ ] **Test edge cases**: Include zero, negative, and very large values\n\n### Interpreting scripts/recalc.py Output\nThe script returns JSON with error details:\n```json\n{\n  \"status\": \"success\",           // or \"errors_found\"\n  \"total_errors\": 0,              // Total error count\n  \"total_formulas\": 42,           // Number of formulas in file\n  \"error_summary\": {              // Only present if errors found\n    \"#REF!\": {\n      \"count\": 2,\n      \"locations\": [\"Sheet1!B5\", \"Sheet1!C10\"]\n    }\n  }\n}\n```",
+      "keywords": [
+        "Document creation skills",
+        "xlsx",
+        "json"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {
+        "JSON": "JavaScript Object Notation"
+      },
+      "alt_phrasings": [
+        "What is Formula Verification Checklist?",
+        "How do I use document creation skills?",
+        "Explain Formula Verification Checklist in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0067",
+      "source": "https://github.com/anthropics/skills/blob/main/xlsx/SKILL.md",
+      "source_label": "SKILL.md — xlsx",
+      "topic": "Document creation skills",
+      "title": "Best Practices",
+      "text": "### Library Selection\n- **pandas**: Best for data analysis, bulk operations, and simple data export\n- **openpyxl**: Best for complex formatting, formulas, and Excel-specific features\n\n### Working with openpyxl\n- Cell indices are 1-based (row=1, column=1 refers to cell A1)\n- Use `data_only=True` to read calculated values: `load_workbook('file.xlsx', data_only=True)`\n- **Warning**: If opened with `data_only=True` and saved, formulas are replaced with values and permanently lost\n- For large files: Use `read_only=True` for reading or `write_only=True` for writing\n- Formulas are preserved but not evaluated - use scripts/recalc.py to update values\n\n### Working with pandas\n- Specify data types to avoid inference issues: `pd.read_excel('file.xlsx', dtype={'id': str})`\n- For large files, read specific columns: `pd.read_excel('file.xlsx', usecols=['A', 'C', 'E'])`\n- Handle dates properly: `pd.read_excel('file.xlsx', parse_dates=['date_column'])`",
+      "keywords": [
+        "Document creation skills",
+        "xlsx",
+        "Pro",
+        "openpyxl"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Best Practices?",
+        "How do I use document creation skills?",
+        "Explain Best Practices in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0068",
+      "source": "https://github.com/anthropics/skills",
+      "source_label": "Anthropic-Skills/Readme",
+      "topic": "Pre-built Skills",
+      "title": "Try These Queries",
+      "text": "Paste the demo URL into any AI chat (Claude, ChatGPT, Grok, Perplexity) and ask questions like:\n\n- *How do I create a Claude skill?*\n- *What's the difference between the docx and pdf skills?*\n- *Show me how to use the Claude API with Python*\n- *How do I build an MCP server?*\n- *What does the skill-creator skill do?*\n\nOr use the URL parameter for direct queries:\n\n- [Skill authoring](https://g0rd33v.github.io/wizrag/wizsearch/demo/wizsearch.html?q=skill+authoring)\n- [MCP server](https://g0rd33v.github.io/wizrag/wizsearch/demo/wizsearch.html?q=mcp+server)\n- [Claude API streaming](https://g0rd33v.github.io/wizrag/wizsearch/demo/wizsearch.html?q=streaming)\n- [Document creation](https://g0rd33v.github.io/wizrag/wizsearch/demo/wizsearch.html?q=document+creation)",
+      "keywords": [
+        "Pre-built Skills",
+        "Claude",
+        "Claude API",
+        "docx",
+        "pdf",
+        "skill-creator",
+        "SKILL",
+        "MCP",
+        "anthropic-skills",
+        "python"
+      ],
+      "synonyms": [
+        "official skills",
+        "Anthropic skills",
+        "built-in skills",
+        "stock skills"
+      ],
+      "acronyms": {
+        "MCP": "Model Context Protocol",
+        "API": "Application Programming Interface"
+      },
+      "alt_phrasings": [
+        "What is Try These Queries?",
+        "How do I use pre-built skills?",
+        "Explain Try These Queries in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0069",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "ALGORITHMIC PHILOSOPHY CREATION (part 1)",
+      "text": "To begin, create an ALGORITHMIC PHILOSOPHY (not static images or templates) that will be interpreted through:\n- Computational processes, emergent behavior, mathematical beauty\n- Seeded randomness, noise fields, organic systems\n- Particles, flows, fields, forces\n- Parametric variation and controlled chaos\n\n### THE CRITICAL UNDERSTANDING\n- What is received: Some subtle input or instructions by the user to take into account, but use as a foundation; it should not constrain creative freedom.\n- What is created: An algorithmic philosophy/generative aesthetic movement.\n- What happens next: The same version receives the philosophy and EXPRESSES IT IN CODE - creating p5.js sketches that are 90% algorithmic generation, 10% essential parameters.\n\nConsider this approach:\n- Write a manifesto for a generative art movement\n- The next phase involves writing the algorithm that brings it to life\n\nThe philosophy must emphasize: Algorithmic expression. Emergent behavior. Computational beauty. Seeded variation.\n\n### HOW TO GENERATE AN ALGORITHMIC PHILOSOPHY\n\n**Name the movement** (1-2 words): \"Organic Turbulence\" / \"Quantum Harmonics\" / \"Emergent Stillness\"\n\n**Articulate the philosophy** (4-6 paragraphs - concise but complete):\n\nTo capture the ALGORITHMIC essence, express how this philosophy manifests through:\n- Computational processes and mathematical relationships?\n- Noise functions and randomness patterns?\n- Particle behaviors and field dynamics?\n- Temporal evolution and system states?\n- Parametric variation and emergent complexity?\n\n**CRITICAL GUIDELINES:**\n- **Avoid redundancy**: Each algorithmic aspect should be mentioned once. Avoid repeating concepts about noise theory, particle dynamics, or mathematical principles unless adding new depth.\n- **Emphasize craftsmanship REPEATEDLY**: The philosophy MUST stress multiple times that the final algorithm should appear as though it took countless hours to develop, was refined with care, and comes from someone at the absolute top of their field. This framing is essential - repeat phrases like \"meticulously crafted algorithm,\" \"the product of deep computational expertise,\" \"painstaking optimization,\" \"master-level implementation.\"\n- **Leave creative space**: Be specific about the algorithmic direction, but concise enough that the next Claude has room to make interpretive implementation choices at an extremely high level of craftsmanship.\n\nThe philosophy must guide the next version to express ideas ALGORITHMICALLY, not through static images. Beauty lives in the process, not the final frame.\n\n### PHILOSOPHY EXAMPLES",
+      "keywords": [
+        "Design and theming",
+        "Claude",
+        "Pro",
+        "algorithmic-art",
+        "versioning"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is ALGORITHMIC PHILOSOPHY CREATION (part 1)?",
+        "How do I use design and theming?",
+        "Explain ALGORITHMIC PHILOSOPHY CREATION (part 1) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0070",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "ALGORITHMIC PHILOSOPHY CREATION (part 2)",
+      "text": "**\"Organic Turbulence\"**\nPhilosophy: Chaos constrained by natural law, order emerging from disorder.\nAlgorithmic expression: Flow fields driven by layered Perlin noise. Thousands of particles following vector forces, their trails accumulating into organic density maps. Multiple noise octaves create turbulent regions and calm zones. Color emerges from velocity and density - fast particles burn bright, slow ones fade to shadow. The algorithm runs until equilibrium - a meticulously tuned balance where every parameter was refined through countless iterations by a master of computational aesthetics.\n\n**\"Quantum Harmonics\"**\nPhilosophy: Discrete entities exhibiting wave-like interference patterns.\nAlgorithmic expression: Particles initialized on a grid, each carrying a phase value that evolves through sine waves. When particles are near, their phases interfere - constructive interference creates bright nodes, destructive creates voids. Simple harmonic motion generates complex emergent mandalas. The result of painstaking frequency calibration where every ratio was carefully chosen to produce resonant beauty.\n\n**\"Recursive Whispers\"**\nPhilosophy: Self-similarity across scales, infinite depth in finite space.\nAlgorithmic expression: Branching structures that subdivide recursively. Each branch slightly randomized but constrained by golden ratios. L-systems or recursive subdivision generate tree-like forms that feel both mathematical and organic. Subtle noise perturbations break perfect symmetry. Line weights diminish with each recursion level. Every branching angle the product of deep mathematical exploration.\n\n**\"Field Dynamics\"**\nPhilosophy: Invisible forces made visible through their effects on matter.\nAlgorithmic expression: Vector fields constructed from mathematical functions or noise. Particles born at edges, flowing along field lines, dying when they reach equilibrium or boundaries. Multiple fields can attract, repel, or rotate particles. The visualization shows only the traces - ghost-like evidence of invisible forces. A computational dance meticulously choreographed through force balance.\n\n**\"Stochastic Crystallization\"**\nPhilosophy: Random processes crystallizing into ordered structures.\nAlgorithmic expression: Randomized circle packing or Voronoi tessellation. Start with random points, let them evolve through relaxation algorithms. Cells push apart until equilibrium. Color based on cell size, neighbor count, or distance from center. The organic tiling that emerges feels both random and inevitable. Every seed produces unique crystalline beauty - the mark of a master-level generative algorithm.\n\n*These are condensed examples. The actual algorithmic philosophy should be 4-6 substantial paragraphs.*",
+      "keywords": [
+        "Design and theming",
+        "Pro",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is ALGORITHMIC PHILOSOPHY CREATION (part 2)?",
+        "How do I use design and theming?",
+        "Explain ALGORITHMIC PHILOSOPHY CREATION (part 2) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0071",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "ALGORITHMIC PHILOSOPHY CREATION (part 3)",
+      "text": "### ESSENTIAL PRINCIPLES\n- **ALGORITHMIC PHILOSOPHY**: Creating a computational worldview to be expressed through code\n- **PROCESS OVER PRODUCT**: Always emphasize that beauty emerges from the algorithm's execution - each run is unique\n- **PARAMETRIC EXPRESSION**: Ideas communicate through mathematical relationships, forces, behaviors - not static composition\n- **ARTISTIC FREEDOM**: The next Claude interprets the philosophy algorithmically - provide creative implementation room\n- **PURE GENERATIVE ART**: This is about making LIVING ALGORITHMS, not static images with randomness\n- **EXPERT CRAFTSMANSHIP**: Repeatedly emphasize the final algorithm must feel meticulously crafted, refined through countless iterations, the product of deep expertise by someone at the absolute top of their field in computational aesthetics\n\n**The algorithmic philosophy should be 4-6 paragraphs long.** Fill it with poetic computational philosophy that brings together the intended vision. Avoid repeating the same points. Output this algorithmic philosophy as a .md file.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "Claude",
+        "Pro",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is ALGORITHMIC PHILOSOPHY CREATION (part 3)?",
+        "How do I use design and theming?",
+        "Explain ALGORITHMIC PHILOSOPHY CREATION (part 3) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0072",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "DEDUCING THE CONCEPTUAL SEED",
+      "text": "**CRITICAL STEP**: Before implementing the algorithm, identify the subtle conceptual thread from the original request.\n\n**THE ESSENTIAL PRINCIPLE**:\nThe concept is a **subtle, niche reference embedded within the algorithm itself** - not always literal, always sophisticated. Someone familiar with the subject should feel it intuitively, while others simply experience a masterful generative composition. The algorithmic philosophy provides the computational language. The deduced concept provides the soul - the quiet conceptual DNA woven invisibly into parameters, behaviors, and emergence patterns.\n\nThis is **VERY IMPORTANT**: The reference must be so refined that it enhances the work's depth without announcing itself. Think like a jazz musician quoting another song through algorithmic harmony - only those who know will catch it, but everyone appreciates the generative beauty.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "Pro",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is DEDUCING THE CONCEPTUAL SEED?",
+        "How do I use design and theming?",
+        "Explain DEDUCING THE CONCEPTUAL SEED in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0073",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "P5.JS IMPLEMENTATION (part 1)",
+      "text": "With the philosophy AND conceptual framework established, express it through code. Pause to gather thoughts before proceeding. Use only the algorithmic philosophy created and the instructions below.\n\n### ⚠️ STEP 0: READ THE TEMPLATE FIRST ⚠️\n\n**CRITICAL: BEFORE writing any HTML:**\n\n1. **Read** `templates/viewer.html` using the Read tool\n2. **Study** the exact structure, styling, and Anthropic branding\n3. **Use that file as the LITERAL STARTING POINT** - not just inspiration\n4. **Keep all FIXED sections exactly as shown** (header, sidebar structure, Anthropic colors/fonts, seed controls, action buttons)\n5. **Replace only the VARIABLE sections** marked in the file's comments (algorithm, parameters, UI controls for parameters)\n\n**Avoid:**\n- ❌ Creating HTML from scratch\n- ❌ Inventing custom styling or color schemes\n- ❌ Using system fonts or dark themes\n- ❌ Changing the sidebar structure\n\n**Follow these practices:**\n- ✅ Copy the template's exact HTML structure\n- ✅ Keep Anthropic branding (Poppins/Lora fonts, light colors, gradient backdrop)\n- ✅ Maintain the sidebar layout (Seed → Parameters → Colors? → Actions)\n- ✅ Replace only the p5.js algorithm and parameter controls\n\nThe template is the foundation. Build on it, don't rebuild it.\n\n---\n\nTo create gallery-quality computational art that lives and breathes, use the algorithmic philosophy as the foundation.\n\n### TECHNICAL REQUIREMENTS\n\n**Seeded Randomness (Art Blocks Pattern)**:\n```javascript\n// ALWAYS use a seed for reproducibility\nlet seed = 12345; // or hash from user input\nrandomSeed(seed);\nnoiseSeed(seed);\n```\n\n**Parameter Structure - FOLLOW THE PHILOSOPHY**:\n\nTo establish parameters that emerge naturally from the algorithmic philosophy, consider: \"What qualities of this system can be adjusted?\"\n\n```javascript\nlet params = {\n  seed: 12345,  // Always include seed for reproducibility\n  // colors\n  // Add parameters that control YOUR algorithm:\n  // - Quantities (how many?)\n  // - Scales (how big? how fast?)\n  // - Probabilities (how likely?)\n  // - Ratios (what proportions?)\n  // - Angles (what direction?)\n  // - Thresholds (when does behavior change?)\n};\n```\n\n**To design effective parameters, focus on the properties the system needs to be tunable rather than thinking in terms of \"pattern types\".**\n\n**Core Algorithm - EXPRESS THE PHILOSOPHY**:\n\n**CRITICAL**: The algorithmic philosophy should dictate what to build.\n\nTo express the philosophy through code, avoid thinking \"which pattern should I use?\" and instead think \"how to express this philosophy through code?\"\n\nIf the philosophy is about **organic emergence**, consider using:\n- Elements that accumulate or grow over time\n- Random processes constrained by natural rules\n- Feedback loops and interactions",
+      "keywords": [
+        "Design and theming",
+        "Anthropic",
+        "Pro",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is P5.JS IMPLEMENTATION (part 1)?",
+        "How do I use design and theming?",
+        "Explain P5.JS IMPLEMENTATION (part 1) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0074",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "P5.JS IMPLEMENTATION (part 2)",
+      "text": "If the philosophy is about **mathematical beauty**, consider using:\n- Geometric relationships and ratios\n- Trigonometric functions and harmonics\n- Precise calculations creating unexpected patterns\n\nIf the philosophy is about **controlled chaos**, consider using:\n- Random variation within strict boundaries\n- Bifurcation and phase transitions\n- Order emerging from disorder\n\n**The algorithm flows from the philosophy, not from a menu of options.**\n\nTo guide the implementation, let the conceptual essence inform creative and original choices. Build something that expresses the vision for this particular request.\n\n**Canvas Setup**: Standard p5.js structure:\n```javascript\nfunction setup() {\n  createCanvas(1200, 1200);\n  // Initialize your system\n}\n\nfunction draw() {\n  // Your generative algorithm\n  // Can be static (noLoop) or animated\n}\n```\n\n### CRAFTSMANSHIP REQUIREMENTS\n\n**CRITICAL**: To achieve mastery, create algorithms that feel like they emerged through countless iterations by a master generative artist. Tune every parameter carefully. Ensure every pattern emerges with purpose. This is NOT random noise - this is CONTROLLED CHAOS refined through deep expertise.\n\n- **Balance**: Complexity without visual noise, order without rigidity\n- **Color Harmony**: Thoughtful palettes, not random RGB values\n- **Composition**: Even in randomness, maintain visual hierarchy and flow\n- **Performance**: Smooth execution, optimized for real-time if animated\n- **Reproducibility**: Same seed ALWAYS produces identical output\n\n### OUTPUT FORMAT\n\nOutput:\n1. **Algorithmic Philosophy** - As markdown or text explaining the generative aesthetic\n2. **Single HTML Artifact** - Self-contained interactive generative art built from `templates/viewer.html` (see STEP 0 and next section)\n\nThe HTML artifact contains everything: p5.js (from CDN), the algorithm, parameter controls, and UI - all in one file that works immediately in claude.ai artifacts or any browser. Start from the template file, not from scratch.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "Claude",
+        "Claude.ai",
+        "Pro",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is P5.JS IMPLEMENTATION (part 2)?",
+        "How do I use design and theming?",
+        "Explain P5.JS IMPLEMENTATION (part 2) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0075",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "INTERACTIVE ARTIFACT CREATION",
+      "text": "**REMINDER: `templates/viewer.html` should have already been read (see STEP 0). Use that file as the starting point.**\n\nTo allow exploration of the generative art, create a single, self-contained HTML artifact. Ensure this artifact works immediately in claude.ai or any browser - no setup required. Embed everything inline.\n\n### CRITICAL: WHAT'S FIXED VS VARIABLE\n\nThe `templates/viewer.html` file is the foundation. It contains the exact structure and styling needed.\n\n**FIXED (always include exactly as shown):**\n- Layout structure (header, sidebar, main canvas area)\n- Anthropic branding (UI colors, fonts, gradients)\n- Seed section in sidebar:\n  - Seed display\n  - Previous/Next buttons\n  - Random button\n  - Jump to seed input + Go button\n- Actions section in sidebar:\n  - Regenerate button\n  - Reset button\n\n**VARIABLE (customize for each artwork):**\n- The entire p5.js algorithm (setup/draw/classes)\n- The parameters object (define what the art needs)\n- The Parameters section in sidebar:\n  - Number of parameter controls\n  - Parameter names\n  - Min/max/step values for sliders\n  - Control types (sliders, inputs, etc.)\n- Colors section (optional):\n  - Some art needs color pickers\n  - Some art might use fixed colors\n  - Some art might be monochrome (no color controls needed)\n  - Decide based on the art's needs\n\n**Every artwork should have unique parameters and algorithm!** The fixed parts provide consistent UX - everything else expresses the unique vision.\n\n### REQUIRED FEATURES\n\n**1. Parameter Controls**\n- Sliders for numeric parameters (particle count, noise scale, speed, etc.)\n- Color pickers for palette colors\n- Real-time updates when parameters change\n- Reset button to restore defaults\n\n**2. Seed Navigation**\n- Display current seed number\n- \"Previous\" and \"Next\" buttons to cycle through seeds\n- \"Random\" button for random seed\n- Input field to jump to specific seed\n- Generate 100 variations when requested (seeds 1-100)\n\n**3. Single Artifact Structure**\n```html\n<!DOCTYPE html>\n<html>\n<head>\n  <!-- p5.js from CDN - always available -->\n  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js\"></script>\n  <style>\n    /* All styling inline - clean, minimal */\n    /* Canvas on top, controls below */\n  </style>\n</head>\n<body>\n  <div id=\"canvas-container\"></div>\n  <div id=\"controls\">\n    <!-- All parameter controls -->\n  </div>\n  <script>\n    // ALL p5.js code inline here\n    // Parameter objects, classes, functions\n    // setup() and draw()\n    // UI handlers\n    // Everything self-contained\n  </script>\n</body>\n</html>\n```\n\n**CRITICAL**: This is a single artifact. No external files, no imports (except p5.js CDN). Everything inline.\n\n**4. Implementation Details - BUILD THE SIDEBAR**\n\nThe sidebar structure:\n\n**1. Seed (FIXED)** - Always include exactly as shown:\n- Seed display\n- Prev/Next/Random/Jump buttons\n\n**2. Parameters (VARIABLE)** - Create controls for the art:\n```html\n<div class=\"control-group\">\n    <label>Parameter Name</label>\n    <input type=\"range\" id=\"param\" min=\"...\" max=\"...\" step=\"...\" value=\"...\" oninput=\"updateParam('param', this.value)\">\n    <span class=\"value-display\" id=\"param-value\">...</span>\n</div>\n```\nAdd as many control-group divs as there are parameters.\n\n**3. Colors (OPTIONAL/VARIABLE)** - Include if the art needs adjustable colors:\n- Add color pickers if users should control palette\n- Skip this section if the art uses fixed colors\n- Skip if the art is monochrome\n\n**4. Actions (FIXED)** - Always include exactly as shown:\n- Regenerate button\n- Reset button\n- Download PNG button\n\n**Requirements**:\n- Seed controls must work (prev/next/random/jump/display)\n- All parameters must have UI controls\n- Regenerate, Reset, Download buttons must work\n- Keep Anthropic branding (UI styling, not art colors)\n\n### USING THE ARTIFACT\n\nThe HTML artifact works immediately:\n1. **In claude.ai**: Displayed as an interactive artifact - runs instantly\n2. **As a file**: Save and open in any browser - no server needed\n3. **Sharing**: Send the HTML file - it's completely self-contained\n\n---",
+      "keywords": [
+        "Design and theming",
+        "Claude",
+        "Claude.ai",
+        "Anthropic",
+        "container",
+        "Pro",
+        "Max",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is INTERACTIVE ARTIFACT CREATION?",
+        "How do I use design and theming?",
+        "Explain INTERACTIVE ARTIFACT CREATION in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0076",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "VARIATIONS & EXPLORATION",
+      "text": "The artifact includes seed navigation by default (prev/next/random buttons), allowing users to explore variations without creating multiple files. If the user wants specific variations highlighted:\n\n- Include seed presets (buttons for \"Variation 1: Seed 42\", \"Variation 2: Seed 127\", etc.)\n- Add a \"Gallery Mode\" that shows thumbnails of multiple seeds side-by-side\n- All within the same single artifact\n\nThis is like creating a series of prints from the same plate - the algorithm is consistent, but each seed reveals different facets of its potential. The interactive nature means users discover their own favorites by exploring the seed space.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is VARIATIONS & EXPLORATION?",
+        "How do I use design and theming?",
+        "Explain VARIATIONS & EXPLORATION in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0077",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "THE CREATIVE PROCESS",
+      "text": "**User request** → **Algorithmic philosophy** → **Implementation**\n\nEach request is unique. The process involves:\n\n1. **Interpret the user's intent** - What aesthetic is being sought?\n2. **Create an algorithmic philosophy** (4-6 paragraphs) describing the computational approach\n3. **Implement it in code** - Build the algorithm that expresses this philosophy\n4. **Design appropriate parameters** - What should be tunable?\n5. **Build matching UI controls** - Sliders/inputs for those parameters\n\n**The constants**:\n- Anthropic branding (colors, fonts, layout)\n- Seed navigation (always present)\n- Self-contained HTML artifact\n\n**Everything else is variable**:\n- The algorithm itself\n- The parameters\n- The UI controls\n- The visual outcome\n\nTo achieve the best results, trust creativity and let the philosophy guide the implementation.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "Anthropic",
+        "Pro",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is THE CREATIVE PROCESS?",
+        "How do I use design and theming?",
+        "Explain THE CREATIVE PROCESS in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0078",
+      "source": "https://github.com/anthropics/skills/blob/main/algorithmic-art/SKILL.md",
+      "source_label": "SKILL.md — algorithmic-art",
+      "topic": "Design and theming",
+      "title": "RESOURCES",
+      "text": "This skill includes helpful templates and documentation:\n\n- **templates/viewer.html**: REQUIRED STARTING POINT for all HTML artifacts.\n  - This is the foundation - contains the exact structure and Anthropic branding\n  - **Keep unchanged**: Layout structure, sidebar organization, Anthropic colors/fonts, seed controls, action buttons\n  - **Replace**: The p5.js algorithm, parameter definitions, and UI controls in Parameters section\n  - The extensive comments in the file mark exactly what to keep vs replace\n\n- **templates/generator_template.js**: Reference for p5.js best practices and code structure principles.\n  - Shows how to organize parameters, use seeded randomness, structure classes\n  - NOT a pattern menu - use these principles to build unique algorithms\n  - Embed algorithms inline in the HTML artifact (don't create separate .js files)\n\n**Critical reminder**:\n- The **template is the STARTING POINT**, not inspiration\n- The **algorithm is where to create** something unique\n- Don't copy the flow field example - build what the philosophy demands\n- But DO keep the exact UI structure and Anthropic branding from the template",
+      "keywords": [
+        "Design and theming",
+        "Anthropic",
+        "SKILL",
+        "algorithmic-art"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is RESOURCES?",
+        "How do I use design and theming?",
+        "Explain RESOURCES in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0079",
+      "source": "https://github.com/anthropics/skills/blob/main/canvas-design/SKILL.md",
+      "source_label": "SKILL.md — canvas-design",
+      "topic": "Design and theming",
+      "title": "DESIGN PHILOSOPHY CREATION (part 1)",
+      "text": "To begin, create a VISUAL PHILOSOPHY (not layouts or templates) that will be interpreted through:\n- Form, space, color, composition\n- Images, graphics, shapes, patterns\n- Minimal text as visual accent\n\n### THE CRITICAL UNDERSTANDING\n- What is received: Some subtle input or instructions by the user that should be taken into account, but used as a foundation; it should not constrain creative freedom.\n- What is created: A design philosophy/aesthetic movement.\n- What happens next: Then, the same version receives the philosophy and EXPRESSES IT VISUALLY - creating artifacts that are 90% visual design, 10% essential text.\n\nConsider this approach:\n- Write a manifesto for an art movement\n- The next phase involves making the artwork\n\nThe philosophy must emphasize: Visual expression. Spatial communication. Artistic interpretation. Minimal words.\n\n### HOW TO GENERATE A VISUAL PHILOSOPHY\n\n**Name the movement** (1-2 words): \"Brutalist Joy\" / \"Chromatic Silence\" / \"Metabolist Dreams\"\n\n**Articulate the philosophy** (4-6 paragraphs - concise but complete):\n\nTo capture the VISUAL essence, express how the philosophy manifests through:\n- Space and form\n- Color and material\n- Scale and rhythm\n- Composition and balance\n- Visual hierarchy\n\n**CRITICAL GUIDELINES:**\n- **Avoid redundancy**: Each design aspect should be mentioned once. Avoid repeating points about color theory, spatial relationships, or typographic principles unless adding new depth.\n- **Emphasize craftsmanship REPEATEDLY**: The philosophy MUST stress multiple times that the final work should appear as though it took countless hours to create, was labored over with care, and comes from someone at the absolute top of their field. This framing is essential - repeat phrases like \"meticulously crafted,\" \"the product of deep expertise,\" \"painstaking attention,\" \"master-level execution.\"\n- **Leave creative space**: Remain specific about the aesthetic direction, but concise enough that the next Claude has room to make interpretive choices also at a extremely high level of craftmanship.\n\nThe philosophy must guide the next version to express ideas VISUALLY, not through text. Information lives in design, not paragraphs.\n\n### PHILOSOPHY EXAMPLES\n\n**\"Concrete Poetry\"**\nPhilosophy: Communication through monumental form and bold geometry.\nVisual expression: Massive color blocks, sculptural typography (huge single words, tiny labels), Brutalist spatial divisions, Polish poster energy meets Le Corbusier. Ideas expressed through visual weight and spatial tension, not explanation. Text as rare, powerful gesture - never paragraphs, only essential words integrated into the visual architecture. Every element placed with the precision of a master craftsman.",
+      "keywords": [
+        "Design and theming",
+        "Claude",
+        "Pro",
+        "canvas-design",
+        "versioning"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is DESIGN PHILOSOPHY CREATION (part 1)?",
+        "How do I use design and theming?",
+        "Explain DESIGN PHILOSOPHY CREATION (part 1) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0080",
+      "source": "https://github.com/anthropics/skills/blob/main/canvas-design/SKILL.md",
+      "source_label": "SKILL.md — canvas-design",
+      "topic": "Design and theming",
+      "title": "DESIGN PHILOSOPHY CREATION (part 2)",
+      "text": "**\"Chromatic Language\"**\nPhilosophy: Color as the primary information system.\nVisual expression: Geometric precision where color zones create meaning. Typography minimal - small sans-serif labels letting chromatic fields communicate. Think Josef Albers' interaction meets data visualization. Information encoded spatially and chromatically. Words only to anchor what color already shows. The result of painstaking chromatic calibration.\n\n**\"Analog Meditation\"**\nPhilosophy: Quiet visual contemplation through texture and breathing room.\nVisual expression: Paper grain, ink bleeds, vast negative space. Photography and illustration dominate. Typography whispered (small, restrained, serving the visual). Japanese photobook aesthetic. Images breathe across pages. Text appears sparingly - short phrases, never explanatory blocks. Each composition balanced with the care of a meditation practice.\n\n**\"Organic Systems\"**\nPhilosophy: Natural clustering and modular growth patterns.\nVisual expression: Rounded forms, organic arrangements, color from nature through architecture. Information shown through visual diagrams, spatial relationships, iconography. Text only for key labels floating in space. The composition tells the story through expert spatial orchestration.\n\n**\"Geometric Silence\"**\nPhilosophy: Pure order and restraint.\nVisual expression: Grid-based precision, bold photography or stark graphics, dramatic negative space. Typography precise but minimal - small essential text, large quiet zones. Swiss formalism meets Brutalist material honesty. Structure communicates, not words. Every alignment the work of countless refinements.\n\n*These are condensed examples. The actual design philosophy should be 4-6 substantial paragraphs.*\n\n### ESSENTIAL PRINCIPLES\n- **VISUAL PHILOSOPHY**: Create an aesthetic worldview to be expressed through design\n- **MINIMAL TEXT**: Always emphasize that text is sparse, essential-only, integrated as visual element - never lengthy\n- **SPATIAL EXPRESSION**: Ideas communicate through space, form, color, composition - not paragraphs\n- **ARTISTIC FREEDOM**: The next Claude interprets the philosophy visually - provide creative room\n- **PURE DESIGN**: This is about making ART OBJECTS, not documents with decoration\n- **EXPERT CRAFTSMANSHIP**: Repeatedly emphasize the final work must look meticulously crafted, labored over with care, the product of countless hours by someone at the top of their field",
+      "keywords": [
+        "Design and theming",
+        "Claude",
+        "Pro",
+        "canvas-design"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is DESIGN PHILOSOPHY CREATION (part 2)?",
+        "How do I use design and theming?",
+        "Explain DESIGN PHILOSOPHY CREATION (part 2) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0081",
+      "source": "https://github.com/anthropics/skills/blob/main/canvas-design/SKILL.md",
+      "source_label": "SKILL.md — canvas-design",
+      "topic": "Design and theming",
+      "title": "DEDUCING THE SUBTLE REFERENCE",
+      "text": "**CRITICAL STEP**: Before creating the canvas, identify the subtle conceptual thread from the original request.\n\n**THE ESSENTIAL PRINCIPLE**:\nThe topic is a **subtle, niche reference embedded within the art itself** - not always literal, always sophisticated. Someone familiar with the subject should feel it intuitively, while others simply experience a masterful abstract composition. The design philosophy provides the aesthetic language. The deduced topic provides the soul - the quiet conceptual DNA woven invisibly into form, color, and composition.\n\nThis is **VERY IMPORTANT**: The reference must be refined so it enhances the work's depth without announcing itself. Think like a jazz musician quoting another song - only those who know will catch it, but everyone appreciates the music.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "Pro",
+        "canvas-design"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is DEDUCING THE SUBTLE REFERENCE?",
+        "How do I use design and theming?",
+        "Explain DEDUCING THE SUBTLE REFERENCE in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0082",
+      "source": "https://github.com/anthropics/skills/blob/main/canvas-design/SKILL.md",
+      "source_label": "SKILL.md — canvas-design",
+      "topic": "Design and theming",
+      "title": "CANVAS CREATION",
+      "text": "With both the philosophy and the conceptual framework established, express it on a canvas. Take a moment to gather thoughts and clear the mind. Use the design philosophy created and the instructions below to craft a masterpiece, embodying all aspects of the philosophy with expert craftsmanship.\n\n**IMPORTANT**: For any type of content, even if the user requests something for a movie/game/book, the approach should still be sophisticated. Never lose sight of the idea that this should be art, not something that's cartoony or amateur.\n\nTo create museum or magazine quality work, use the design philosophy as the foundation. Create one single page, highly visual, design-forward PDF or PNG output (unless asked for more pages). Generally use repeating patterns and perfect shapes. Treat the abstract philosophical design as if it were a scientific bible, borrowing the visual language of systematic observation—dense accumulation of marks, repeated elements, or layered patterns that build meaning through patient repetition and reward sustained viewing. Add sparse, clinical typography and systematic reference markers that suggest this could be a diagram from an imaginary discipline, treating the invisible subject with the same reverence typically reserved for documenting observable phenomena. Anchor the piece with simple phrase(s) or details positioned subtly, using a limited color palette that feels intentional and cohesive. Embrace the paradox of using analytical visual language to express ideas about human experience: the result should feel like an artifact that proves something ephemeral can be studied, mapped, and understood through careful attention. This is true art. \n\n**Text as a contextual element**: Text is always minimal and visual-first, but let context guide whether that means whisper-quiet labels or bold typographic gestures. A punk venue poster might have larger, more aggressive type than a minimalist ceramics studio identity. Most of the time, font should be thin. All use of fonts must be design-forward and prioritize visual communication. Regardless of text scale, nothing falls off the page and nothing overlaps. Every element must be contained within the canvas boundaries with proper margins. Check carefully that all text, graphics, and visual elements have breathing room and clear separation. This is non-negotiable for professional execution. **IMPORTANT: Use different fonts if writing text. Search the `./canvas-fonts` directory. Regardless of approach, sophistication is non-negotiable.**\n\nDownload and use whatever fonts are needed to make this a reality. Get creative by making the typography actually part of the art itself -- if the art is abstract, bring the font onto the canvas, not typeset digitally.\n\nTo push boundaries, follow design instinct/intuition while using the philosophy as a guiding principle. Embrace ultimate design freedom and choice. Push aesthetics and design to the frontier. \n\n**CRITICAL**: To achieve human-crafted quality (not AI-generated), create work that looks like it took countless hours. Make it appear as though someone at the absolute top of their field labored over every detail with painstaking care. Ensure the composition, spacing, color choices, typography - everything screams expert-level craftsmanship. Double-check that nothing overlaps, formatting is flawless, every detail perfect. Create something that could be shown to people to prove expertise and rank as undeniably impressive.\n\nOutput the final result as a single, downloadable .pdf or .png file, alongside the design philosophy used as a .md file.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "pdf",
+        "Pro",
+        "canvas-design"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is CANVAS CREATION?",
+        "How do I use design and theming?",
+        "Explain CANVAS CREATION in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0083",
+      "source": "https://github.com/anthropics/skills/blob/main/canvas-design/SKILL.md",
+      "source_label": "SKILL.md — canvas-design",
+      "topic": "Design and theming",
+      "title": "FINAL STEP",
+      "text": "**IMPORTANT**: The user ALREADY said \"It isn't perfect enough. It must be pristine, a masterpiece if craftsmanship, as if it were about to be displayed in a museum.\"\n\n**CRITICAL**: To refine the work, avoid adding more graphics; instead refine what has been created and make it extremely crisp, respecting the design philosophy and the principles of minimalism entirely. Rather than adding a fun filter or refactoring a font, consider how to make the existing composition more cohesive with the art. If the instinct is to call a new function or draw a new shape, STOP and instead ask: \"How can I make what's already here more of a piece of art?\"\n\nTake a second pass. Go back to the code and refine/polish further to make this a philosophically designed masterpiece.",
+      "keywords": [
+        "Design and theming",
+        "canvas-design"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is FINAL STEP?",
+        "How do I use design and theming?",
+        "Explain FINAL STEP in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0084",
+      "source": "https://github.com/anthropics/skills/blob/main/doc-coauthoring/SKILL.md",
+      "source_label": "SKILL.md — doc-coauthoring",
+      "topic": "Progressive disclosure",
+      "title": "When to Offer This Workflow",
+      "text": "**Trigger conditions:**\n- User mentions writing documentation: \"write a doc\", \"draft a proposal\", \"create a spec\", \"write up\"\n- User mentions specific doc types: \"PRD\", \"design doc\", \"decision doc\", \"RFC\"\n- User seems to be starting a substantial writing task\n\n**Initial offer:**\nOffer the user a structured workflow for co-authoring the document. Explain the three stages:\n\n1. **Context Gathering**: User provides all relevant context while Claude asks clarifying questions\n2. **Refinement & Structure**: Iteratively build each section through brainstorming and editing\n3. **Reader Testing**: Test the doc with a fresh Claude (no context) to catch blind spots before others read it\n\nExplain that this approach helps ensure the doc works well when others read it (including when they paste it into Claude). Ask if they want to try this workflow or prefer to work freeform.\n\nIf user declines, work freeform. If user accepts, proceed to Stage 1.",
+      "keywords": [
+        "Progressive disclosure",
+        "Claude",
+        "Pro",
+        "doc-coauthoring"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is When to Offer This Workflow?",
+        "How do I use progressive disclosure?",
+        "Explain When to Offer This Workflow in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0085",
+      "source": "https://github.com/anthropics/skills/blob/main/doc-coauthoring/SKILL.md",
+      "source_label": "SKILL.md — doc-coauthoring",
+      "topic": "MCP and tool integration",
+      "title": "Stage 1: Context Gathering",
+      "text": "**Goal:** Close the gap between what the user knows and what Claude knows, enabling smart guidance later.\n\n### Initial Questions\n\nStart by asking the user for meta-context about the document:\n\n1. What type of document is this? (e.g., technical spec, decision doc, proposal)\n2. Who's the primary audience?\n3. What's the desired impact when someone reads this?\n4. Is there a template or specific format to follow?\n5. Any other constraints or context to know?\n\nInform them they can answer in shorthand or dump information however works best for them.\n\n**If user provides a template or mentions a doc type:**\n- Ask if they have a template document to share\n- If they provide a link to a shared document, use the appropriate integration to fetch it\n- If they provide a file, read it\n\n**If user mentions editing an existing shared document:**\n- Use the appropriate integration to read the current state\n- Check for images without alt-text\n- If images exist without alt-text, explain that when others use Claude to understand the doc, Claude won't be able to see them. Ask if they want alt-text generated. If so, request they paste each image into chat for descriptive alt-text generation.\n\n### Info Dumping\n\nOnce initial questions are answered, encourage the user to dump all the context they have. Request information such as:\n- Background on the project/problem\n- Related team discussions or shared documents\n- Why alternative solutions aren't being used\n- Organizational context (team dynamics, past incidents, politics)\n- Timeline pressures or constraints\n- Technical architecture or dependencies\n- Stakeholder concerns\n\nAdvise them not to worry about organizing it - just get it all out. Offer multiple ways to provide context:\n- Info dump stream-of-consciousness\n- Point to team channels or threads to read\n- Link to shared documents\n\n**If integrations are available** (e.g., Slack, Teams, Google Drive, SharePoint, or other MCP servers), mention that these can be used to pull in context directly.\n\n**If no integrations are detected and in Claude.ai or Claude app:** Suggest they can enable connectors in their Claude settings to allow pulling context from messaging apps and document storage directly.\n\nInform them clarifying questions will be asked once they've done their initial dump.\n\n**During context gathering:**\n\n- If user mentions team channels or shared documents:\n  - If integrations available: Inform them the content will be read now, then use the appropriate integration\n  - If integrations not available: Explain lack of access. Suggest they enable connectors in Claude settings, or paste the relevant content directly.\n\n- If user mentions entities/projects that are unknown:\n  - Ask if connected tools should be searched to learn more\n  - Wait for user confirmation before searching\n\n- As user provides context, track what's being learned and what's still unclear\n\n**Asking clarifying questions:**\n\nWhen user signals they've done their initial dump (or after substantial context provided), ask clarifying questions to ensure understanding:\n\nGenerate 5-10 numbered questions based on gaps in the context.\n\nInform them they can use shorthand to answer (e.g., \"1: yes, 2: see #channel, 3: no because backwards compat\"), link to more docs, point to channels to read, or just keep info-dumping. Whatever's most efficient for them.\n\n**Exit condition:**\nSufficient context has been gathered when questions show understanding - when edge cases and trade-offs can be asked about without needing basics explained.\n\n**Transition:**\nAsk if there's any more context they want to provide at this stage, or if it's time to move on to drafting the document.\n\nIf user wants to add more, let them. When ready, proceed to Stage 2.",
+      "keywords": [
+        "MCP and tool integration",
+        "Claude",
+        "Claude.ai",
+        "MCP",
+        "Pro",
+        "Team",
+        "doc-coauthoring"
+      ],
+      "synonyms": [
+        "MCP servers",
+        "tool integration",
+        "Model Context Protocol"
+      ],
+      "acronyms": {
+        "MCP": "Model Context Protocol"
+      },
+      "alt_phrasings": [
+        "What is Stage 1: Context Gathering?",
+        "How do I use mcp and tool integration?",
+        "Explain Stage 1: Context Gathering in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0086",
+      "source": "https://github.com/anthropics/skills/blob/main/doc-coauthoring/SKILL.md",
+      "source_label": "SKILL.md — doc-coauthoring",
+      "topic": "Progressive disclosure",
+      "title": "Stage 2: Refinement & Structure (part 1)",
+      "text": "**Goal:** Build the document section by section through brainstorming, curation, and iterative refinement.\n\n**Instructions to user:**\nExplain that the document will be built section by section. For each section:\n1. Clarifying questions will be asked about what to include\n2. 5-20 options will be brainstormed\n3. User will indicate what to keep/remove/combine\n4. The section will be drafted\n5. It will be refined through surgical edits\n\nStart with whichever section has the most unknowns (usually the core decision/proposal), then work through the rest.\n\n**Section ordering:**\n\nIf the document structure is clear:\nAsk which section they'd like to start with.\n\nSuggest starting with whichever section has the most unknowns. For decision docs, that's usually the core proposal. For specs, it's typically the technical approach. Summary sections are best left for last.\n\nIf user doesn't know what sections they need:\nBased on the type of document and template, suggest 3-5 sections appropriate for the doc type.\n\nAsk if this structure works, or if they want to adjust it.\n\n**Once structure is agreed:**\n\nCreate the initial document structure with placeholder text for all sections.\n\n**If access to artifacts is available:**\nUse `create_file` to create an artifact. This gives both Claude and the user a scaffold to work from.\n\nInform them that the initial structure with placeholders for all sections will be created.\n\nCreate artifact with all section headers and brief placeholder text like \"[To be written]\" or \"[Content here]\".\n\nProvide the scaffold link and indicate it's time to fill in each section.\n\n**If no access to artifacts:**\nCreate a markdown file in the working directory. Name it appropriately (e.g., `decision-doc.md`, `technical-spec.md`).\n\nInform them that the initial structure with placeholders for all sections will be created.\n\nCreate file with all section headers and placeholder text.\n\nConfirm the filename has been created and indicate it's time to fill in each section.\n\n**For each section:**\n\n### Step 1: Clarifying Questions\n\nAnnounce work will begin on the [SECTION NAME] section. Ask 5-10 clarifying questions about what should be included:\n\nGenerate 5-10 specific questions based on context and section purpose.\n\nInform them they can answer in shorthand or just indicate what's important to cover.\n\n### Step 2: Brainstorming\n\nFor the [SECTION NAME] section, brainstorm [5-20] things that might be included, depending on the section's complexity. Look for:\n- Context shared that might have been forgotten\n- Angles or considerations not yet mentioned\n\nGenerate 5-20 numbered options based on section complexity. At the end, offer to brainstorm more if they want additional options.\n\n### Step 3: Curation",
+      "keywords": [
+        "Progressive disclosure",
+        "Claude",
+        "Pro",
+        "doc-coauthoring"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Stage 2: Refinement & Structure (part 1)?",
+        "How do I use progressive disclosure?",
+        "Explain Stage 2: Refinement & Structure (part 1) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0087",
+      "source": "https://github.com/anthropics/skills/blob/main/doc-coauthoring/SKILL.md",
+      "source_label": "SKILL.md — doc-coauthoring",
+      "topic": "SKILL.md structure",
+      "title": "Stage 2: Refinement & Structure (part 2)",
+      "text": "Ask which points should be kept, removed, or combined. Request brief justifications to help learn priorities for the next sections.\n\nProvide examples:\n- \"Keep 1,4,7,9\"\n- \"Remove 3 (duplicates 1)\"\n- \"Remove 6 (audience already knows this)\"\n- \"Combine 11 and 12\"\n\n**If user gives freeform feedback** (e.g., \"looks good\" or \"I like most of it but...\") instead of numbered selections, extract their preferences and proceed. Parse what they want kept/removed/changed and apply it.\n\n### Step 4: Gap Check\n\nBased on what they've selected, ask if there's anything important missing for the [SECTION NAME] section.\n\n### Step 5: Drafting\n\nUse `str_replace` to replace the placeholder text for this section with the actual drafted content.\n\nAnnounce the [SECTION NAME] section will be drafted now based on what they've selected.\n\n**If using artifacts:**\nAfter drafting, provide a link to the artifact.\n\nAsk them to read through it and indicate what to change. Note that being specific helps learning for the next sections.\n\n**If using a file (no artifacts):**\nAfter drafting, confirm completion.\n\nInform them the [SECTION NAME] section has been drafted in [filename]. Ask them to read through it and indicate what to change. Note that being specific helps learning for the next sections.\n\n**Key instruction for user (include when drafting the first section):**\nProvide a note: Instead of editing the doc directly, ask them to indicate what to change. This helps learning of their style for future sections. For example: \"Remove the X bullet - already covered by Y\" or \"Make the third paragraph more concise\".\n\n### Step 6: Iterative Refinement\n\nAs user provides feedback:\n- Use `str_replace` to make edits (never reprint the whole doc)\n- **If using artifacts:** Provide link to artifact after each edit\n- **If using files:** Just confirm edits are complete\n- If user edits doc directly and asks to read it: mentally note the changes they made and keep them in mind for future sections (this shows their preferences)\n\n**Continue iterating** until user is satisfied with the section.\n\n### Quality Checking\n\nAfter 3 consecutive iterations with no substantial changes, ask if anything can be removed without losing important information.\n\nWhen section is done, confirm [SECTION NAME] is complete. Ask if ready to move to the next section.\n\n**Repeat for all sections.**\n\n### Near Completion\n\nAs approaching completion (80%+ of sections done), announce intention to re-read the entire document and check for:\n- Flow and consistency across sections\n- Redundancy or contradictions\n- Anything that feels like \"slop\" or generic filler\n- Whether every sentence carries weight\n\nRead entire document and provide feedback.",
+      "keywords": [
+        "SKILL.md structure",
+        "Pro",
+        "doc-coauthoring"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Stage 2: Refinement & Structure (part 2)?",
+        "How do I use skill.md structure?",
+        "Explain Stage 2: Refinement & Structure (part 2) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0088",
+      "source": "https://github.com/anthropics/skills/blob/main/doc-coauthoring/SKILL.md",
+      "source_label": "SKILL.md — doc-coauthoring",
+      "topic": "Progressive disclosure",
+      "title": "Stage 3: Reader Testing",
+      "text": "**Goal:** Test the document with a fresh Claude (no context bleed) to verify it works for readers.\n\n**Instructions to user:**\nExplain that testing will now occur to see if the document actually works for readers. This catches blind spots - things that make sense to the authors but might confuse others.\n\n### Testing Approach\n\n**If access to sub-agents is available (e.g., in Claude Code):**\n\nPerform the testing directly without user involvement.\n\n### Step 1: Predict Reader Questions\n\nAnnounce intention to predict what questions readers might ask when trying to discover this document.\n\nGenerate 5-10 questions that readers would realistically ask.\n\n### Step 2: Test with Sub-Agent\n\nAnnounce that these questions will be tested with a fresh Claude instance (no context from this conversation).\n\nFor each question, invoke a sub-agent with just the document content and the question.\n\nSummarize what Reader Claude got right/wrong for each question.\n\n### Step 3: Run Additional Checks\n\nAnnounce additional checks will be performed.\n\nInvoke sub-agent to check for ambiguity, false assumptions, contradictions.\n\nSummarize any issues found.\n\n### Step 4: Report and Fix\n\nIf issues found:\nReport that Reader Claude struggled with specific issues.\n\nList the specific issues.\n\nIndicate intention to fix these gaps.\n\nLoop back to refinement for problematic sections.\n\n---\n\n**If no access to sub-agents (e.g., claude.ai web interface):**\n\nThe user will need to do the testing manually.\n\n### Step 1: Predict Reader Questions\n\nAsk what questions people might ask when trying to discover this document. What would they type into Claude.ai?\n\nGenerate 5-10 questions that readers would realistically ask.\n\n### Step 2: Setup Testing\n\nProvide testing instructions:\n1. Open a fresh Claude conversation: https://claude.ai\n2. Paste or share the document content (if using a shared doc platform with connectors enabled, provide the link)\n3. Ask Reader Claude the generated questions\n\nFor each question, instruct Reader Claude to provide:\n- The answer\n- Whether anything was ambiguous or unclear\n- What knowledge/context the doc assumes is already known\n\nCheck if Reader Claude gives correct answers or misinterprets anything.\n\n### Step 3: Additional Checks\n\nAlso ask Reader Claude:\n- \"What in this doc might be ambiguous or unclear to readers?\"\n- \"What knowledge or context does this doc assume readers already have?\"\n- \"Are there any internal contradictions or inconsistencies?\"\n\n### Step 4: Iterate Based on Results\n\nAsk what Reader Claude got wrong or struggled with. Indicate intention to fix those gaps.\n\nLoop back to refinement for any problematic sections.\n\n---\n\n### Exit Condition (Both Approaches)\n\nWhen Reader Claude consistently answers questions correctly and doesn't surface new gaps or ambiguities, the doc is ready.",
+      "keywords": [
+        "Progressive disclosure",
+        "Claude",
+        "Claude Code",
+        "Claude.ai",
+        "Pro",
+        "doc-coauthoring"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Stage 3: Reader Testing?",
+        "How do I use progressive disclosure?",
+        "Explain Stage 3: Reader Testing in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0089",
+      "source": "https://github.com/anthropics/skills/blob/main/doc-coauthoring/SKILL.md",
+      "source_label": "SKILL.md — doc-coauthoring",
+      "topic": "Best practices",
+      "title": "Final Review",
+      "text": "When Reader Testing passes:\nAnnounce the doc has passed Reader Claude testing. Before completion:\n\n1. Recommend they do a final read-through themselves - they own this document and are responsible for its quality\n2. Suggest double-checking any facts, links, or technical details\n3. Ask them to verify it achieves the impact they wanted\n\nAsk if they want one more review, or if the work is done.\n\n**If user wants final review, provide it. Otherwise:**\nAnnounce document completion. Provide a few final tips:\n- Consider linking this conversation in an appendix so readers can see how the doc was developed\n- Use appendices to provide depth without bloating the main doc\n- Update the doc as feedback is received from real readers",
+      "keywords": [
+        "Best practices",
+        "Claude",
+        "Pro",
+        "doc-coauthoring"
+      ],
+      "synonyms": [
+        "skill authoring",
+        "guidelines",
+        "conventions",
+        "dos and don'ts"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Final Review?",
+        "How do I use best practices?",
+        "Explain Final Review in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0090",
+      "source": "https://github.com/anthropics/skills/blob/main/doc-coauthoring/SKILL.md",
+      "source_label": "SKILL.md — doc-coauthoring",
+      "topic": "Progressive disclosure",
+      "title": "Tips for Effective Guidance",
+      "text": "**Tone:**\n- Be direct and procedural\n- Explain rationale briefly when it affects user behavior\n- Don't try to \"sell\" the approach - just execute it\n\n**Handling Deviations:**\n- If user wants to skip a stage: Ask if they want to skip this and write freeform\n- If user seems frustrated: Acknowledge this is taking longer than expected. Suggest ways to move faster\n- Always give user agency to adjust the process\n\n**Context Management:**\n- Throughout, if context is missing on something mentioned, proactively ask\n- Don't let gaps accumulate - address them as they come up\n\n**Artifact Management:**\n- Use `create_file` for drafting full sections\n- Use `str_replace` for all edits\n- Provide artifact link after every change\n- Never use artifacts for brainstorming lists - that's just conversation\n\n**Quality over Speed:**\n- Don't rush through stages\n- Each iteration should make meaningful improvements\n- The goal is a document that actually works for readers",
+      "keywords": [
+        "Progressive disclosure",
+        "Pro",
+        "doc-coauthoring"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Tips for Effective Guidance?",
+        "How do I use progressive disclosure?",
+        "Explain Tips for Effective Guidance in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0091",
+      "source": "https://github.com/anthropics/skills/blob/main/internal-comms/SKILL.md",
+      "source_label": "SKILL.md — internal-comms",
+      "topic": "Progressive disclosure",
+      "title": "How to use this skill",
+      "text": "To write any internal communication:\n\n1. **Identify the communication type** from the request\n2. **Load the appropriate guideline file** from the `examples/` directory:\n    - `examples/3p-updates.md` - For Progress/Plans/Problems team updates\n    - `examples/company-newsletter.md` - For company-wide newsletters\n    - `examples/faq-answers.md` - For answering frequently asked questions\n    - `examples/general-comms.md` - For anything else that doesn't explicitly match one of the above\n3. **Follow the specific instructions** in that file for formatting, tone, and content gathering\n\nIf the communication type doesn't match any existing guideline, ask for clarification or more context about the desired format.",
+      "keywords": [
+        "Progressive disclosure",
+        "Pro",
+        "Team",
+        "internal-comms"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is How to use this skill?",
+        "How do I use progressive disclosure?",
+        "Explain How to use this skill in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0092",
+      "source": "https://github.com/anthropics/skills/blob/main/internal-comms/examples/3p-updates.md",
+      "source_label": "Skills-Examples/Internal-Comms/Examples/3P-Updates",
+      "topic": "Progressive disclosure",
+      "title": "Instructions",
+      "text": "You are being asked to write a 3P update. 3P updates stand for \"Progress, Plans, Problems.\" The main audience is for executives, leadership, other teammates, etc. They're meant to be very succinct and to-the-point: think something you can read in 30-60sec or less. They're also for people with some, but not a lot of context on what the team does.\n\n3Ps can cover a team of any size, ranging all the way up to the entire company. The bigger the team, the less granular the tasks should be. For example, \"mobile team\" might have \"shipped feature\" or \"fixed bugs,\" whereas the company might have really meaty 3Ps, like \"hired 20 new people\" or \"closed 10 new deals.\" \n\nThey represent the work of the team across a time period, almost always one week. They include three sections:\n1) Progress: what the team has accomplished over the next time period. Focus mainly on things shipped, milestones achieved, tasks created, etc.\n2) Plans: what the team plans to do over the next time period. Focus on what things are top-of-mind, really high priority, etc. for the team.\n3) Problems: anything that is slowing the team down. This could be things like too few people, bugs or blockers that are preventing the team from moving forward, some deal that fell through, etc.\n\nBefore writing them, make sure that you know the team name. If it's not specified, you can ask explicitly what the team name you're writing for is.",
+      "keywords": [
+        "Progressive disclosure",
+        "Pro",
+        "Team",
+        "examples"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Instructions?",
+        "How do I use progressive disclosure?",
+        "Explain Instructions in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0093",
+      "source": "https://github.com/anthropics/skills/blob/main/internal-comms/examples/3p-updates.md",
+      "source_label": "Skills-Examples/Internal-Comms/Examples/3P-Updates",
+      "topic": "Progressive disclosure",
+      "title": "Tools Available",
+      "text": "Whenever possible, try to pull from available sources to get the information you need:\n- Slack: posts from team members with their updates - ideally look for posts in large channels with lots of reactions\n- Google Drive: docs written from critical team members with lots of views\n- Email: emails with lots of responses of lots of content that seems relevant\n- Calendar: non-recurring meetings that have a lot of importance, like product reviews, etc.\n\n\nTry to gather as much context as you can, focusing on the things that covered the time period you're writing for:\n- Progress: anything between a week ago and today\n- Plans: anything from today to the next week\n- Problems: anything between a week ago and today\n\n\nIf you don't have access, you can ask the user for things they want to cover. They might also include these things to you directly, in which case you're mostly just formatting for this particular format.",
+      "keywords": [
+        "Progressive disclosure",
+        "Pro",
+        "Team",
+        "examples"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Tools Available?",
+        "How do I use progressive disclosure?",
+        "Explain Tools Available in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0094",
+      "source": "https://github.com/anthropics/skills/blob/main/internal-comms/examples/company-newsletter.md",
+      "source_label": "Skills-Examples/Internal-Comms/Examples/Company-Newsletter",
+      "topic": "SKILL.md structure",
+      "title": "Instructions",
+      "text": "You are being asked to write a company-wide newsletter update. You are meant to summarize the past week/month of a company in the form of a newsletter that the entire company will read. It should be maybe ~20-25 bullet points long. It will be sent via Slack and email, so make it consumable for that.\n\nIdeally it includes the following attributes:\n- Lots of links: pulling documents from Google Drive that are very relevant, linking to prominent Slack messages in announce channels and from executives, perhgaps referencing emails that went company-wide, highlighting significant things that have happened in the company.\n- Short and to-the-point: each bullet should probably be no longer than ~1-2 sentences\n- Use the \"we\" tense, as you are part of the company. Many of the bullets should say \"we did this\" or \"we did that\"",
+      "keywords": [
+        "SKILL.md structure",
+        "Pro",
+        "examples"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Instructions?",
+        "How do I use skill.md structure?",
+        "Explain Instructions in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0095",
+      "source": "https://github.com/anthropics/skills/blob/main/internal-comms/examples/company-newsletter.md",
+      "source_label": "Skills-Examples/Internal-Comms/Examples/Company-Newsletter",
+      "topic": "Custom Skills",
+      "title": "Tools to use",
+      "text": "If you have access to the following tools, please try to use them. If not, you can also let the user know directly that their responses would be better if they gave them access.\n\n- Slack: look for messages in channels with lots of people, with lots of reactions or lots of responses within the thread\n- Email: look for things from executives that discuss company-wide announcements\n- Calendar: if there were meetings with large attendee lists, particularly things like All-Hands meetings, big company announcements, etc. If there were documents attached to those meetings, those are great links to include.\n- Documents: if there were new docs published in the last week or two that got a lot of attention, you can link them. These should be things like company-wide vision docs, plans for the upcoming quarter or half, things authored by critical executives, etc.\n- External press: if you see references to articles or press we've received over the past week, that could be really cool too.\n\nIf you don't have access to any of these things, you can ask the user for things they want to cover. In this case, you'll mostly just be polishing up and fitting to this format more directly.",
+      "keywords": [
+        "Custom Skills",
+        "examples"
+      ],
+      "synonyms": [
+        "user-built skills",
+        "your own skill",
+        "homemade skills",
+        "custom capabilities"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Tools to use?",
+        "How do I use custom skills?",
+        "Explain Tools to use in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0096",
+      "source": "https://github.com/anthropics/skills/blob/main/internal-comms/examples/faq-answers.md",
+      "source_label": "Skills-Examples/Internal-Comms/Examples/Faq-Answers",
+      "topic": "SKILL.md structure",
+      "title": "Instructions",
+      "text": "You are an assistant for answering questions that are being asked across the company. Every week, there are lots of questions that get asked across the company, and your goal is to try to summarize what those questions are. We want our company to be well-informed and on the same page, so your job is to produce a set of frequently asked questions that our employees are asking and attempt to answer them. Your singular job is to do two things:\n\n- Find questions that are big sources of confusion for lots of employees at the company, generally about things that affect a large portion of the employee base\n- Attempt to give a nice summarized answer to that question in order to minimize confusion.\n\nSome examples of areas that may be interesting to folks: recent corporate events (fundraising, new executives, etc.), upcoming launches, hiring progress, changes to vision or focus, etc.",
+      "keywords": [
+        "SKILL.md structure",
+        "Pro",
+        "examples"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Instructions?",
+        "How do I use skill.md structure?",
+        "Explain Instructions in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0097",
+      "source": "https://github.com/anthropics/skills/blob/main/internal-comms/examples/faq-answers.md",
+      "source_label": "Skills-Examples/Internal-Comms/Examples/Faq-Answers",
+      "topic": "SKILL.md structure",
+      "title": "Tools Available",
+      "text": "You should use the company's available tools, where communication and work happens. For most companies, it looks something like this:\n- Slack: questions being asked across the company - it could be questions in response to posts with lots of responses, questions being asked with lots of reactions or thumbs up to show support, or anything else to show that a large number of employees want to ask the same things\n- Email: emails with FAQs written directly in them can be a good source as well\n- Documents: docs in places like Google Drive, linked on calendar events, etc. can also be a good source of FAQs, either directly added or inferred based on the contents of the doc",
+      "keywords": [
+        "SKILL.md structure",
+        "examples"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Tools Available?",
+        "How do I use skill.md structure?",
+        "Explain Tools Available in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0098",
+      "source": "https://github.com/anthropics/skills/blob/main/internal-comms/examples/general-comms.md",
+      "source_label": "Skills-Examples/Internal-Comms/Examples/General-Comms",
+      "topic": "SKILL.md structure",
+      "title": "general-comms",
+      "text": "## Instructions\n  You are being asked to write internal company communication that doesn't fit into the standard formats (3P\n  updates, newsletters, or FAQs).\n\n  Before proceeding:\n  1. Ask the user about their target audience\n  2. Understand the communication's purpose\n  3. Clarify the desired tone (formal, casual, urgent, informational)\n  4. Confirm any specific formatting requirements\n\n  Use these general principles:\n  - Be clear and concise\n  - Use active voice\n  - Put the most important information first\n  - Include relevant links and references\n  - Match the company's communication style",
+      "keywords": [
+        "SKILL.md structure",
+        "Pro",
+        "examples"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is general-comms?",
+        "How do I use skill.md structure?",
+        "Explain general-comms in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0099",
+      "source": "https://github.com/anthropics/skills/blob/main/mcp-builder/SKILL.md",
+      "source_label": "SKILL.md — mcp-builder",
+      "topic": "MCP and tool integration",
+      "title": "🚀 High-Level Workflow (part 1)",
+      "text": "Creating a high-quality MCP server involves four main phases:\n\n### Phase 1: Deep Research and Planning\n\n#### 1.1 Understand Modern MCP Design\n\n**API Coverage vs. Workflow Tools:**\nBalance comprehensive API endpoint coverage with specialized workflow tools. Workflow tools can be more convenient for specific tasks, while comprehensive coverage gives agents flexibility to compose operations. Performance varies by client—some clients benefit from code execution that combines basic tools, while others work better with higher-level workflows. When uncertain, prioritize comprehensive API coverage.\n\n**Tool Naming and Discoverability:**\nClear, descriptive tool names help agents find the right tools quickly. Use consistent prefixes (e.g., `github_create_issue`, `github_list_repos`) and action-oriented naming.\n\n**Context Management:**\nAgents benefit from concise tool descriptions and the ability to filter/paginate results. Design tools that return focused, relevant data. Some clients support code execution which can help agents filter and process data efficiently.\n\n**Actionable Error Messages:**\nError messages should guide agents toward solutions with specific suggestions and next steps.\n\n#### 1.2 Study MCP Protocol Documentation\n\n**Navigate the MCP specification:**\n\nStart with the sitemap to find relevant pages: `https://modelcontextprotocol.io/sitemap.xml`\n\nThen fetch specific pages with `.md` suffix for markdown format (e.g., `https://modelcontextprotocol.io/specification/draft.md`).\n\nKey pages to review:\n- Specification overview and architecture\n- Transport mechanisms (streamable HTTP, stdio)\n- Tool, resource, and prompt definitions\n\n#### 1.3 Study Framework Documentation\n\n**Recommended stack:**\n- **Language**: TypeScript (high-quality SDK support and good compatibility in many execution environments e.g. MCPB. Plus AI models are good at generating TypeScript code, benefiting from its broad usage, static typing and good linting tools)\n- **Transport**: Streamable HTTP for remote servers, using stateless JSON (simpler to scale and maintain, as opposed to stateful sessions and streaming responses). stdio for local servers.\n\n**Load framework documentation:**\n\n- **MCP Best Practices**: [📋 View Best Practices](./reference/mcp_best_practices.md) - Core guidelines\n\n**For TypeScript (recommended):**\n- **TypeScript SDK**: Use WebFetch to load `https://raw.githubusercontent.com/modelcontextprotocol/typescript-sdk/main/README.md`\n- [⚡ TypeScript Guide](./reference/node_mcp_server.md) - TypeScript patterns and examples\n\n**For Python:**\n- **Python SDK**: Use WebFetch to load `https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/main/README.md`\n- [🐍 Python Guide](./reference/python_mcp_server.md) - Python patterns and examples\n\n#### 1.4 Plan Your Implementation",
+      "keywords": [
+        "MCP and tool integration",
+        "code execution",
+        "MCP",
+        "Pro",
+        "mcp-builder",
+        "python",
+        "json"
+      ],
+      "synonyms": [
+        "MCP servers",
+        "tool integration",
+        "Model Context Protocol"
+      ],
+      "acronyms": {
+        "MCP": "Model Context Protocol",
+        "API": "Application Programming Interface",
+        "SDK": "Software Development Kit",
+        "JSON": "JavaScript Object Notation"
+      },
+      "alt_phrasings": [
+        "What is 🚀 High-Level Workflow (part 1)?",
+        "How do I use mcp and tool integration?",
+        "Explain 🚀 High-Level Workflow (part 1) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0100",
+      "source": "https://github.com/anthropics/skills/blob/main/mcp-builder/SKILL.md",
+      "source_label": "SKILL.md — mcp-builder",
+      "topic": "MCP and tool integration",
+      "title": "🚀 High-Level Workflow (part 2)",
+      "text": "**Understand the API:**\nReview the service's API documentation to identify key endpoints, authentication requirements, and data models. Use web search and WebFetch as needed.\n\n**Tool Selection:**\nPrioritize comprehensive API coverage. List endpoints to implement, starting with the most common operations.\n\n---\n\n### Phase 2: Implementation\n\n#### 2.1 Set Up Project Structure\n\nSee language-specific guides for project setup:\n- [⚡ TypeScript Guide](./reference/node_mcp_server.md) - Project structure, package.json, tsconfig.json\n- [🐍 Python Guide](./reference/python_mcp_server.md) - Module organization, dependencies\n\n#### 2.2 Implement Core Infrastructure\n\nCreate shared utilities:\n- API client with authentication\n- Error handling helpers\n- Response formatting (JSON/Markdown)\n- Pagination support\n\n#### 2.3 Implement Tools\n\nFor each tool:\n\n**Input Schema:**\n- Use Zod (TypeScript) or Pydantic (Python)\n- Include constraints and clear descriptions\n- Add examples in field descriptions\n\n**Output Schema:**\n- Define `outputSchema` where possible for structured data\n- Use `structuredContent` in tool responses (TypeScript SDK feature)\n- Helps clients understand and process tool outputs\n\n**Tool Description:**\n- Concise summary of functionality\n- Parameter descriptions\n- Return type schema\n\n**Implementation:**\n- Async/await for I/O operations\n- Proper error handling with actionable messages\n- Support pagination where applicable\n- Return both text content and structured data when using modern SDKs\n\n**Annotations:**\n- `readOnlyHint`: true/false\n- `destructiveHint`: true/false\n- `idempotentHint`: true/false\n- `openWorldHint`: true/false\n\n---\n\n### Phase 3: Review and Test\n\n#### 3.1 Code Quality\n\nReview for:\n- No duplicated code (DRY principle)\n- Consistent error handling\n- Full type coverage\n- Clear tool descriptions\n\n#### 3.2 Build and Test\n\n**TypeScript:**\n- Run `npm run build` to verify compilation\n- Test with MCP Inspector: `npx @modelcontextprotocol/inspector`\n\n**Python:**\n- Verify syntax: `python -m py_compile your_server.py`\n- Test with MCP Inspector\n\nSee language-specific guides for detailed testing approaches and quality checklists.\n\n---\n\n### Phase 4: Create Evaluations\n\nAfter implementing your MCP server, create comprehensive evaluations to test its effectiveness.\n\n**Load [✅ Evaluation Guide](./reference/evaluation.md) for complete evaluation guidelines.**\n\n#### 4.1 Understand Evaluation Purpose\n\nUse evaluations to test whether LLMs can effectively use your MCP server to answer realistic, complex questions.\n\n#### 4.2 Create 10 Evaluation Questions\n\nTo create effective evaluations, follow the process outlined in the evaluation guide:",
+      "keywords": [
+        "MCP and tool integration",
+        "MCP",
+        "Pro",
+        "mcp-builder",
+        "python",
+        "json"
+      ],
+      "synonyms": [
+        "MCP servers",
+        "tool integration",
+        "Model Context Protocol"
+      ],
+      "acronyms": {
+        "MCP": "Model Context Protocol",
+        "API": "Application Programming Interface",
+        "SDK": "Software Development Kit",
+        "JSON": "JavaScript Object Notation"
+      },
+      "alt_phrasings": [
+        "What is 🚀 High-Level Workflow (part 2)?",
+        "How do I use mcp and tool integration?",
+        "Explain 🚀 High-Level Workflow (part 2) in Claude Agent Skills"
+      ]
+    }
+  ]
+}
