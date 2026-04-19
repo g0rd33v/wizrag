@@ -1746,16 +1746,25 @@ function submitInput() {
 }
 
 // -------- Boot --------
+window.__boot_log = [];
+function __mark(label) {
+  const t = performance.now().toFixed(0);
+  window.__boot_log.push(t + 'ms ' + label);
+  console.log('[boot]', t + 'ms', label);
+}
+__mark('script-start');
 (async () => {
-  loadTheme();
-  loadSettings();
-  wireUI();
-  // initVoice runs last — never block boot on it
-  try { initVoice(); } catch (e) { console.error('voice init failed:', e); }
+  __mark('boot-begin');
+  try { loadTheme(); __mark('after-loadTheme'); } catch(e) { __mark('loadTheme-ERR:'+e.message); }
+  try { loadSettings(); __mark('after-loadSettings'); } catch(e) { __mark('loadSettings-ERR:'+e.message); }
+  try { wireUI(); __mark('after-wireUI'); } catch(e) { __mark('wireUI-ERR:'+e.message); }
+  try { initVoice(); __mark('after-initVoice'); } catch (e) { __mark('initVoice-ERR:'+e.message); }
 
+  __mark('before-loadManifest');
   // Manifest load runs with its own timeouts; if it fails, show a friendly
   // message and keep the UI interactive.
-  const m = await loadManifest().catch(() => null);
+  const m = await loadManifest().catch((e) => { __mark('loadManifest-THREW:'+e.message); return null; });
+  __mark('after-loadManifest manifest=' + (m ? 'ok' : 'null'));
   if (!m) {
     document.getElementById('chat-inner').innerHTML = `<div class="message message-assistant"><div class="message-body"><p><strong>Index not available.</strong></p><p>Couldn't load <code>wizindex-manifest.json</code>. This usually means the index is still deploying, or your browser blocked the fetch. Try refreshing in a moment.</p></div></div>`;
     return;
@@ -1781,8 +1790,14 @@ function submitInput() {
     try { newChat(); } catch {}
   }
 
+  __mark('boot-end (schedule shards)');
   // Load shards off the critical path — yield first so UI repaints
-  setTimeout(() => { loadAllShards().catch(e => console.error('shard load failed:', e)); }, 30);
+  setTimeout(() => {
+    __mark('shards-start');
+    loadAllShards()
+      .then(() => __mark('shards-done chunks=' + ALL_CHUNKS.length))
+      .catch(e => __mark('shards-THREW:' + e.message));
+  }, 30);
 })();
 </script>
 
