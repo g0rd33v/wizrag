@@ -1,0 +1,351 @@
+{
+  "version": "3.0",
+  "shard_index": 5,
+  "chunk_count": 13,
+  "chunks": [
+    {
+      "id": "chunk_005_001",
+      "title": "Using Agent Skills via the Claude API",
+      "topic": "API and Messages integration",
+      "keywords": [
+        "api",
+        "messages",
+        "claude",
+        "skills",
+        "integration",
+        "tool use",
+        "request",
+        "endpoint"
+      ],
+      "synonyms": [
+        "Messages API",
+        "Claude API integration",
+        "REST API"
+      ],
+      "alt_phrasings": [
+        "how do I use Skills with the API",
+        "how to enable Skills via Messages",
+        "calling Skills through the API"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "The Claude API supports both pre-built Agent Skills and custom Skills. To use Skills with the Messages API, you invoke Claude with the Skills execution environment enabled and reference the Skill IDs you want Claude to have access to. Pre-built Skills like pdf, docx, pptx, and xlsx are available directly by ID. Custom Skills are uploaded to your workspace and referenced the same way. When Claude encounters a task that matches a Skill metadata description, Claude autonomously loads that Skill's instructions and uses its bundled resources. The API billing model covers Skill tokens as standard input tokens."
+    },
+    {
+      "id": "chunk_005_002",
+      "title": "Loading Skills in API requests",
+      "topic": "API and Messages integration",
+      "keywords": [
+        "skill_id",
+        "api request",
+        "loading",
+        "beta header",
+        "enable skills",
+        "agent skills api"
+      ],
+      "synonyms": [
+        "enabling Skills",
+        "activating Skills",
+        "Skill loading"
+      ],
+      "alt_phrasings": [
+        "how to load a Skill in the API",
+        "which beta header for Skills",
+        "do I need a flag to use Skills"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Loading Skills in API requests uses a beta header (skills-2025-XX-XX) and a skills array containing skill_id references on each Messages request. Pre-built Skills use reserved IDs like \"pdf\", \"docx\", \"pptx\", \"xlsx\". Custom Skills use the UUID returned when you uploaded them to your workspace. Claude will only load a Skill's full instructions when its description matches the user's request — the metadata-first progressive disclosure pattern keeps token usage minimal. Skills can be combined freely in one request."
+    },
+    {
+      "id": "chunk_005_003",
+      "title": "Pre-built Skill IDs available through the API",
+      "topic": "Pre-built Skills",
+      "keywords": [
+        "pdf",
+        "docx",
+        "pptx",
+        "xlsx",
+        "pre-built",
+        "prebuilt",
+        "skill id",
+        "anthropic skills"
+      ],
+      "synonyms": [
+        "built-in Skills",
+        "first-party Skills",
+        "Anthropic Skills"
+      ],
+      "alt_phrasings": [
+        "what pre-built Skills can I use",
+        "list of Anthropic Skills",
+        "which Skills are available by default"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Anthropic provides four pre-built Agent Skills available for immediate use without any configuration: pdf (read and create PDF files including forms and attachments), docx (create and edit Word documents with track-changes support), pptx (build PowerPoint presentations with layouts, images, and speaker notes), xlsx (work with Excel spreadsheets including formulas and charts). Each is identified by its short name when passed to the skills parameter. These Skills are maintained by Anthropic, receive regular updates, and are deeply tested."
+    },
+    {
+      "id": "chunk_005_004",
+      "title": "Custom Skills in Claude Code",
+      "topic": "Claude Code integration",
+      "keywords": [
+        "claude code",
+        "custom skills",
+        "cli",
+        "filesystem",
+        "project skills",
+        ".claude"
+      ],
+      "synonyms": [
+        "Code Skills",
+        "CLI Skills",
+        "local Skills"
+      ],
+      "alt_phrasings": [
+        "how do Skills work in Claude Code",
+        "can I use pre-built Skills in Code",
+        "where do I put a SKILL.md for Code"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Claude Code supports only Custom Skills — the pre-built Agent Skills (pdf, docx, pptx, xlsx) are not available in Code. To add a Custom Skill to Claude Code, create a directory structure containing SKILL.md with YAML frontmatter and any supporting resources, then place it where Code can discover it (typically a .claude/skills or project-local directory). Claude Code autonomously loads Skills whose metadata matches the current task. The filesystem-native execution environment of Code is a natural fit for Skills since both share the same file-based model."
+    },
+    {
+      "id": "chunk_005_005",
+      "title": "Skill discovery in Claude Code",
+      "topic": "Claude Code integration",
+      "keywords": [
+        "discovery",
+        "auto-load",
+        "claude code",
+        "skill detection",
+        "metadata",
+        "trigger"
+      ],
+      "synonyms": [
+        "Skill autoloading",
+        "Skill detection"
+      ],
+      "alt_phrasings": [
+        "how does Claude Code find Skills",
+        "when does Claude load a Skill",
+        "skill triggering in Code"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Claude Code finds and loads Skills through two-level progressive disclosure. On startup, Code scans Skill directories and reads each SKILL.md's YAML frontmatter — just the name and description. The full body stays dormant. When the user asks something, Claude matches the request against the metadata descriptions and only then reads the Skill's full instructions and resources. This keeps the token budget lean even with dozens of Skills installed. Custom Skills in Code do not sync to other Claude surfaces."
+    },
+    {
+      "id": "chunk_005_006",
+      "title": "The pdf pre-built Skill",
+      "topic": "Pre-built Skills",
+      "keywords": [
+        "pdf",
+        "pdf reading",
+        "pdf creation",
+        "forms",
+        "attachments",
+        "pypdf"
+      ],
+      "synonyms": [
+        "PDF Skill",
+        "Adobe PDF",
+        "document PDF"
+      ],
+      "alt_phrasings": [
+        "how to work with PDFs in Claude",
+        "what can the pdf Skill do",
+        "PDF reading capabilities"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "The pdf pre-built Skill enables Claude to read PDF content including text extraction, form field access, attachments, and image-based pages. It can also generate new PDFs with formatted text, headers, lists, and tables. The Skill bundles helper scripts and references for common tasks like filling forms, merging documents, and extracting tabular data. Use this Skill whenever the user mentions a .pdf file or asks to produce one."
+    },
+    {
+      "id": "chunk_005_007",
+      "title": "The docx, pptx, and xlsx pre-built Skills",
+      "topic": "Pre-built Skills",
+      "keywords": [
+        "docx",
+        "word",
+        "pptx",
+        "powerpoint",
+        "xlsx",
+        "excel",
+        "office",
+        "office documents"
+      ],
+      "synonyms": [
+        "Microsoft Office Skills",
+        "Word Skill",
+        "PowerPoint Skill",
+        "Excel Skill"
+      ],
+      "alt_phrasings": [
+        "how to make a Word doc with Claude",
+        "PowerPoint creation Skill",
+        "Excel spreadsheet Skill"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "The docx Skill handles Microsoft Word documents: creating new .docx files with headings, tables of contents, page numbers, and letterhead; editing existing documents; working with tracked changes and comments; and performing find-and-replace. The pptx Skill builds PowerPoint presentations with layouts, images, speaker notes, and transitions. The xlsx Skill works with Excel spreadsheets including formulas, charts, and formatting. All three use python-docx, python-pptx, and openpyxl respectively under the hood."
+    },
+    {
+      "id": "chunk_005_008",
+      "title": "Custom Skill sharing scope by surface",
+      "topic": "Sharing and distribution",
+      "keywords": [
+        "sharing",
+        "workspace",
+        "team",
+        "personal",
+        "visibility",
+        "scope"
+      ],
+      "synonyms": [
+        "Skill visibility",
+        "Skill access control",
+        "who can see my Skill"
+      ],
+      "alt_phrasings": [
+        "how do I share a custom Skill",
+        "can my team use my Skill",
+        "Skill permissions"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Custom Skills have different sharing scopes depending on where they are uploaded. Claude API: Skills uploaded by a workspace admin are available to all API calls made with that workspace's keys. Claude.ai: Skills can be scoped to an individual user, a team, or an entire organization depending on Team/Enterprise plan settings. Claude Code: Skills live in a directory on your local filesystem and are implicitly scoped to whoever has access to that directory (or checkout of that repo). There is no cross-surface sync — each surface maintains its own Skill catalog."
+    },
+    {
+      "id": "chunk_005_009",
+      "title": "Cross-surface Skill availability",
+      "topic": "Sharing and distribution",
+      "keywords": [
+        "cross-surface",
+        "sync",
+        "portability",
+        "transfer",
+        "import",
+        "export"
+      ],
+      "synonyms": [
+        "moving Skills between surfaces",
+        "Skill portability"
+      ],
+      "alt_phrasings": [
+        "why don't my Skills sync across products",
+        "how do I move a Skill from Claude.ai to Code",
+        "Skill import between surfaces"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Custom Skills do not automatically sync across Claude surfaces. A Skill uploaded to Claude.ai is not visible in the Claude API, and vice-versa. Skills in Claude Code live on your filesystem and are independent of any hosted workspace. If you want the same Skill in multiple surfaces, you must upload or copy it to each. This design avoids accidental cross-contamination and lets each surface have its own trust boundary. To move a Skill, download its SKILL.md plus resources and re-upload them to the target surface."
+    },
+    {
+      "id": "chunk_005_010",
+      "title": "Skill trust and security",
+      "topic": "Best practices",
+      "keywords": [
+        "security",
+        "trust",
+        "untrusted",
+        "sandbox",
+        "code execution",
+        "risks",
+        "prompt injection"
+      ],
+      "synonyms": [
+        "Skill safety",
+        "Skill vetting",
+        "trusted Skills"
+      ],
+      "alt_phrasings": [
+        "is it safe to install a custom Skill",
+        "how do I vet a Skill",
+        "Skill security risks"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Only use Skills from trusted sources. A Skill can instruct Claude to read any file Claude has access to, run arbitrary code in the execution sandbox, and make outbound network calls depending on the surface. Pre-built Skills from Anthropic are audited and safe. Custom Skills should be reviewed by you or your security team before upload. Skills from unknown third parties are roughly equivalent to running a plugin with full runtime privileges — treat them accordingly. The sandbox contains damage within a single Claude session, but it does not prevent intentionally harmful Skill content."
+    },
+    {
+      "id": "chunk_005_011",
+      "title": "Skill runtime environment constraints",
+      "topic": "Best practices",
+      "keywords": [
+        "runtime",
+        "environment",
+        "vm",
+        "sandbox",
+        "limits",
+        "packages",
+        "python",
+        "node"
+      ],
+      "synonyms": [
+        "execution environment",
+        "Skill VM",
+        "code runtime"
+      ],
+      "alt_phrasings": [
+        "what Python packages are available",
+        "can Skills run Node.js",
+        "CPU and memory limits for Skills"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "The runtime environment for Skills depends on the surface. Claude API and Claude.ai run Skills in an ephemeral VM with common Python packages pre-installed (numpy, pandas, python-docx, python-pptx, openpyxl, pypdf, pillow, requests, bs4). Node.js is not available by default in these surfaces. Claude Code runs Skills in your actual shell, so whatever is installed locally is available. Memory and CPU are bounded per-session. Network access is generally permitted but may be restricted by enterprise policies. Long-running computations should be chunked into multiple Skill calls rather than one monolithic script."
+    },
+    {
+      "id": "chunk_005_012",
+      "title": "Skill authoring best practices",
+      "topic": "Best practices",
+      "keywords": [
+        "authoring",
+        "writing skills",
+        "best practices",
+        "skill.md",
+        "frontmatter quality",
+        "description"
+      ],
+      "synonyms": [
+        "Skill design",
+        "how to write a good Skill"
+      ],
+      "alt_phrasings": [
+        "tips for writing SKILL.md",
+        "what makes a good Skill description",
+        "Skill authoring guide"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Good Skills follow a few principles. First, the YAML frontmatter description should be a single concise sentence that clearly states when the Skill should be used — this is what Claude reads to decide whether to load your Skill at all. Second, follow progressive disclosure: put the minimum essential instructions in the SKILL.md body, and move optional references, examples, and scripts into separate files that Claude reads only when needed. Third, give files semantic names (forms-reference.md, merge-helper.py) that reveal their purpose. Fourth, keep instructions task-oriented and imperative — \"When the user uploads a PDF, read it with pypdf\" not just expository prose."
+    },
+    {
+      "id": "chunk_005_013",
+      "title": "Data retention and Skills",
+      "topic": "Best practices",
+      "keywords": [
+        "data retention",
+        "zdr",
+        "zero data retention",
+        "privacy",
+        "compliance"
+      ],
+      "synonyms": [
+        "ZDR",
+        "data handling",
+        "retention policy"
+      ],
+      "alt_phrasings": [
+        "does ZDR cover Skills",
+        "what data is retained from a Skill",
+        "Skill privacy"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Agent Skills are not covered by Zero Data Retention arrangements. Skill definitions (SKILL.md, resources, code) and any data Claude generates while executing a Skill are retained according to the standard Claude retention policy for the surface you are using. If you have specific compliance requirements around data lifetime — for example, needing all traces of sensitive input to be deleted within 24 hours — you should verify those requirements are met by the surface-level retention policy before uploading Skills that will process such data."
+    }
+  ]
+}
