@@ -556,8 +556,11 @@
     });
 
     INDEX_READY = true;
-    statsEl.innerHTML = '<span class="ready">' + manifest.stats.chunks +
-      ' chunks · ' + manifest.stats.sources + ' sources · ' +
+    var skillsPart = manifest.stats.skills ?
+      (manifest.stats.skills.toLocaleString() + ' skills · ') : '';
+    statsEl.innerHTML = '<span class="ready">' + skillsPart +
+      manifest.stats.chunks.toLocaleString() + ' chunks · ' +
+      manifest.stats.sources + ' sources · ' +
       manifest.stats.topics + ' topics · ready</span>';
     input.disabled = false;
     input.placeholder = 'Search everything…';
