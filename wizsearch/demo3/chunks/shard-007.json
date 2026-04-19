@@ -1,0 +1,773 @@
+{
+  "version": "3.0",
+  "shard_index": 7,
+  "chunk_count": 34,
+  "scope_note": "Official Anthropic Skills from github.com/anthropics/skills (120k-star canonical repo)",
+  "chunks": [
+    {
+      "id": "chunk_007_001",
+      "topic": "Anthropic official Skills",
+      "title": "algorithmic-art — official Anthropic Skill",
+      "keywords": [
+        "algorithmic-art",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "algorithmic-art skill",
+        "anthropic algorithmic-art"
+      ],
+      "alt_phrasings": [
+        "what is the algorithmic-art skill",
+        "how to use algorithmic-art skill",
+        "algorithmic-art SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/algorithmic-art",
+      "source_label": "anthropics/skills — algorithmic-art",
+      "text": "algorithmic-art: Creating algorithmic art using p5.js with seeded randomness and interactive parameter exploration. Use this when users request creating art using code, generative art, algorithmic art, flow fields, or particle systems. Create original algorithmic art rather than copying existing artists' work to avoid copyright violations.\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_002",
+      "topic": "Anthropic official Skills",
+      "title": "algorithmic-art — usage and workflow",
+      "keywords": [
+        "algorithmic-art",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "algorithmic-art workflow",
+        "how algorithmic-art works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/algorithmic-art/SKILL.md",
+      "source_label": "algorithmic-art SKILL.md — anthropics/skills",
+      "text": "Algorithmic philosophies are computational aesthetic movements that are then expressed through code. Output .md files (philosophy), .html files (interactive viewer), and .js files (generative algorithms).\n\nThis happens in two steps:\n1. Algorithmic Philosophy Creation (.md file)\n2. Express by creating p5.js generative art (.html + .js files)\n\nFirst, undertake this task:\n\n## ALGORITHMIC PHILOSOPHY CREATION\n\nTo begin, create an ALGORITHMIC PHILOSOPHY (not static images or templates) that will be interpreted through:\n- Computational processes, emergent behavior, mathematical beauty\n- Seeded randomness, noise fields, organic systems\n- Particles, flows, fields, forces\n- Parametric variation and controlled chaos\n\n### THE CRITICAL UNDERSTANDING\n- What is received: Some subtle input or instructions by the user to take into account, but use as a foundation; it should not constrain creative freedom.\n- What is created: An algorithmic philosophy/generative aesthetic movement.\n- What happens next: The same version receives the philosophy and EXPRESSES IT IN CODE - creating p5.js sketches that are 90% algorithmic generation, 10% essential parameters.\n\nConsider this approach:\n- Write a manifesto f"
+    },
+    {
+      "id": "chunk_007_003",
+      "topic": "Anthropic official Skills",
+      "title": "brand-guidelines — official Anthropic Skill",
+      "keywords": [
+        "brand-guidelines",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "brand-guidelines skill",
+        "anthropic brand-guidelines"
+      ],
+      "alt_phrasings": [
+        "what is the brand-guidelines skill",
+        "how to use brand-guidelines skill",
+        "brand-guidelines SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/brand-guidelines",
+      "source_label": "anthropics/skills — brand-guidelines",
+      "text": "brand-guidelines: Applies Anthropic's official brand colors and typography to any sort of artifact that may benefit from having Anthropic's look-and-feel. Use it when brand colors or style guidelines, visual formatting, or company design standards apply.\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_004",
+      "topic": "Anthropic official Skills",
+      "title": "brand-guidelines — usage and workflow",
+      "keywords": [
+        "brand-guidelines",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "brand-guidelines workflow",
+        "how brand-guidelines works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md",
+      "source_label": "brand-guidelines SKILL.md — anthropics/skills",
+      "text": "# Anthropic Brand Styling\n\n## Overview\n\nTo access Anthropic's official brand identity and style resources, use this skill.\n\n**Keywords**: branding, corporate identity, visual identity, post-processing, styling, brand colors, typography, Anthropic brand, visual formatting, visual design\n\n## Brand Guidelines\n\n### Colors\n\n**Main Colors:**\n\n- Dark: `#141413` - Primary text and dark backgrounds\n- Light: `#faf9f5` - Light backgrounds and text on dark\n- Mid Gray: `#b0aea5` - Secondary elements\n- Light Gray: `#e8e6dc` - Subtle backgrounds\n\n**Accent Colors:**\n\n- Orange: `#d97757` - Primary accent\n- Blue: `#6a9bcc` - Secondary accent\n- Green: `#788c5d` - Tertiary accent\n\n### Typography\n\n- **Headings**: Poppins (with Arial fallback)\n- **Body Text**: Lora (with Georgia fallback)\n- **Note**: Fonts should be pre-installed in your environment for best results\n\n## Features\n\n### Smart Font Application\n\n- Applies Poppins font to headings (24pt and larger)\n- Applies Lora font to body text\n- Automatically falls back to Arial/Georgia if custom fonts unavailable\n- Preserves readability across all systems\n\n### Text Styling\n\n- Headings (24pt+): Poppins font\n- Body text: Lora font\n- Smart color selection b"
+    },
+    {
+      "id": "chunk_007_005",
+      "topic": "Anthropic official Skills",
+      "title": "canvas-design — official Anthropic Skill",
+      "keywords": [
+        "canvas-design",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "canvas-design skill",
+        "anthropic canvas-design"
+      ],
+      "alt_phrasings": [
+        "what is the canvas-design skill",
+        "how to use canvas-design skill",
+        "canvas-design SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/canvas-design",
+      "source_label": "anthropics/skills — canvas-design",
+      "text": "canvas-design: Create beautiful visual art in .png and .pdf documents using design philosophy. You should use this skill when the user asks to create a poster, piece of art, design, or other static piece. Create original visual designs, never copying existing artists' work to avoid copyright violations.\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_006",
+      "topic": "Anthropic official Skills",
+      "title": "canvas-design — usage and workflow",
+      "keywords": [
+        "canvas-design",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "canvas-design workflow",
+        "how canvas-design works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md",
+      "source_label": "canvas-design SKILL.md — anthropics/skills",
+      "text": "These are instructions for creating design philosophies - aesthetic movements that are then EXPRESSED VISUALLY. Output only .md files, .pdf files, and .png files.\n\nComplete this in two steps:\n1. Design Philosophy Creation (.md file)\n2. Express by creating it on a canvas (.pdf file or .png file)\n\nFirst, undertake this task:\n\n## DESIGN PHILOSOPHY CREATION\n\nTo begin, create a VISUAL PHILOSOPHY (not layouts or templates) that will be interpreted through:\n- Form, space, color, composition\n- Images, graphics, shapes, patterns\n- Minimal text as visual accent\n\n### THE CRITICAL UNDERSTANDING\n- What is received: Some subtle input or instructions by the user that should be taken into account, but used as a foundation; it should not constrain creative freedom.\n- What is created: A design philosophy/aesthetic movement.\n- What happens next: Then, the same version receives the philosophy and EXPRESSES IT VISUALLY - creating artifacts that are 90% visual design, 10% essential text.\n\nConsider this approach:\n- Write a manifesto for an art movement\n- The next phase involves making the artwork\n\nThe philosophy must emphasize: Visual expression. Spatial communication. Artistic interpretation. Minimal wo"
+    },
+    {
+      "id": "chunk_007_007",
+      "topic": "Anthropic official Skills",
+      "title": "claude-api — official Anthropic Skill",
+      "keywords": [
+        "claude-api",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "claude-api skill",
+        "anthropic claude-api"
+      ],
+      "alt_phrasings": [
+        "what is the claude-api skill",
+        "how to use claude-api skill",
+        "claude-api SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/claude-api",
+      "source_label": "anthropics/skills — claude-api",
+      "text": "claude-api: \"Build, debug, and optimize Claude API / Anthropic SDK apps. Apps built with this skill should include prompt caching. Also handles migrating existing Claude API code between Claude model versions (4.5 → 4.6, 4.6 → 4.7, retired-model replacements). TRIGGER when: code imports `anthropic`/`@anthropic-ai/sdk`; user asks for the Claude API, Anthropic SDK, or Managed Agents; user adds/modifies/tunes a Claude feature (caching, thinking, compaction, tool use, batch, files, citations, memory) or model (Opus/Sonnet/Haiku) in a file; questions about prompt caching / cache hit rate in an Anthropic SDK project. SKIP: file imports `openai`/other-provider SDK, filename like `*-openai.py`/`*-generic.py`, provider-neutral code, general programming/ML.\"\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_008",
+      "topic": "Anthropic official Skills",
+      "title": "claude-api — usage and workflow",
+      "keywords": [
+        "claude-api",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "claude-api workflow",
+        "how claude-api works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/claude-api/SKILL.md",
+      "source_label": "claude-api SKILL.md — anthropics/skills",
+      "text": "# Building LLM-Powered Applications with Claude\n\nThis skill helps you build LLM-powered applications with Claude. Choose the right surface based on your needs, detect the project language, then read the relevant language-specific documentation.\n\n## Before You Start\n\nScan the target file (or, if no target file, the prompt and project) for non-Anthropic provider markers — `import openai`, `from openai`, `langchain_openai`, `OpenAI(`, `gpt-4`, `gpt-5`, file names like `agent-openai.py` or `*-generic.py`, or any explicit instruction to keep the code provider-neutral. If you find any, stop and tell the user that this skill produces Claude/Anthropic SDK code; ask whether they want to switch the file to Claude or want a non-Claude implementation. Do not edit a non-Anthropic file with Anthropic SDK calls.\n\n## Output Requirement\n\nWhen the user asks you to add, modify, or implement a Claude feature, your code must call Claude through one of:\n\n1. **The official Anthropic SDK** for the project's language (`anthropic`, `@anthropic-ai/sdk`, `com.anthropic.*`, etc.). This is the default whenever a supported SDK exists for the project.\n2. **Raw HTTP** (`curl`, `requests`, `fetch`, `httpx`, etc.) —"
+    },
+    {
+      "id": "chunk_007_009",
+      "topic": "Anthropic official Skills",
+      "title": "doc-coauthoring — official Anthropic Skill",
+      "keywords": [
+        "doc-coauthoring",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "doc-coauthoring skill",
+        "anthropic doc-coauthoring"
+      ],
+      "alt_phrasings": [
+        "what is the doc-coauthoring skill",
+        "how to use doc-coauthoring skill",
+        "doc-coauthoring SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/doc-coauthoring",
+      "source_label": "anthropics/skills — doc-coauthoring",
+      "text": "doc-coauthoring: \n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_010",
+      "topic": "Anthropic official Skills",
+      "title": "doc-coauthoring — usage and workflow",
+      "keywords": [
+        "doc-coauthoring",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "doc-coauthoring workflow",
+        "how doc-coauthoring works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/doc-coauthoring/SKILL.md",
+      "source_label": "doc-coauthoring SKILL.md — anthropics/skills",
+      "text": "# Doc Co-Authoring Workflow\n\nThis skill provides a structured workflow for guiding users through collaborative document creation. Act as an active guide, walking users through three stages: Context Gathering, Refinement & Structure, and Reader Testing.\n\n## When to Offer This Workflow\n\n**Trigger conditions:**\n- User mentions writing documentation: \"write a doc\", \"draft a proposal\", \"create a spec\", \"write up\"\n- User mentions specific doc types: \"PRD\", \"design doc\", \"decision doc\", \"RFC\"\n- User seems to be starting a substantial writing task\n\n**Initial offer:**\nOffer the user a structured workflow for co-authoring the document. Explain the three stages:\n\n1. **Context Gathering**: User provides all relevant context while Claude asks clarifying questions\n2. **Refinement & Structure**: Iteratively build each section through brainstorming and editing\n3. **Reader Testing**: Test the doc with a fresh Claude (no context) to catch blind spots before others read it\n\nExplain that this approach helps ensure the doc works well when others read it (including when they paste it into Claude). Ask if they want to try this workflow or prefer to work freeform.\n\nIf user declines, work freeform. If user"
+    },
+    {
+      "id": "chunk_007_011",
+      "topic": "Anthropic official Skills",
+      "title": "docx — official Anthropic Skill",
+      "keywords": [
+        "docx",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "docx skill",
+        "anthropic docx"
+      ],
+      "alt_phrasings": [
+        "what is the docx skill",
+        "how to use docx skill",
+        "docx SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/docx",
+      "source_label": "anthropics/skills — docx",
+      "text": "docx: \"Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of 'Word doc', 'word document', '.docx', or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a 'report', 'memo', 'letter', 'template', or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation.\"\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_012",
+      "topic": "Anthropic official Skills",
+      "title": "docx — usage and workflow",
+      "keywords": [
+        "docx",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "docx workflow",
+        "how docx works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/docx/SKILL.md",
+      "source_label": "docx SKILL.md — anthropics/skills",
+      "text": "# DOCX creation, editing, and analysis\n\n## Overview\n\nA .docx file is a ZIP archive containing XML files.\n\n## Quick Reference\n\n| Task | Approach |\n|------|----------|\n| Read/analyze content | `pandoc` or unpack for raw XML |\n| Create new document | Use `docx-js` - see Creating New Documents below |\n| Edit existing document | Unpack → edit XML → repack - see Editing Existing Documents below |\n\n### Converting .doc to .docx\n\nLegacy `.doc` files must be converted before editing:\n\n```bash\npython scripts/office/soffice.py --headless --convert-to docx document.doc\n```\n\n### Reading Content\n\n```bash\n# Text extraction with tracked changes\npandoc --track-changes=all document.docx -o output.md\n\n# Raw XML access\npython scripts/office/unpack.py document.docx unpacked/\n```\n\n### Converting to Images\n\n```bash\npython scripts/office/soffice.py --headless --convert-to pdf document.docx\npdftoppm -jpeg -r 150 document.pdf page\n```\n\n### Accepting Tracked Changes\n\nTo produce a clean document with all tracked changes accepted (requires LibreOffice):\n\n```bash\npython scripts/accept_changes.py input.docx output.docx\n```\n\n---\n\n## Creating New Documents\n\nGenerate .docx files with JavaScript, then validate. Insta"
+    },
+    {
+      "id": "chunk_007_013",
+      "topic": "Anthropic official Skills",
+      "title": "frontend-design — official Anthropic Skill",
+      "keywords": [
+        "frontend-design",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "frontend-design skill",
+        "anthropic frontend-design"
+      ],
+      "alt_phrasings": [
+        "what is the frontend-design skill",
+        "how to use frontend-design skill",
+        "frontend-design SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/frontend-design",
+      "source_label": "anthropics/skills — frontend-design",
+      "text": "frontend-design: Create distinctive, production-grade frontend interfaces with high design quality. Use this skill when the user asks to build web components, pages, artifacts, posters, or applications (examples include websites, landing pages, dashboards, React components, HTML/CSS layouts, or when styling/beautifying any web UI). Generates creative, polished code and UI design that avoids generic AI aesthetics.\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_014",
+      "topic": "Anthropic official Skills",
+      "title": "frontend-design — usage and workflow",
+      "keywords": [
+        "frontend-design",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "frontend-design workflow",
+        "how frontend-design works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/frontend-design/SKILL.md",
+      "source_label": "frontend-design SKILL.md — anthropics/skills",
+      "text": "This skill guides creation of distinctive, production-grade frontend interfaces that avoid generic \"AI slop\" aesthetics. Implement real working code with exceptional attention to aesthetic details and creative choices.\n\nThe user provides frontend requirements: a component, page, application, or interface to build. They may include context about the purpose, audience, or technical constraints.\n\n## Design Thinking\n\nBefore coding, understand the context and commit to a BOLD aesthetic direction:\n- **Purpose**: What problem does this interface solve? Who uses it?\n- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.\n- **Constraints**: Technical requirements (framework, performance, accessibility).\n- **Differentiation**: What makes this UNFORGETTABLE? What's the one thing someone will remember?\n\n**CRITICAL**: Choose a clear conceptual direction and execute it with precision. Bold maximalism a"
+    },
+    {
+      "id": "chunk_007_015",
+      "topic": "Anthropic official Skills",
+      "title": "internal-comms — official Anthropic Skill",
+      "keywords": [
+        "internal-comms",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "internal-comms skill",
+        "anthropic internal-comms"
+      ],
+      "alt_phrasings": [
+        "what is the internal-comms skill",
+        "how to use internal-comms skill",
+        "internal-comms SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/internal-comms",
+      "source_label": "anthropics/skills — internal-comms",
+      "text": "internal-comms: A set of resources to help me write all kinds of internal communications, using the formats that my company likes to use. Claude should use this skill whenever asked to write some sort of internal communications (status reports, leadership updates, 3P updates, company newsletters, FAQs, incident reports, project updates, etc.).\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_016",
+      "topic": "Anthropic official Skills",
+      "title": "internal-comms — usage and workflow",
+      "keywords": [
+        "internal-comms",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "internal-comms workflow",
+        "how internal-comms works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/internal-comms/SKILL.md",
+      "source_label": "internal-comms SKILL.md — anthropics/skills",
+      "text": "## When to use this skill\nTo write internal communications, use this skill for:\n- 3P updates (Progress, Plans, Problems)\n- Company newsletters\n- FAQ responses\n- Status reports\n- Leadership updates\n- Project updates\n- Incident reports\n\n## How to use this skill\n\nTo write any internal communication:\n\n1. **Identify the communication type** from the request\n2. **Load the appropriate guideline file** from the `examples/` directory:\n    - `examples/3p-updates.md` - For Progress/Plans/Problems team updates\n    - `examples/company-newsletter.md` - For company-wide newsletters\n    - `examples/faq-answers.md` - For answering frequently asked questions\n    - `examples/general-comms.md` - For anything else that doesn't explicitly match one of the above\n3. **Follow the specific instructions** in that file for formatting, tone, and content gathering\n\nIf the communication type doesn't match any existing guideline, ask for clarification or more context about the desired format.\n\n## Keywords\n3P updates, company newsletter, company comms, weekly update, faqs, common questions, updates, internal comms"
+    },
+    {
+      "id": "chunk_007_017",
+      "topic": "Anthropic official Skills",
+      "title": "mcp-builder — official Anthropic Skill",
+      "keywords": [
+        "mcp-builder",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "mcp-builder skill",
+        "anthropic mcp-builder"
+      ],
+      "alt_phrasings": [
+        "what is the mcp-builder skill",
+        "how to use mcp-builder skill",
+        "mcp-builder SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/mcp-builder",
+      "source_label": "anthropics/skills — mcp-builder",
+      "text": "mcp-builder: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_018",
+      "topic": "Anthropic official Skills",
+      "title": "mcp-builder — usage and workflow",
+      "keywords": [
+        "mcp-builder",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "mcp-builder workflow",
+        "how mcp-builder works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md",
+      "source_label": "mcp-builder SKILL.md — anthropics/skills",
+      "text": "# MCP Server Development Guide\n\n## Overview\n\nCreate MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. The quality of an MCP server is measured by how well it enables LLMs to accomplish real-world tasks.\n\n---\n\n# Process\n\n## 🚀 High-Level Workflow\n\nCreating a high-quality MCP server involves four main phases:\n\n### Phase 1: Deep Research and Planning\n\n#### 1.1 Understand Modern MCP Design\n\n**API Coverage vs. Workflow Tools:**\nBalance comprehensive API endpoint coverage with specialized workflow tools. Workflow tools can be more convenient for specific tasks, while comprehensive coverage gives agents flexibility to compose operations. Performance varies by client—some clients benefit from code execution that combines basic tools, while others work better with higher-level workflows. When uncertain, prioritize comprehensive API coverage.\n\n**Tool Naming and Discoverability:**\nClear, descriptive tool names help agents find the right tools quickly. Use consistent prefixes (e.g., `github_create_issue`, `github_list_repos`) and action-oriented naming.\n\n**Context Management:**\nAgents benefit from concise tool descriptions and"
+    },
+    {
+      "id": "chunk_007_019",
+      "topic": "Anthropic official Skills",
+      "title": "pdf — official Anthropic Skill",
+      "keywords": [
+        "pdf",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "pdf skill",
+        "anthropic pdf"
+      ],
+      "alt_phrasings": [
+        "what is the pdf skill",
+        "how to use pdf skill",
+        "pdf SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/pdf",
+      "source_label": "anthropics/skills — pdf",
+      "text": "pdf: Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill.\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_020",
+      "topic": "Anthropic official Skills",
+      "title": "pdf — usage and workflow",
+      "keywords": [
+        "pdf",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "pdf workflow",
+        "how pdf works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/pdf/SKILL.md",
+      "source_label": "pdf SKILL.md — anthropics/skills",
+      "text": "# PDF Processing Guide\n\n## Overview\n\nThis guide covers essential PDF processing operations using Python libraries and command-line tools. For advanced features, JavaScript libraries, and detailed examples, see REFERENCE.md. If you need to fill out a PDF form, read FORMS.md and follow its instructions.\n\n## Quick Start\n\n```python\nfrom pypdf import PdfReader, PdfWriter\n\n# Read a PDF\nreader = PdfReader(\"document.pdf\")\nprint(f\"Pages: {len(reader.pages)}\")\n\n# Extract text\ntext = \"\"\nfor page in reader.pages:\n    text += page.extract_text()\n```\n\n## Python Libraries\n\n### pypdf - Basic Operations\n\n#### Merge PDFs\n```python\nfrom pypdf import PdfWriter, PdfReader\n\nwriter = PdfWriter()\nfor pdf_file in [\"doc1.pdf\", \"doc2.pdf\", \"doc3.pdf\"]:\n    reader = PdfReader(pdf_file)\n    for page in reader.pages:\n        writer.add_page(page)\n\nwith open(\"merged.pdf\", \"wb\") as output:\n    writer.write(output)\n```\n\n#### Split PDF\n```python\nreader = PdfReader(\"input.pdf\")\nfor i, page in enumerate(reader.pages):\n    writer = PdfWriter()\n    writer.add_page(page)\n    with open(f\"page_{i+1}.pdf\", \"wb\") as output:\n        writer.write(output)\n```\n\n#### Extract Metadata\n```python\nreader = PdfReader(\"document.pdf\")"
+    },
+    {
+      "id": "chunk_007_021",
+      "topic": "Anthropic official Skills",
+      "title": "pptx — official Anthropic Skill",
+      "keywords": [
+        "pptx",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "pptx skill",
+        "anthropic pptx"
+      ],
+      "alt_phrasings": [
+        "what is the pptx skill",
+        "how to use pptx skill",
+        "pptx SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/pptx",
+      "source_label": "anthropics/skills — pptx",
+      "text": "pptx: \"Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions \\\"deck,\\\" \\\"slides,\\\" \\\"presentation,\\\" or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill.\"\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_022",
+      "topic": "Anthropic official Skills",
+      "title": "pptx — usage and workflow",
+      "keywords": [
+        "pptx",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "pptx workflow",
+        "how pptx works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/pptx/SKILL.md",
+      "source_label": "pptx SKILL.md — anthropics/skills",
+      "text": "# PPTX Skill\n\n## Quick Reference\n\n| Task | Guide |\n|------|-------|\n| Read/analyze content | `python -m markitdown presentation.pptx` |\n| Edit or create from template | Read [editing.md](editing.md) |\n| Create from scratch | Read [pptxgenjs.md](pptxgenjs.md) |\n\n---\n\n## Reading Content\n\n```bash\n# Text extraction\npython -m markitdown presentation.pptx\n\n# Visual overview\npython scripts/thumbnail.py presentation.pptx\n\n# Raw XML\npython scripts/office/unpack.py presentation.pptx unpacked/\n```\n\n---\n\n## Editing Workflow\n\n**Read [editing.md](editing.md) for full details.**\n\n1. Analyze template with `thumbnail.py`\n2. Unpack → manipulate slides → edit content → clean → pack\n\n---\n\n## Creating from Scratch\n\n**Read [pptxgenjs.md](pptxgenjs.md) for full details.**\n\nUse when no template or reference presentation is available.\n\n---\n\n## Design Ideas\n\n**Don't create boring slides.** Plain bullets on a white background won't impress anyone. Consider ideas from this list for each slide.\n\n### Before Starting\n\n- **Pick a bold, content-informed color palette**: The palette should feel designed for THIS topic. If swapping your colors into a completely different presentation would still \"work,\" you haven't"
+    },
+    {
+      "id": "chunk_007_023",
+      "topic": "Anthropic official Skills",
+      "title": "skill-creator — official Anthropic Skill",
+      "keywords": [
+        "skill-creator",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "skill-creator skill",
+        "anthropic skill-creator"
+      ],
+      "alt_phrasings": [
+        "what is the skill-creator skill",
+        "how to use skill-creator skill",
+        "skill-creator SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/skill-creator",
+      "source_label": "anthropics/skills — skill-creator",
+      "text": "skill-creator: \n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_024",
+      "topic": "Anthropic official Skills",
+      "title": "skill-creator — usage and workflow",
+      "keywords": [
+        "skill-creator",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "skill-creator workflow",
+        "how skill-creator works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
+      "source_label": "skill-creator SKILL.md — anthropics/skills",
+      "text": "# Skill Creator\n\nA skill for creating new skills and iteratively improving them.\n\nAt a high level, the process of creating a skill goes like this:\n\n- Decide what you want the skill to do and roughly how it should do it\n- Write a draft of the skill\n- Create a few test prompts and run claude-with-access-to-the-skill on them\n- Help the user evaluate the results both qualitatively and quantitatively\n  - While the runs happen in the background, draft some quantitative evals if there aren't any (if there are some, you can either use as is or modify if you feel something needs to change about them). Then explain them to the user (or if they already existed, explain the ones that already exist)\n  - Use the `eval-viewer/generate_review.py` script to show the user the results for them to look at, and also let them look at the quantitative metrics\n- Rewrite the skill based on feedback from the user's evaluation of the results (and also if there are any glaring flaws that become apparent from the quantitative benchmarks)\n- Repeat until you're satisfied\n- Expand the test set and try again at larger scale\n\nYour job when using this skill is to figure out where the user is in this process and then"
+    },
+    {
+      "id": "chunk_007_025",
+      "topic": "Anthropic official Skills",
+      "title": "slack-gif-creator — official Anthropic Skill",
+      "keywords": [
+        "slack-gif-creator",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "slack-gif-creator skill",
+        "anthropic slack-gif-creator"
+      ],
+      "alt_phrasings": [
+        "what is the slack-gif-creator skill",
+        "how to use slack-gif-creator skill",
+        "slack-gif-creator SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/slack-gif-creator",
+      "source_label": "anthropics/skills — slack-gif-creator",
+      "text": "slack-gif-creator: Knowledge and utilities for creating animated GIFs optimized for Slack. Provides constraints, validation tools, and animation concepts. Use when users request animated GIFs for Slack like \"make me a GIF of X doing Y for Slack.\"\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_026",
+      "topic": "Anthropic official Skills",
+      "title": "slack-gif-creator — usage and workflow",
+      "keywords": [
+        "slack-gif-creator",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "slack-gif-creator workflow",
+        "how slack-gif-creator works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/slack-gif-creator/SKILL.md",
+      "source_label": "slack-gif-creator SKILL.md — anthropics/skills",
+      "text": "# Slack GIF Creator\n\nA toolkit providing utilities and knowledge for creating animated GIFs optimized for Slack.\n\n## Slack Requirements\n\n**Dimensions:**\n- Emoji GIFs: 128x128 (recommended)\n- Message GIFs: 480x480\n\n**Parameters:**\n- FPS: 10-30 (lower is smaller file size)\n- Colors: 48-128 (fewer = smaller file size)\n- Duration: Keep under 3 seconds for emoji GIFs\n\n## Core Workflow\n\n```python\nfrom core.gif_builder import GIFBuilder\nfrom PIL import Image, ImageDraw\n\n# 1. Create builder\nbuilder = GIFBuilder(width=128, height=128, fps=10)\n\n# 2. Generate frames\nfor i in range(12):\n    frame = Image.new('RGB', (128, 128), (240, 248, 255))\n    draw = ImageDraw.Draw(frame)\n\n    # Draw your animation using PIL primitives\n    # (circles, polygons, lines, etc.)\n\n    builder.add_frame(frame)\n\n# 3. Save with optimization\nbuilder.save('output.gif', num_colors=48, optimize_for_emoji=True)\n```\n\n## Drawing Graphics\n\n### Working with User-Uploaded Images\nIf a user uploads an image, consider whether they want to:\n- **Use it directly** (e.g., \"animate this\", \"split this into frames\")\n- **Use it as inspiration** (e.g., \"make something like this\")\n\nLoad and work with images using PIL:\n```python\nfrom PIL"
+    },
+    {
+      "id": "chunk_007_027",
+      "topic": "Anthropic official Skills",
+      "title": "theme-factory — official Anthropic Skill",
+      "keywords": [
+        "theme-factory",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "theme-factory skill",
+        "anthropic theme-factory"
+      ],
+      "alt_phrasings": [
+        "what is the theme-factory skill",
+        "how to use theme-factory skill",
+        "theme-factory SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/theme-factory",
+      "source_label": "anthropics/skills — theme-factory",
+      "text": "theme-factory: Toolkit for styling artifacts with a theme. These artifacts can be slides, docs, reportings, HTML landing pages, etc. There are 10 pre-set themes with colors/fonts that you can apply to any artifact that has been creating, or can generate a new theme on-the-fly.\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_028",
+      "topic": "Anthropic official Skills",
+      "title": "theme-factory — usage and workflow",
+      "keywords": [
+        "theme-factory",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "theme-factory workflow",
+        "how theme-factory works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/theme-factory/SKILL.md",
+      "source_label": "theme-factory SKILL.md — anthropics/skills",
+      "text": "# Theme Factory Skill\n\nThis skill provides a curated collection of professional font and color themes themes, each with carefully selected color palettes and font pairings. Once a theme is chosen, it can be applied to any artifact.\n\n## Purpose\n\nTo apply consistent, professional styling to presentation slide decks, use this skill. Each theme includes:\n- A cohesive color palette with hex codes\n- Complementary font pairings for headers and body text\n- A distinct visual identity suitable for different contexts and audiences\n\n## Usage Instructions\n\nTo apply styling to a slide deck or other artifact:\n\n1. **Show the theme showcase**: Display the `theme-showcase.pdf` file to allow users to see all available themes visually. Do not make any modifications to it; simply show the file for viewing.\n2. **Ask for their choice**: Ask which theme to apply to the deck\n3. **Wait for selection**: Get explicit confirmation about the chosen theme\n4. **Apply the theme**: Once a theme has been chosen, apply the selected theme's colors and fonts to the deck/artifact\n\n## Themes Available\n\nThe following 10 themes are available, each showcased in `theme-showcase.pdf`:\n\n1. **Ocean Depths** - Professional and c"
+    },
+    {
+      "id": "chunk_007_029",
+      "topic": "Anthropic official Skills",
+      "title": "web-artifacts-builder — official Anthropic Skill",
+      "keywords": [
+        "web-artifacts-builder",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "web-artifacts-builder skill",
+        "anthropic web-artifacts-builder"
+      ],
+      "alt_phrasings": [
+        "what is the web-artifacts-builder skill",
+        "how to use web-artifacts-builder skill",
+        "web-artifacts-builder SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/web-artifacts-builder",
+      "source_label": "anthropics/skills — web-artifacts-builder",
+      "text": "web-artifacts-builder: Suite of tools for creating elaborate, multi-component claude.ai HTML artifacts using modern frontend web technologies (React, Tailwind CSS, shadcn/ui). Use for complex artifacts requiring state management, routing, or shadcn/ui components - not for simple single-file HTML/JSX artifacts.\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_030",
+      "topic": "Anthropic official Skills",
+      "title": "web-artifacts-builder — usage and workflow",
+      "keywords": [
+        "web-artifacts-builder",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "web-artifacts-builder workflow",
+        "how web-artifacts-builder works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/web-artifacts-builder/SKILL.md",
+      "source_label": "web-artifacts-builder SKILL.md — anthropics/skills",
+      "text": "# Web Artifacts Builder\n\nTo build powerful frontend claude.ai artifacts, follow these steps:\n1. Initialize the frontend repo using `scripts/init-artifact.sh`\n2. Develop your artifact by editing the generated code\n3. Bundle all code into a single HTML file using `scripts/bundle-artifact.sh`\n4. Display artifact to user\n5. (Optional) Test the artifact\n\n**Stack**: React 18 + TypeScript + Vite + Parcel (bundling) + Tailwind CSS + shadcn/ui\n\n## Design & Style Guidelines\n\nVERY IMPORTANT: To avoid what is often referred to as \"AI slop\", avoid using excessive centered layouts, purple gradients, uniform rounded corners, and Inter font.\n\n## Quick Start\n\n### Step 1: Initialize Project\n\nRun the initialization script to create a new React project:\n```bash\nbash scripts/init-artifact.sh <project-name>\ncd <project-name>\n```\n\nThis creates a fully configured project with:\n- ✅ React + TypeScript (via Vite)\n- ✅ Tailwind CSS 3.4.1 with shadcn/ui theming system\n- ✅ Path aliases (`@/`) configured\n- ✅ 40+ shadcn/ui components pre-installed\n- ✅ All Radix UI dependencies included\n- ✅ Parcel configured for bundling (via .parcelrc)\n- ✅ Node 18+ compatibility (auto-detects and pins Vite version)\n\n### Step 2: De"
+    },
+    {
+      "id": "chunk_007_031",
+      "topic": "Anthropic official Skills",
+      "title": "webapp-testing — official Anthropic Skill",
+      "keywords": [
+        "webapp-testing",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "webapp-testing skill",
+        "anthropic webapp-testing"
+      ],
+      "alt_phrasings": [
+        "what is the webapp-testing skill",
+        "how to use webapp-testing skill",
+        "webapp-testing SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/webapp-testing",
+      "source_label": "anthropics/skills — webapp-testing",
+      "text": "webapp-testing: Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_032",
+      "topic": "Anthropic official Skills",
+      "title": "webapp-testing — usage and workflow",
+      "keywords": [
+        "webapp-testing",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "webapp-testing workflow",
+        "how webapp-testing works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/webapp-testing/SKILL.md",
+      "source_label": "webapp-testing SKILL.md — anthropics/skills",
+      "text": "# Web Application Testing\n\nTo test local web applications, write native Python Playwright scripts.\n\n**Helper Scripts Available**:\n- `scripts/with_server.py` - Manages server lifecycle (supports multiple servers)\n\n**Always run scripts with `--help` first** to see usage. DO NOT read the source until you try running the script first and find that a customized solution is abslutely necessary. These scripts can be very large and thus pollute your context window. They exist to be called directly as black-box scripts rather than ingested into your context window.\n\n## Decision Tree: Choosing Your Approach\n\n```\nUser task → Is it static HTML?\n    ├─ Yes → Read HTML file directly to identify selectors\n    │         ├─ Success → Write Playwright script using selectors\n    │         └─ Fails/Incomplete → Treat as dynamic (below)\n    │\n    └─ No (dynamic webapp) → Is the server already running?\n        ├─ No → Run: python scripts/with_server.py --help\n        │        Then use the helper + write simplified Playwright script\n        │\n        └─ Yes → Reconnaissance-then-action:\n            1. Navigate and wait for networkidle\n            2. Take screenshot or inspect DOM\n            3. Identify"
+    },
+    {
+      "id": "chunk_007_033",
+      "topic": "Anthropic official Skills",
+      "title": "xlsx — official Anthropic Skill",
+      "keywords": [
+        "xlsx",
+        "skill",
+        "skills",
+        "agent skills",
+        "anthropic official",
+        "anthropics/skills"
+      ],
+      "synonyms": [
+        "xlsx skill",
+        "anthropic xlsx"
+      ],
+      "alt_phrasings": [
+        "what is the xlsx skill",
+        "how to use xlsx skill",
+        "xlsx SKILL.md"
+      ],
+      "source": "https://github.com/anthropics/skills/tree/main/skills/xlsx",
+      "source_label": "anthropics/skills — xlsx",
+      "text": "xlsx: \"Use this skill any time a spreadsheet file is the primary input or output. This means any task where the user wants to: open, read, edit, or fix an existing .xlsx, .xlsm, .csv, or .tsv file (e.g., adding columns, computing formulas, formatting, charting, cleaning messy data); create a new spreadsheet from scratch or from other data sources; or convert between tabular file formats. Trigger especially when the user references a spreadsheet file by name or path — even casually (like \\\"the xlsx in my downloads\\\") — and wants something done to it or produced from it. Also trigger for cleaning or restructuring messy tabular data files (malformed rows, misplaced headers, junk data) into proper spreadsheets. The deliverable must be a spreadsheet file. Do NOT trigger when the primary deliverable is a Word document, HTML report, standalone Python script, database pipeline, or Google Sheets API integration, even if tabular data is involved.\"\n\nOfficial Anthropic Skill published at github.com/anthropics/skills. Contains SKILL.md with full progressive-disclosure instructions, scripts, and examples."
+    },
+    {
+      "id": "chunk_007_034",
+      "topic": "Anthropic official Skills",
+      "title": "xlsx — usage and workflow",
+      "keywords": [
+        "xlsx",
+        "workflow",
+        "usage",
+        "skill workflow",
+        "anthropic"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "xlsx workflow",
+        "how xlsx works"
+      ],
+      "source": "https://github.com/anthropics/skills/blob/main/skills/xlsx/SKILL.md",
+      "source_label": "xlsx SKILL.md — anthropics/skills",
+      "text": "# Requirements for Outputs\n\n## All Excel files\n\n### Professional Font\n- Use a consistent, professional font (e.g., Arial, Times New Roman) for all deliverables unless otherwise instructed by the user\n\n### Zero Formula Errors\n- Every Excel model MUST be delivered with ZERO formula errors (#REF!, #DIV/0!, #VALUE!, #N/A, #NAME?)\n\n### Preserve Existing Templates (when updating templates)\n- Study and EXACTLY match existing format, style, and conventions when modifying files\n- Never impose standardized formatting on files with established patterns\n- Existing template conventions ALWAYS override these guidelines\n\n## Financial models\n\n### Color Coding Standards\nUnless otherwise stated by the user or existing template\n\n#### Industry-Standard Color Conventions\n- **Blue text (RGB: 0,0,255)**: Hardcoded inputs, and numbers users will change for scenarios\n- **Black text (RGB: 0,0,0)**: ALL formulas and calculations\n- **Green text (RGB: 0,128,0)**: Links pulling from other worksheets within same workbook\n- **Red text (RGB: 255,0,0)**: External links to other files\n- **Yellow background (RGB: 255,255,0)**: Key assumptions needing attention or cells that need to be updated\n\n### Number Formatting S"
+    }
+  ]
+}
