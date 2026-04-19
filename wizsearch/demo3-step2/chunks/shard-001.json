@@ -1,0 +1,1470 @@
+{
+  "shard_id": "shard-001",
+  "chunks": [
+    {
+      "id": "chunk_0001",
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "source_label": "Agent Skills — Overview (platform.claude.com)",
+      "topic": "Progressive disclosure",
+      "title": "Agent Skills — Overview (platform.claude.com)",
+      "text": "Source: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview\n\nAgent Skills extend Claude's capabilities through organized folders of instructions, scripts, and resources that Claude loads dynamically. A Skill is a directory containing a SKILL.md file — a Markdown document with YAML frontmatter providing discovery metadata (name, description). This filesystem-based architecture enables progressive disclosure: Claude loads information in stages as needed, rather than consuming context upfront.\n\nSkills can contain three types of content, each loaded at different times:\n\n1. **Instructions (metadata)**. The Skill's YAML frontmatter provides discovery information. Claude loads this metadata at startup and includes it in the system prompt. This lightweight approach means you can install many Skills without context penalty; Claude only knows each Skill exists and when to use it.\n\n2. **Instructions (body)**. The main body of SKILL.md contains procedural knowledge: workflows, best practices, and guidance. Claude reads the body into context only when the user's request matches the Skill.\n\n3. **Bundled resources**. Scripts, templates, and reference files stored alongside SKILL.md. Claude opens these only when a specific subtask calls for them — keeping the core SKILL.md lean.\n\nPre-built Skills from Anthropic (docx, xlsx, pptx, pdf) are available to all users on claude.ai and via the Claude API. Custom Skills let you package domain expertise and organizational knowledge, and they're available across Claude's products: create them in Claude Code, upload them via the API, or add them in claude.ai settings.\n\nSecurity: use Skills only from trusted sources. Audit the SKILL.md, scripts, and bundled resources before installing.",
+      "keywords": [
+        "Progressive disclosure",
+        "Claude",
+        "Claude Code",
+        "Claude API",
+        "Claude.ai",
+        "Anthropic",
+        "docx",
+        "xlsx",
+        "pptx",
+        "pdf",
+        "SKILL.md",
+        "YAML frontmatter",
+        "agent skills",
+        "SKILL"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {
+        "API": "Application Programming Interface",
+        "YAML": "YAML Ain't Markup Language"
+      },
+      "alt_phrasings": [
+        "What is Agent Skills — Overview (platform.claude.com)?",
+        "How do I use progressive disclosure?",
+        "Explain Agent Skills — Overview (platform.claude.com) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0002",
+      "source": "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills",
+      "source_label": "Equipping agents for the real world with Agent Skills (Anthropic Engineering)",
+      "topic": "Progressive disclosure",
+      "title": "Equipping agents for the real world with Agent Skills (Anthropic Engineering)",
+      "text": "Source: https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills\n\nSkills extend Claude's capabilities by packaging expertise into composable resources for Claude, transforming general-purpose agents into specialized agents. Building a skill for an agent is like putting together an onboarding guide for a new hire.\n\nA skill is a directory containing a SKILL.md file that contains organized folders of instructions, scripts, and resources. The file must start with YAML frontmatter containing `name` and `description`. At startup, the agent pre-loads the name and description of every installed skill into its system prompt — the first level of progressive disclosure. The body of SKILL.md is the second level, loaded only when Claude decides the skill is relevant.\n\nAs skills grow in complexity, they may contain too much context to fit into a single SKILL.md. In the PDF skill, SKILL.md refers to `reference.md` and `forms.md` — by moving form-filling instructions to a separate file, the author keeps the core lean, trusting Claude will read forms.md only when filling out a form.\n\nSkills can include code for Claude to execute as tools at its discretion. Large language models excel at many tasks, but certain operations — sorting a list, deterministic transformations, heavy computation — are better suited for code execution. The PDF skill includes a pre-written Python script that extracts form fields; Claude runs it without loading either the script or the PDF into context.\n\nAuthoring guidelines:\n- **Start with evaluation.** Identify specific gaps by running agents on representative tasks.\n- **Structure for scale.** When SKILL.md becomes unwieldy, split into separate files and reference them.\n- **Code as tools and docs.** Make it clear whether Claude should run scripts directly or read them into context.",
+      "keywords": [
+        "Progressive disclosure",
+        "Claude",
+        "Anthropic",
+        "pdf",
+        "SKILL.md",
+        "YAML frontmatter",
+        "code execution",
+        "forms.md",
+        "reference.md",
+        "SKILL",
+        "Pro",
+        "web",
+        "python"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format",
+        "YAML": "YAML Ain't Markup Language"
+      },
+      "alt_phrasings": [
+        "What is Equipping agents for the real world with Agent Skills (Anthropic Engineering)?",
+        "How do I use progressive disclosure?",
+        "Explain Equipping agents for the real world with Agent Skills (Anthropic Engineering) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0003",
+      "source": "https://platform.claude.com/docs/en/build-with-claude/skills-guide",
+      "source_label": "Using Agent Skills with the Claude API",
+      "topic": "API and Messages integration",
+      "title": "Using Agent Skills with the Claude API",
+      "text": "Source: https://platform.claude.com/docs/en/build-with-claude/skills-guide\n\nSkills integrate with the Messages API through the code execution tool. Whether using pre-built Skills managed by Anthropic or custom Skills you've uploaded, the integration shape is identical: both require code execution and use the same `container` structure.\n\nYou specify Skills in the `container` parameter with a `skill_id`, `type`, and optional `version`, and they execute in the code execution environment. You can include up to 8 Skills per request.\n\nBoth skill sources (Anthropic pre-built and custom) are returned by the List Skills endpoint. Use the `source` parameter to filter. The integration shape and execution environment are identical. The only difference is where the Skills come from and how they're managed.\n\nVersioning: Skills support versioning. You can pin to a specific version for stability, or use `version: \"latest\"` to always get the most recent. Attempting to delete a Skill with existing versions returns a 400 error.\n\nBetas required: `code-execution-2025-08-25` and `skills-2025-10-02`.\n\nCombine Skills when tasks involve multiple document types — e.g., read a PDF and write an Excel summary.\n\nZDR: Agent Skills are not covered by ZDR arrangements. Skill definitions and execution data are retained per Anthropic's standard data retention policy.",
+      "keywords": [
+        "API and Messages integration",
+        "Claude",
+        "Anthropic",
+        "Messages API",
+        "pdf",
+        "agent skills",
+        "container",
+        "skill_id",
+        "code execution",
+        "SKILL",
+        "ZDR",
+        "web",
+        "versioning"
+      ],
+      "synonyms": [
+        "skills via API",
+        "API skills",
+        "messages container",
+        "programmatic skills"
+      ],
+      "acronyms": {
+        "API": "Application Programming Interface",
+        "ZDR": "Zero Data Retention",
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Using Agent Skills with the Claude API?",
+        "How do I use api and messages integration?",
+        "Explain Using Agent Skills with the Claude API in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0004",
+      "source": "https://code.claude.com/docs/en/skills",
+      "source_label": "Agent Skills in Claude Code",
+      "topic": "Claude Code integration",
+      "title": "Agent Skills in Claude Code",
+      "text": "Source: https://code.claude.com/docs/en/skills, https://anthropic.skilljar.com/introduction-to-agent-skills\n\nClaude Code discovers skills from multiple locations:\n- User settings: `~/.config/claude/skills/`\n- Project settings: `.claude/skills/`\n- Plugin-provided skills\n- Built-in skills\n\nEach location is scanned at startup to build the available skills list. Skills differ from other Claude Code customization options:\n- **CLAUDE.md**: always-on project instructions (no gating)\n- **Hooks**: event-triggered scripts (deterministic, no model reasoning)\n- **Subagents**: separate Claude instances with different system prompts\n- **Skills**: conditionally loaded procedural knowledge, triggered by Claude matching user intent\n\nAuthoring a Skill from scratch in Claude Code:\n1. Write SKILL.md frontmatter with `name` and a *description that reliably triggers matching*\n2. Organize the skill directory with progressive disclosure — core instructions in SKILL.md, reference files alongside\n3. Advanced options: `allowed-tools` to restrict tool access; scripts that execute without consuming context\n4. Share with your team: commit the skill folder to a repo; distribute more broadly through plugins; deploy org-wide via enterprise managed settings",
+      "keywords": [
+        "Claude Code integration",
+        "Claude",
+        "Claude Code",
+        "Anthropic",
+        "SKILL.md",
+        "progressive disclosure",
+        "allowed-tools",
+        "SKILL",
+        "Pro",
+        "Team",
+        "Enterprise",
+        "Skilljar",
+        "web"
+      ],
+      "synonyms": [
+        "skills in CLI",
+        "Claude Code skills",
+        "terminal skills",
+        "CC skills"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Agent Skills in Claude Code?",
+        "How do I use claude code integration?",
+        "Explain Agent Skills in Claude Code in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0005",
+      "source": "https://github.com/anthropics/skills",
+      "source_label": "anthropics/skills — GitHub README",
+      "topic": "Pre-built Skills",
+      "title": "anthropics/skills — Public repository for Agent Skills",
+      "text": "Source: https://github.com/anthropics/skills\n\nThis repository contains Anthropic's implementation of skills for Claude. For information about the Agent Skills standard, see agentskills.io. Skills are folders of instructions, scripts, and resources that Claude loads dynamically to improve performance on specialized tasks.\n\nThis repository contains skills that demonstrate what's possible:\n- Creative applications (art, music, design)\n- Technical tasks (testing web apps, MCP server generation)\n- Enterprise workflows (communications, branding)\n\nEach skill is self-contained in its own folder with a SKILL.md file containing the instructions and metadata Claude uses.\n\nSkills are simple to create — just a folder with a SKILL.md file containing YAML frontmatter and instructions. A minimal template:\n\n```yaml\n---\nname: my-skill-name\ndescription: A clear description of what this skill does and when to use it.\n---\n```\n\nSkills are not inherently tied to Anthropic's models. Another model with access to a code interpreter could read a SKILL.md file and follow its instructions. This simplicity suggests a portable, cross-platform ecosystem.\n\nYou can use Anthropic's pre-built skills and upload custom skills via the Claude API.",
+      "keywords": [
+        "Pre-built Skills",
+        "Claude",
+        "Claude API",
+        "Anthropic",
+        "SKILL.md",
+        "YAML frontmatter",
+        "agent skills",
+        "SKILL",
+        "agentskills.io",
+        "anthropics/skills",
+        "MCP",
+        "code interpreter",
+        "Pro",
+        "Enterprise"
+      ],
+      "synonyms": [
+        "official skills",
+        "Anthropic skills",
+        "built-in skills",
+        "stock skills"
+      ],
+      "acronyms": {
+        "MCP": "Model Context Protocol",
+        "API": "Application Programming Interface",
+        "YAML": "YAML Ain't Markup Language"
+      },
+      "alt_phrasings": [
+        "What is anthropics/skills — Public repository for Agent Skills?",
+        "How do I use pre-built skills?",
+        "Explain anthropics/skills — Public repository for Agent Skills in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0006",
+      "source": "https://agentskills.io/specification",
+      "source_label": "Agent Skills Standard (agentskills.io)",
+      "topic": "SKILL.md structure",
+      "title": "Agent Skills Standard (agentskills.io)",
+      "text": "Source: https://agentskills.io/specification\n\nAgent Skills is an open standard describing a portable format for agent capabilities. A Skill is a directory with a SKILL.md file whose YAML frontmatter declares:\n- `name` (required, kebab-case, <=64 chars)\n- `description` (required, <=1024 chars — should describe *what* and *when*)\n- `allowed-tools` (optional, array of tool-name glob patterns)\n- `license`, `version`, `author` (optional)\n\nThe Skill body (after the frontmatter) is free-form Markdown. The standard recommends keeping it scannable and referencing additional files for heavy detail.\n\nAdoption as of early 2026 extends beyond Anthropic: Cursor, Copilot, Gemini CLI and other agent frameworks honor the same SKILL.md format — enabling cross-tool portability.",
+      "keywords": [
+        "SKILL.md structure",
+        "Anthropic",
+        "SKILL.md",
+        "YAML frontmatter",
+        "agent skills",
+        "allowed-tools",
+        "SKILL",
+        "agentskills.io",
+        "Cursor",
+        "Copilot",
+        "Gemini CLI",
+        "web",
+        "versioning"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "CLI": "Command Line Interface",
+        "YAML": "YAML Ain't Markup Language"
+      },
+      "alt_phrasings": [
+        "What is Agent Skills Standard (agentskills.io)?",
+        "How do I use skill.md structure?",
+        "Explain Agent Skills Standard (agentskills.io) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0007",
+      "source": "https://support.claude.com/en/articles/12512198-how-to-create-custom-skills",
+      "source_label": "How to create custom Skills",
+      "topic": "Custom Skills",
+      "title": "How to create custom Skills",
+      "text": "Source: https://support.claude.com/en/articles/12512198-how-to-create-custom-skills\n\nYou can create custom Skills in three places, all equivalent in the resulting Skill:\n\n1. **Claude.ai Settings → Skills**. Click \"Create Skill\", paste or upload a SKILL.md, attach bundled files. The web UI validates the frontmatter and uploads the skill to your workspace.\n\n2. **Claude Code**. Run `claude skill new <name>` in a project or in your user config. This scaffolds a SKILL.md template. Edit, commit, and it's picked up on the next launch.\n\n3. **Claude API**. Upload a skill archive via the Files API, then call the skills endpoint with the resulting file ID. Skills uploaded this way are scoped to the API workspace.\n\nWriting an effective SKILL.md:\n- **Description is a trigger**. It goes into the system prompt; write it as a description of the *situation* (not your skill's internal features) so Claude can match it.\n- **Keep the body lean**. If it's more than ~300 lines, split by topic and reference the files.\n- **Use `allowed-tools`** to restrict the skill to the minimum surface area.\n- **Test on real tasks**. A skill only earns its keep if Claude actually invokes it when appropriate.",
+      "keywords": [
+        "Custom Skills",
+        "Claude",
+        "Claude Code",
+        "Claude API",
+        "Claude.ai",
+        "SKILL.md",
+        "allowed-tools",
+        "SKILL",
+        "Pro",
+        "Files API",
+        "web"
+      ],
+      "synonyms": [
+        "user-built skills",
+        "your own skill",
+        "homemade skills",
+        "custom capabilities"
+      ],
+      "acronyms": {
+        "API": "Application Programming Interface"
+      },
+      "alt_phrasings": [
+        "What is How to create custom Skills?",
+        "How do I use custom skills?",
+        "Explain How to create custom Skills in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0008",
+      "source": "https://github.com/anthropics/skills/blob/main/docx/SKILL.md",
+      "source_label": "SKILL.md — docx",
+      "topic": "Document creation skills",
+      "title": "docx — SKILL.md frontmatter",
+      "text": "---\nname: docx\ndescription: \"Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of 'Word doc', 'word document', '.docx', or requests to produce professional documents with formatting like tables of contents, headings, page numbers, or letterheads. Also use when extracting or reorganizing content from .docx files, inserting or replacing images in documents, performing find-and-replace in Word files, working with tracked changes or comments, or converting content into a polished Word document. If the user asks for a 'report', 'memo', 'letter', 'template', or similar deliverable as a Word or .docx file, use this skill. Do NOT use for PDFs, spreadsheets, Google Docs, or general coding tasks unrelated to document generation.\"\nlicense: Proprietary. LICENSE.txt has complete terms\n---",
+      "keywords": [
+        "Document creation skills",
+        "docx",
+        "pdf",
+        "SKILL",
+        "Pro",
+        "yaml frontmatter"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is docx — SKILL.md frontmatter?",
+        "How do I use document creation skills?",
+        "Explain docx — SKILL.md frontmatter in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0009",
+      "source": "https://github.com/anthropics/skills/blob/main/docx/SKILL.md",
+      "source_label": "SKILL.md — docx",
+      "topic": "Document creation skills",
+      "title": "Creating New Documents (part 1)",
+      "text": "Generate .docx files with JavaScript, then validate. Install: `npm install -g docx`\n\n### Setup\n```javascript\nconst { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, ImageRun,\n        Header, Footer, AlignmentType, PageOrientation, LevelFormat, ExternalHyperlink,\n        InternalHyperlink, Bookmark, FootnoteReferenceRun, PositionalTab,\n        PositionalTabAlignment, PositionalTabRelativeTo, PositionalTabLeader,\n        TabStopType, TabStopPosition, Column, SectionType,\n        TableOfContents, HeadingLevel, BorderStyle, WidthType, ShadingType,\n        VerticalAlign, PageNumber, PageBreak } = require('docx');\n\nconst doc = new Document({ sections: [{ children: [/* content */] }] });\nPacker.toBuffer(doc).then(buffer => fs.writeFileSync(\"doc.docx\", buffer));\n```\n\n### Validation\nAfter creating the file, validate it. If validation fails, unpack, fix the XML, and repack.\n```bash\npython scripts/office/validate.py doc.docx\n```\n\n### Page Size\n\n```javascript\n// CRITICAL: docx-js defaults to A4, not US Letter\n// Always set page size explicitly for consistent results\nsections: [{\n  properties: {\n    page: {\n      size: {\n        width: 12240,   // 8.5 inches in DXA\n        height: 15840   // 11 inches in DXA\n      },\n      margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } // 1 inch margins\n    }\n  },\n  children: [/* content */]\n}]\n```\n\n**Common page sizes (DXA units, 1440 DXA = 1 inch):**\n\n| Paper | Width | Height | Content Width (1\" margins) |\n|-------|-------|--------|---------------------------|\n| US Letter | 12,240 | 15,840 | 9,360 |\n| A4 (default) | 11,906 | 16,838 | 9,026 |\n\n**Landscape orientation:** docx-js swaps width/height internally, so pass portrait dimensions and let it handle the swap:\n```javascript\nsize: {\n  width: 12240,   // Pass SHORT edge as width\n  height: 15840,  // Pass LONG edge as height\n  orientation: PageOrientation.LANDSCAPE  // docx-js swaps them in the XML\n},\n// Content width = 15840 - left margin - right margin (uses the long edge)\n```\n\n### Styles (Override Built-in Headings)\n\nUse Arial as the default font (universally supported). Keep titles black for readability.",
+      "keywords": [
+        "Document creation skills",
+        "docx",
+        "Pro",
+        "python"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Creating New Documents (part 1)?",
+        "How do I use document creation skills?",
+        "Explain Creating New Documents (part 1) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0010",
+      "source": "https://github.com/anthropics/skills/blob/main/docx/SKILL.md",
+      "source_label": "SKILL.md — docx",
+      "topic": "Document creation skills",
+      "title": "Creating New Documents (part 2)",
+      "text": "```javascript\nconst doc = new Document({\n  styles: {\n    default: { document: { run: { font: \"Arial\", size: 24 } } }, // 12pt default\n    paragraphStyles: [\n      // IMPORTANT: Use exact IDs to override built-in styles\n      { id: \"Heading1\", name: \"Heading 1\", basedOn: \"Normal\", next: \"Normal\", quickFormat: true,\n        run: { size: 32, bold: true, font: \"Arial\" },\n        paragraph: { spacing: { before: 240, after: 240 }, outlineLevel: 0 } }, // outlineLevel required for TOC\n      { id: \"Heading2\", name: \"Heading 2\", basedOn: \"Normal\", next: \"Normal\", quickFormat: true,\n        run: { size: 28, bold: true, font: \"Arial\" },\n        paragraph: { spacing: { before: 180, after: 180 }, outlineLevel: 1 } },\n    ]\n  },\n  sections: [{\n    children: [\n      new Paragraph({ heading: HeadingLevel.HEADING_1, children: [new TextRun(\"Title\")] }),\n    ]\n  }]\n});\n```\n\n### Lists (NEVER use unicode bullets)\n\n```javascript\n// ❌ WRONG - never manually insert bullet characters\nnew Paragraph({ children: [new TextRun(\"• Item\")] })  // BAD\nnew Paragraph({ children: [new TextRun(\"\\u2022 Item\")] })  // BAD\n\n// ✅ CORRECT - use numbering config with LevelFormat.BULLET\nconst doc = new Document({\n  numbering: {\n    config: [\n      { reference: \"bullets\",\n        levels: [{ level: 0, format: LevelFormat.BULLET, text: \"•\", alignment: AlignmentType.LEFT,\n          style: { paragraph: { indent: { left: 720, hanging: 360 } } } }] },\n      { reference: \"numbers\",\n        levels: [{ level: 0, format: LevelFormat.DECIMAL, text: \"%1.\", alignment: AlignmentType.LEFT,\n          style: { paragraph: { indent: { left: 720, hanging: 360 } } } }] },\n    ]\n  },\n  sections: [{\n    children: [\n      new Paragraph({ numbering: { reference: \"bullets\", level: 0 },\n        children: [new TextRun(\"Bullet item\")] }),\n      new Paragraph({ numbering: { reference: \"numbers\", level: 0 },\n        children: [new TextRun(\"Numbered item\")] }),\n    ]\n  }]\n});\n\n// ⚠️ Each reference creates INDEPENDENT numbering\n// Same reference = continues (1,2,3 then 4,5,6)\n// Different reference = restarts (1,2,3 then 1,2,3)\n```\n\n### Tables\n\n**CRITICAL: Tables need dual widths** - set both `columnWidths` on the table AND `width` on each cell. Without both, tables render incorrectly on some platforms.\n\n```javascript\n// CRITICAL: Always set table width for consistent rendering\n// CRITICAL: Use ShadingType.CLEAR (not SOLID) to prevent black backgrounds\nconst border = { style: BorderStyle.SINGLE, size: 1, color: \"CCCCCC\" };\nconst borders = { top: border, bottom: border, left: border, right: border };",
+      "keywords": [
+        "Document creation skills",
+        "docx"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Creating New Documents (part 2)?",
+        "How do I use document creation skills?",
+        "Explain Creating New Documents (part 2) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0011",
+      "source": "https://github.com/anthropics/skills/blob/main/docx/SKILL.md",
+      "source_label": "SKILL.md — docx",
+      "topic": "Document creation skills",
+      "title": "Creating New Documents (part 3)",
+      "text": "new Table({\n  width: { size: 9360, type: WidthType.DXA }, // Always use DXA (percentages break in Google Docs)\n  columnWidths: [4680, 4680], // Must sum to table width (DXA: 1440 = 1 inch)\n  rows: [\n    new TableRow({\n      children: [\n        new TableCell({\n          borders,\n          width: { size: 4680, type: WidthType.DXA }, // Also set on each cell\n          shading: { fill: \"D5E8F0\", type: ShadingType.CLEAR }, // CLEAR not SOLID\n          margins: { top: 80, bottom: 80, left: 120, right: 120 }, // Cell padding (internal, not added to width)\n          children: [new Paragraph({ children: [new TextRun(\"Cell\")] })]\n        })\n      ]\n    })\n  ]\n})\n```\n\n**Table width calculation:**\n\nAlways use `WidthType.DXA` — `WidthType.PERCENTAGE` breaks in Google Docs.\n\n```javascript\n// Table width = sum of columnWidths = content width\n// US Letter with 1\" margins: 12240 - 2880 = 9360 DXA\nwidth: { size: 9360, type: WidthType.DXA },\ncolumnWidths: [7000, 2360]  // Must sum to table width\n```\n\n**Width rules:**\n- **Always use `WidthType.DXA`** — never `WidthType.PERCENTAGE` (incompatible with Google Docs)\n- Table width must equal the sum of `columnWidths`\n- Cell `width` must match corresponding `columnWidth`\n- Cell `margins` are internal padding - they reduce content area, not add to cell width\n- For full-width tables: use content width (page width minus left and right margins)\n\n### Images\n\n```javascript\n// CRITICAL: type parameter is REQUIRED\nnew Paragraph({\n  children: [new ImageRun({\n    type: \"png\", // Required: png, jpg, jpeg, gif, bmp, svg\n    data: fs.readFileSync(\"image.png\"),\n    transformation: { width: 200, height: 150 },\n    altText: { title: \"Title\", description: \"Desc\", name: \"Name\" } // All three required\n  })]\n})\n```\n\n### Page Breaks\n\n```javascript\n// CRITICAL: PageBreak must be inside a Paragraph\nnew Paragraph({ children: [new PageBreak()] })\n\n// Or use pageBreakBefore\nnew Paragraph({ pageBreakBefore: true, children: [new TextRun(\"New page\")] })\n```\n\n### Hyperlinks\n\n```javascript\n// External link\nnew Paragraph({\n  children: [new ExternalHyperlink({\n    children: [new TextRun({ text: \"Click here\", style: \"Hyperlink\" })],\n    link: \"https://example.com\",\n  })]\n})\n\n// Internal link (bookmark + reference)\n// 1. Create bookmark at destination\nnew Paragraph({ heading: HeadingLevel.HEADING_1, children: [\n  new Bookmark({ id: \"chapter1\", children: [new TextRun(\"Chapter 1\")] }),\n]})\n// 2. Link to it\nnew Paragraph({ children: [new InternalHyperlink({\n  children: [new TextRun({ text: \"See Chapter 1\", style: \"Hyperlink\" })],\n  anchor: \"chapter1\",\n})]})\n```\n\n### Footnotes",
+      "keywords": [
+        "Document creation skills",
+        "docx"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Creating New Documents (part 3)?",
+        "How do I use document creation skills?",
+        "Explain Creating New Documents (part 3) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0012",
+      "source": "https://github.com/anthropics/skills/blob/main/docx/SKILL.md",
+      "source_label": "SKILL.md — docx",
+      "topic": "Document creation skills",
+      "title": "Creating New Documents (part 4)",
+      "text": "```javascript\nconst doc = new Document({\n  footnotes: {\n    1: { children: [new Paragraph(\"Source: Annual Report 2024\")] },\n    2: { children: [new Paragraph(\"See appendix for methodology\")] },\n  },\n  sections: [{\n    children: [new Paragraph({\n      children: [\n        new TextRun(\"Revenue grew 15%\"),\n        new FootnoteReferenceRun(1),\n        new TextRun(\" using adjusted metrics\"),\n        new FootnoteReferenceRun(2),\n      ],\n    })]\n  }]\n});\n```\n\n### Tab Stops\n\n```javascript\n// Right-align text on same line (e.g., date opposite a title)\nnew Paragraph({\n  children: [\n    new TextRun(\"Company Name\"),\n    new TextRun(\"\\tJanuary 2025\"),\n  ],\n  tabStops: [{ type: TabStopType.RIGHT, position: TabStopPosition.MAX }],\n})\n\n// Dot leader (e.g., TOC-style)\nnew Paragraph({\n  children: [\n    new TextRun(\"Introduction\"),\n    new TextRun({ children: [\n      new PositionalTab({\n        alignment: PositionalTabAlignment.RIGHT,\n        relativeTo: PositionalTabRelativeTo.MARGIN,\n        leader: PositionalTabLeader.DOT,\n      }),\n      \"3\",\n    ]}),\n  ],\n})\n```\n\n### Multi-Column Layouts\n\n```javascript\n// Equal-width columns\nsections: [{\n  properties: {\n    column: {\n      count: 2,          // number of columns\n      space: 720,        // gap between columns in DXA (720 = 0.5 inch)\n      equalWidth: true,\n      separate: true,    // vertical line between columns\n    },\n  },\n  children: [/* content flows naturally across columns */]\n}]\n\n// Custom-width columns (equalWidth must be false)\nsections: [{\n  properties: {\n    column: {\n      equalWidth: false,\n      children: [\n        new Column({ width: 5400, space: 720 }),\n        new Column({ width: 3240 }),\n      ],\n    },\n  },\n  children: [/* content */]\n}]\n```\n\nForce a column break with a new section using `type: SectionType.NEXT_COLUMN`.\n\n### Table of Contents\n\n```javascript\n// CRITICAL: Headings must use HeadingLevel ONLY - no custom styles\nnew TableOfContents(\"Table of Contents\", { hyperlink: true, headingStyleRange: \"1-3\" })\n```\n\n### Headers/Footers\n\n```javascript\nsections: [{\n  properties: {\n    page: { margin: { top: 1440, right: 1440, bottom: 1440, left: 1440 } } // 1440 = 1 inch\n  },\n  headers: {\n    default: new Header({ children: [new Paragraph({ children: [new TextRun(\"Header\")] })] })\n  },\n  footers: {\n    default: new Footer({ children: [new Paragraph({\n      children: [new TextRun(\"Page \"), new TextRun({ children: [PageNumber.CURRENT] })]\n    })] })\n  },\n  children: [/* content */]\n}]\n```\n\n### Critical Rules for docx-js",
+      "keywords": [
+        "Document creation skills",
+        "docx",
+        "Pro",
+        "Max"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Creating New Documents (part 4)?",
+        "How do I use document creation skills?",
+        "Explain Creating New Documents (part 4) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0013",
+      "source": "https://github.com/anthropics/skills/blob/main/docx/SKILL.md",
+      "source_label": "SKILL.md — docx",
+      "topic": "Document creation skills",
+      "title": "Creating New Documents (part 5)",
+      "text": "- **Set page size explicitly** - docx-js defaults to A4; use US Letter (12240 x 15840 DXA) for US documents\n- **Landscape: pass portrait dimensions** - docx-js swaps width/height internally; pass short edge as `width`, long edge as `height`, and set `orientation: PageOrientation.LANDSCAPE`\n- **Never use `\\n`** - use separate Paragraph elements\n- **Never use unicode bullets** - use `LevelFormat.BULLET` with numbering config\n- **PageBreak must be in Paragraph** - standalone creates invalid XML\n- **ImageRun requires `type`** - always specify png/jpg/etc\n- **Always set table `width` with DXA** - never use `WidthType.PERCENTAGE` (breaks in Google Docs)\n- **Tables need dual widths** - `columnWidths` array AND cell `width`, both must match\n- **Table width = sum of columnWidths** - for DXA, ensure they add up exactly\n- **Always add cell margins** - use `margins: { top: 80, bottom: 80, left: 120, right: 120 }` for readable padding\n- **Use `ShadingType.CLEAR`** - never SOLID for table shading\n- **Never use tables as dividers/rules** - cells have minimum height and render as empty boxes (including in headers/footers); use `border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: \"2E75B6\", space: 1 } }` on a Paragraph instead. For two-column footers, use tab stops (see Tab Stops section), not tables\n- **TOC requires HeadingLevel only** - no custom styles on heading paragraphs\n- **Override built-in styles** - use exact IDs: \"Heading1\", \"Heading2\", etc.\n- **Include `outlineLevel`** - required for TOC (0 for H1, 1 for H2, etc.)\n\n---",
+      "keywords": [
+        "Document creation skills",
+        "docx"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Creating New Documents (part 5)?",
+        "How do I use document creation skills?",
+        "Explain Creating New Documents (part 5) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0014",
+      "source": "https://github.com/anthropics/skills/blob/main/docx/SKILL.md",
+      "source_label": "SKILL.md — docx",
+      "topic": "Document creation skills",
+      "title": "Editing Existing Documents",
+      "text": "**Follow all 3 steps in order.**\n\n### Step 1: Unpack\n```bash\npython scripts/office/unpack.py document.docx unpacked/\n```\nExtracts XML, pretty-prints, merges adjacent runs, and converts smart quotes to XML entities (`&#x201C;` etc.) so they survive editing. Use `--merge-runs false` to skip run merging.\n\n### Step 2: Edit XML\n\nEdit files in `unpacked/word/`. See XML Reference below for patterns.\n\n**Use \"Claude\" as the author** for tracked changes and comments, unless the user explicitly requests use of a different name.\n\n**Use the Edit tool directly for string replacement. Do not write Python scripts.** Scripts introduce unnecessary complexity. The Edit tool shows exactly what is being replaced.\n\n**CRITICAL: Use smart quotes for new content.** When adding text with apostrophes or quotes, use XML entities to produce smart quotes:\n```xml\n<!-- Use these entities for professional typography -->\n<w:t>Here&#x2019;s a quote: &#x201C;Hello&#x201D;</w:t>\n```\n| Entity | Character |\n|--------|-----------|\n| `&#x2018;` | ‘ (left single) |\n| `&#x2019;` | ’ (right single / apostrophe) |\n| `&#x201C;` | “ (left double) |\n| `&#x201D;` | ” (right double) |\n\n**Adding comments:** Use `comment.py` to handle boilerplate across multiple XML files (text must be pre-escaped XML):\n```bash\npython scripts/comment.py unpacked/ 0 \"Comment text with &amp; and &#x2019;\"\npython scripts/comment.py unpacked/ 1 \"Reply text\" --parent 0  # reply to comment 0\npython scripts/comment.py unpacked/ 0 \"Text\" --author \"Custom Author\"  # custom author name\n```\nThen add markers to document.xml (see Comments in XML Reference).\n\n### Step 3: Pack\n```bash\npython scripts/office/pack.py unpacked/ output.docx --original document.docx\n```\nValidates with auto-repair, condenses XML, and creates DOCX. Use `--validate false` to skip.\n\n**Auto-repair will fix:**\n- `durableId` >= 0x7FFFFFFF (regenerates valid ID)\n- Missing `xml:space=\"preserve\"` on `<w:t>` with whitespace\n\n**Auto-repair won't fix:**\n- Malformed XML, invalid element nesting, missing relationships, schema violations\n\n### Common Pitfalls\n\n- **Replace entire `<w:r>` elements**: When adding tracked changes, replace the whole `<w:r>...</w:r>` block with `<w:del>...<w:ins>...` as siblings. Don't inject tracked change tags inside a run.\n- **Preserve `<w:rPr>` formatting**: Copy the original run's `<w:rPr>` block into your tracked change runs to maintain bold, font size, etc.\n\n---",
+      "keywords": [
+        "Document creation skills",
+        "Claude",
+        "docx",
+        "Pro",
+        "python"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Editing Existing Documents?",
+        "How do I use document creation skills?",
+        "Explain Editing Existing Documents in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0015",
+      "source": "https://github.com/anthropics/skills/blob/main/docx/SKILL.md",
+      "source_label": "SKILL.md — docx",
+      "topic": "Document creation skills",
+      "title": "XML Reference",
+      "text": "### Schema Compliance\n\n- **Element order in `<w:pPr>`**: `<w:pStyle>`, `<w:numPr>`, `<w:spacing>`, `<w:ind>`, `<w:jc>`, `<w:rPr>` last\n- **Whitespace**: Add `xml:space=\"preserve\"` to `<w:t>` with leading/trailing spaces\n- **RSIDs**: Must be 8-digit hex (e.g., `00AB1234`)\n\n### Tracked Changes\n\n**Insertion:**\n```xml\n<w:ins w:id=\"1\" w:author=\"Claude\" w:date=\"2025-01-01T00:00:00Z\">\n  <w:r><w:t>inserted text</w:t></w:r>\n</w:ins>\n```\n\n**Deletion:**\n```xml\n<w:del w:id=\"2\" w:author=\"Claude\" w:date=\"2025-01-01T00:00:00Z\">\n  <w:r><w:delText>deleted text</w:delText></w:r>\n</w:del>\n```\n\n**Inside `<w:del>`**: Use `<w:delText>` instead of `<w:t>`, and `<w:delInstrText>` instead of `<w:instrText>`.\n\n**Minimal edits** - only mark what changes:\n```xml\n<!-- Change \"30 days\" to \"60 days\" -->\n<w:r><w:t>The term is </w:t></w:r>\n<w:del w:id=\"1\" w:author=\"Claude\" w:date=\"...\">\n  <w:r><w:delText>30</w:delText></w:r>\n</w:del>\n<w:ins w:id=\"2\" w:author=\"Claude\" w:date=\"...\">\n  <w:r><w:t>60</w:t></w:r>\n</w:ins>\n<w:r><w:t> days.</w:t></w:r>\n```\n\n**Deleting entire paragraphs/list items** - when removing ALL content from a paragraph, also mark the paragraph mark as deleted so it merges with the next paragraph. Add `<w:del/>` inside `<w:pPr><w:rPr>`:\n```xml\n<w:p>\n  <w:pPr>\n    <w:numPr>...</w:numPr>  <!-- list numbering if present -->\n    <w:rPr>\n      <w:del w:id=\"1\" w:author=\"Claude\" w:date=\"2025-01-01T00:00:00Z\"/>\n    </w:rPr>\n  </w:pPr>\n  <w:del w:id=\"2\" w:author=\"Claude\" w:date=\"2025-01-01T00:00:00Z\">\n    <w:r><w:delText>Entire paragraph content being deleted...</w:delText></w:r>\n  </w:del>\n</w:p>\n```\nWithout the `<w:del/>` in `<w:pPr><w:rPr>`, accepting changes leaves an empty paragraph/list item.\n\n**Rejecting another author's insertion** - nest deletion inside their insertion:\n```xml\n<w:ins w:author=\"Jane\" w:id=\"5\">\n  <w:del w:author=\"Claude\" w:id=\"10\">\n    <w:r><w:delText>their inserted text</w:delText></w:r>\n  </w:del>\n</w:ins>\n```\n\n**Restoring another author's deletion** - add insertion after (don't modify their deletion):\n```xml\n<w:del w:author=\"Jane\" w:id=\"5\">\n  <w:r><w:delText>deleted text</w:delText></w:r>\n</w:del>\n<w:ins w:author=\"Claude\" w:id=\"10\">\n  <w:r><w:t>deleted text</w:t></w:r>\n</w:ins>\n```\n\n### Comments\n\nAfter running `comment.py` (see Step 2), add markers to document.xml. For replies, use `--parent` flag and nest markers inside the parent's.\n\n**CRITICAL: `<w:commentRangeStart>` and `<w:commentRangeEnd>` are siblings of `<w:r>`, never inside `<w:r>`.**\n\n```xml\n<!-- Comment markers are direct children of w:p, never inside w:r -->\n<w:commentRangeStart w:id=\"0\"/>\n<w:del w:id=\"1\" w:author=\"Claude\" w:date=\"2025-01-01T00:00:00Z\">\n  <w:r><w:delText>deleted</w:delText></w:r>\n</w:del>\n<w:r><w:t> more text</w:t></w:r>\n<w:commentRangeEnd w:id=\"0\"/>\n<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/></w:rPr><w:commentReference w:id=\"0\"/></w:r>\n\n<!-- Comment 0 with reply 1 nested inside -->\n<w:commentRangeStart w:id=\"0\"/>\n  <w:commentRangeStart w:id=\"1\"/>\n  <w:r><w:t>text</w:t></w:r>\n  <w:commentRangeEnd w:id=\"1\"/>\n<w:commentRangeEnd w:id=\"0\"/>\n<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/></w:rPr><w:commentReference w:id=\"0\"/></w:r>\n<w:r><w:rPr><w:rStyle w:val=\"CommentReference\"/></w:rPr><w:commentReference w:id=\"1\"/></w:r>\n```\n\n### Images\n\n1. Add image file to `word/media/`\n2. Add relationship to `word/_rels/document.xml.rels`:\n```xml\n<Relationship Id=\"rId5\" Type=\".../image\" Target=\"media/image1.png\"/>\n```\n3. Add content type to `[Content_Types].xml`:\n```xml\n<Default Extension=\"png\" ContentType=\"image/png\"/>\n```\n4. Reference in document.xml:\n```xml\n<w:drawing>\n  <wp:inline>\n    <wp:extent cx=\"914400\" cy=\"914400\"/>  <!-- EMUs: 914400 = 1 inch -->\n    <a:graphic>\n      <a:graphicData uri=\".../picture\">\n        <pic:pic>\n          <pic:blipFill><a:blip r:embed=\"rId5\"/></pic:blipFill>\n        </pic:pic>\n      </a:graphicData>\n    </a:graphic>\n  </wp:inline>\n</w:drawing>\n```\n\n---",
+      "keywords": [
+        "Document creation skills",
+        "Claude",
+        "docx"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is XML Reference?",
+        "How do I use document creation skills?",
+        "Explain XML Reference in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0016",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "SKILL.md structure",
+      "title": "file-reading — SKILL.md frontmatter",
+      "text": "---\nname: file-reading\ndescription: \"Use this skill when a file has been uploaded but its content is NOT in your context — only its path at /mnt/user-data/uploads/ is listed in an uploaded_files block. This skill is a router: it tells you which tool to use for each file type (pdf, docx, xlsx, csv, json, images, archives, ebooks) so you read the right amount the right way instead of blindly running cat on a binary. Triggers: any mention of /mnt/user-data/uploads/, an uploaded_files section, a file_path tag, or a user asking about an uploaded file you have not yet read. Do NOT use this skill if the file content is already visible in your context inside a documents block — you already have it.\"\ncompatibility: \"claude.ai, Claude Desktop, Cowork — any surface where uploads land at /mnt/user-data/uploads/\"\nlicense: Proprietary. LICENSE.txt has complete terms\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "Claude",
+        "Claude.ai",
+        "Claude Desktop",
+        "docx",
+        "xlsx",
+        "pdf",
+        "file-reading",
+        "SKILL",
+        "Pro",
+        "yaml frontmatter"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is file-reading — SKILL.md frontmatter?",
+        "How do I use skill.md structure?",
+        "Explain file-reading — SKILL.md frontmatter in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0017",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "Progressive disclosure",
+      "title": "Why this skill exists",
+      "text": "When a user uploads a file in claude.ai, Claude Desktop, or Cowork,\nthe file is written to `/mnt/user-data/uploads/<filename>` and you are told the path\nin an `<uploaded_files>` block. **The content is not in your context.**\nYou must go read it.\n\nThe naive thing — `cat /mnt/user-data/uploads/whatever` — is wrong for\nmost files:\n\n- On a PDF it prints binary garbage.\n- On a 100MB CSV it floods your context with rows you will never use.\n- On a DOCX it prints the raw ZIP bytes.\n- On an image it does nothing useful at all.\n\nThis skill tells you the right first move for each type, and when to\nhand off to a deeper skill.",
+      "keywords": [
+        "Progressive disclosure",
+        "Claude",
+        "Claude.ai",
+        "Claude Desktop",
+        "docx",
+        "pdf",
+        "SKILL",
+        "file-reading"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Why this skill exists?",
+        "How do I use progressive disclosure?",
+        "Explain Why this skill exists in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0018",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "Progressive disclosure",
+      "title": "General protocol",
+      "text": "1. **Look at the extension.** That is your dispatch key.\n2. **Stat before you read.** Large files need sampling, not slurping.\n   ```bash\n   stat -c '%s bytes, %y' /mnt/user-data/uploads/report.pdf\n   file /mnt/user-data/uploads/report.pdf\n   ```\n3. **Read just enough to answer the user's question.** If they asked\n   \"how many rows are in this CSV\", don't load the whole thing into\n   pandas — `wc -l` gives a fast approximation (it counts newlines,\n   not CSV records, so it may over-count if quoted fields contain\n   embedded newlines).\n4. **If a dedicated skill exists, go read it.** The table below tells\n   you when. The dedicated skills cover editing, creating, and advanced\n   operations that this skill does not.",
+      "keywords": [
+        "Progressive disclosure",
+        "pdf",
+        "SKILL",
+        "Pro",
+        "file-reading"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is General protocol?",
+        "How do I use progressive disclosure?",
+        "Explain General protocol in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0019",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "Pre-built Skills",
+      "title": "Dispatch table",
+      "text": "| Extension                         | First move                                           | Dedicated skill                           |\n| --------------------------------- | ---------------------------------------------------- | ----------------------------------------- |\n| `.pdf`                            | Content inventory (see PDF section)                  | `/mnt/skills/public/pdf-reading/SKILL.md` |\n| `.docx`                           | `extract-text`                                       | `/mnt/skills/public/docx/SKILL.md`        |\n| `.doc` (legacy)                   | Convert to `.docx` first                             | `/mnt/skills/public/docx/SKILL.md`        |\n| `.xlsx`                           | `extract-text`                                       | `/mnt/skills/public/xlsx/SKILL.md`        |\n| `.xlsm`                           | `extract-text --format xlsx`                         | `/mnt/skills/public/xlsx/SKILL.md`        |\n| `.xls` (legacy)                   | `pd.read_excel(engine=\"xlrd\")` — openpyxl rejects it | `/mnt/skills/public/xlsx/SKILL.md`        |\n| `.ods`                            | `pd.read_excel(engine=\"odf\")` — openpyxl rejects it  | `/mnt/skills/public/xlsx/SKILL.md`        |\n| `.pptx`                           | `extract-text`                                       | `/mnt/skills/public/pptx/SKILL.md`        |\n| `.ppt` (legacy)                   | Convert to `.pptx` first                             | `/mnt/skills/public/pptx/SKILL.md`        |\n| `.csv`, `.tsv`                    | `pandas` with `nrows`                                | — (below)                                 |\n| `.json`, `.jsonl`                 | `jq` for structure                                   | — (below)                                 |\n| `.jpg`, `.png`, `.gif`, `.webp`   | Already in your context as vision input              | — (below)                                 |\n| `.zip`, `.tar`, `.tar.gz`         | List contents, do **not** auto-extract               | — (below)                                 |\n| `.gz` (single file)               | `zcat \\| head` — no manifest to list                 | — (below)                                 |\n| `.epub`, `.odt`                   | `extract-text`                                       | — (below)                                 |\n| `.rtf`                            | `extract-text`                                       | — (below)                                 |\n| `.ipynb`                          | `extract-text`                                       | — (below)                                 |\n| `.txt`, `.md`, `.log`, code files | `wc -c` then `head` or full `cat`                    | — (below)                                 |\n| Unknown                           | `file` then decide                                   | —                                         |\n\n---",
+      "keywords": [
+        "Pre-built Skills",
+        "docx",
+        "xlsx",
+        "pptx",
+        "pdf",
+        "pdf-reading",
+        "SKILL.md",
+        "SKILL",
+        "openpyxl",
+        "file-reading",
+        "json"
+      ],
+      "synonyms": [
+        "official skills",
+        "Anthropic skills",
+        "built-in skills",
+        "stock skills"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Dispatch table?",
+        "How do I use pre-built skills?",
+        "Explain Dispatch table in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0020",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "SKILL.md structure",
+      "title": "PDF",
+      "text": "**Never** `cat` a PDF — it prints binary garbage.\n\nQuick first move — get the page count and check if text is extractable:\n\n```bash\npdfinfo /mnt/user-data/uploads/report.pdf\npdftotext -f 1 -l 1 /mnt/user-data/uploads/report.pdf - | head -20\n```\n\nThen peek at the text content:\n\n```python\nfrom pypdf import PdfReader\nr = PdfReader(\"/mnt/user-data/uploads/report.pdf\")\nprint(f\"{len(r.pages)} pages\")\nprint(r.pages[0].extract_text()[:2000])\n```\n\nFor anything beyond a quick peek — figures, tables, attachments,\nforms, scanned PDFs, visual inspection, or choosing a reading strategy\n— go read `/mnt/skills/public/pdf-reading/SKILL.md`. It covers\ncontent inventory, text extraction vs. page rasterization, embedded\ncontent extraction, and document-type-aware reading strategies.\n\nFor PDF form filling, creation, merging, splitting, or watermarking,\ngo read `/mnt/skills/public/pdf/SKILL.md`.\n\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "pdf",
+        "pdf-reading",
+        "SKILL.md",
+        "SKILL",
+        "file-reading",
+        "python"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is PDF?",
+        "How do I use skill.md structure?",
+        "Explain PDF in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0021",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "Progressive disclosure",
+      "title": "XLSX / XLS / spreadsheets",
+      "text": "The `xlsx` skill covers formulas, formatting, charts, creating. Read\nit if you need any of those. For a quick look at an `.xlsx`:\n\n```bash\nextract-text /mnt/user-data/uploads/data.xlsx | head -100\n```\n\nFor `.xlsm`, add `--format xlsx` (same zip structure; only the\nextension differs). When you need a structured preview in Python:\n\n```python\nfrom openpyxl import load_workbook\nwb = load_workbook(\"/mnt/user-data/uploads/data.xlsx\", read_only=True)\nprint(\"Sheets:\", wb.sheetnames)\nws = wb.active\nfor row in ws.iter_rows(max_row=5, values_only=True):\n    print(row)\n```\n\n`read_only=True` matters — without it, openpyxl loads the entire\nworkbook into memory, which breaks on large files. Do not trust\n`ws.max_row` in read-only mode: many non-Excel writers omit the\ndimension record, so it comes back `None` or wrong. If you need a row\ncount, iterate or use pandas.\n\n**Legacy `.xls`** — openpyxl raises `InvalidFileException`. Use:\n\n```python\nimport pandas as pd\ndf = pd.read_excel(\"/mnt/user-data/uploads/old.xls\", engine=\"xlrd\", nrows=5)\n```\n\n**`.ods` (OpenDocument)** — openpyxl also rejects this. Use:\n\n```python\nimport pandas as pd\ndf = pd.read_excel(\"/mnt/user-data/uploads/data.ods\", engine=\"odf\", nrows=5)\n```\n\n---",
+      "keywords": [
+        "Progressive disclosure",
+        "xlsx",
+        "SKILL",
+        "Max",
+        "openpyxl",
+        "file-reading",
+        "python"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is XLSX / XLS / spreadsheets?",
+        "How do I use progressive disclosure?",
+        "Explain XLSX / XLS / spreadsheets in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0022",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "Progressive disclosure",
+      "title": "CSV / TSV",
+      "text": "**Do not** `cat` or `head` these blindly. A CSV with a 50KB quoted cell\nin row 1 will wreck your `head -5`. Use pandas with `nrows`:\n\n```python\nimport pandas as pd\ndf = pd.read_csv(\"/mnt/user-data/uploads/data.csv\", nrows=5)\nprint(df)\nprint()\nprint(df.dtypes)\n```\n\nApproximate row count without loading (over-counts if the file has\nRFC-4180 quoted newlines — the same quoted-cell case this section\nwarned about above):\n\n```bash\nwc -l /mnt/user-data/uploads/data.csv\n```\n\nFull analysis only after you know the shape:\n\n```python\ndf = pd.read_csv(\"/mnt/user-data/uploads/data.csv\")\nprint(df.describe())\n```\n\nTSV: same, with `sep=\"\\t\"`.\n\n---",
+      "keywords": [
+        "Progressive disclosure",
+        "Pro",
+        "file-reading",
+        "python"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is CSV / TSV?",
+        "How do I use progressive disclosure?",
+        "Explain CSV / TSV in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0023",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "Progressive disclosure",
+      "title": "Images (JPG / PNG / GIF / WEBP)",
+      "text": "**You can already see uploaded images.** They are injected into your\ncontext as vision inputs alongside the `<uploaded_files>` pointer. You\ndo not need to read them from disk to describe them.\n\nThe disk copy is only needed if you are going to **process** the image\nprogrammatically:\n\n```python\nfrom PIL import Image\nimg = Image.open(\"/mnt/user-data/uploads/photo.jpg\")\nprint(img.size, img.mode, img.format)\n```\n\nFor OCR on an image (text extraction, not description):\n\n```python\nimport pytesseract\nprint(pytesseract.image_to_string(img))\n```\n\nNote: the client resizes images larger than 2000×2000 down to that\nbound and re-encodes as JPEG before upload, so the disk copy may not\nbe the user's original bytes. For most processing this doesn't matter;\nif the user is asking about original-resolution pixel data, flag it.\n\n---",
+      "keywords": [
+        "Progressive disclosure",
+        "Pro",
+        "file-reading",
+        "python"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {
+        "OCR": "Optical Character Recognition"
+      },
+      "alt_phrasings": [
+        "What is Images (JPG / PNG / GIF / WEBP)?",
+        "How do I use progressive disclosure?",
+        "Explain Images (JPG / PNG / GIF / WEBP) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0024",
+      "source": "https://github.com/anthropics/skills/blob/main/file-reading/SKILL.md",
+      "source_label": "SKILL.md — file-reading",
+      "topic": "Progressive disclosure",
+      "title": "Archives (ZIP / TAR / TAR.GZ)",
+      "text": "**List first. Extract never — unless the user explicitly asks.**\nArchives can be huge, contain path traversal, or nest forever.\n\n```bash\nunzip -l /mnt/user-data/uploads/bundle.zip\ntar -tf /mnt/user-data/uploads/bundle.tar\n```\n\nGNU tar auto-detects compression — `tar -tf` works on `.tar`,\n`.tar.gz`, `.tar.bz2`, `.tar.xz` alike. Don't hard-code `-z`.\n\nIf the user wants one file from inside, extract just that one:\n\n```bash\nunzip -p /mnt/user-data/uploads/bundle.zip path/inside/file.txt\n```\n\n**Standalone `.gz`** (not a tar) compresses a single file — there is\nno manifest to list. Just peek at the decompressed content:\n\n```bash\nzcat /mnt/user-data/uploads/data.json.gz | head -50\n```\n\n---",
+      "keywords": [
+        "Progressive disclosure",
+        "file-reading",
+        "json"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Archives (ZIP / TAR / TAR.GZ)?",
+        "How do I use progressive disclosure?",
+        "Explain Archives (ZIP / TAR / TAR.GZ) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0025",
+      "source": "https://github.com/anthropics/skills/blob/main/frontend-design/SKILL.md",
+      "source_label": "SKILL.md — frontend-design",
+      "topic": "Design and theming",
+      "title": "Design Thinking",
+      "text": "Before coding, understand the context and commit to a BOLD aesthetic direction:\n- **Purpose**: What problem does this interface solve? Who uses it?\n- **Tone**: Pick an extreme: brutally minimal, maximalist chaos, retro-futuristic, organic/natural, luxury/refined, playful/toy-like, editorial/magazine, brutalist/raw, art deco/geometric, soft/pastel, industrial/utilitarian, etc. There are so many flavors to choose from. Use these for inspiration but design one that is true to the aesthetic direction.\n- **Constraints**: Technical requirements (framework, performance, accessibility).\n- **Differentiation**: What makes this UNFORGETTABLE? What's the one thing someone will remember?\n\n**CRITICAL**: Choose a clear conceptual direction and execute it with precision. Bold maximalism and refined minimalism both work - the key is intentionality, not intensity.\n\nThen implement working code (HTML/CSS/JS, React, Vue, etc.) that is:\n- Production-grade and functional\n- Visually striking and memorable\n- Cohesive with a clear aesthetic point-of-view\n- Meticulously refined in every detail",
+      "keywords": [
+        "Design and theming",
+        "Pro",
+        "Max",
+        "frontend-design"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Design Thinking?",
+        "How do I use design and theming?",
+        "Explain Design Thinking in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0026",
+      "source": "https://github.com/anthropics/skills/blob/main/frontend-design/SKILL.md",
+      "source_label": "SKILL.md — frontend-design",
+      "topic": "Design and theming",
+      "title": "Frontend Aesthetics Guidelines",
+      "text": "Focus on:\n- **Typography**: Choose fonts that are beautiful, unique, and interesting. Avoid generic fonts like Arial and Inter; opt instead for distinctive choices that elevate the frontend's aesthetics; unexpected, characterful font choices. Pair a distinctive display font with a refined body font.\n- **Color & Theme**: Commit to a cohesive aesthetic. Use CSS variables for consistency. Dominant colors with sharp accents outperform timid, evenly-distributed palettes.\n- **Motion**: Use animations for effects and micro-interactions. Prioritize CSS-only solutions for HTML. Use Motion library for React when available. Focus on high-impact moments: one well-orchestrated page load with staggered reveals (animation-delay) creates more delight than scattered micro-interactions. Use scroll-triggering and hover states that surprise.\n- **Spatial Composition**: Unexpected layouts. Asymmetry. Overlap. Diagonal flow. Grid-breaking elements. Generous negative space OR controlled density.\n- **Backgrounds & Visual Details**: Create atmosphere and depth rather than defaulting to solid colors. Add contextual effects and textures that match the overall aesthetic. Apply creative forms like gradient meshes, noise textures, geometric patterns, layered transparencies, dramatic shadows, decorative borders, custom cursors, and grain overlays.\n\nNEVER use generic AI-generated aesthetics like overused font families (Inter, Roboto, Arial, system fonts), cliched color schemes (particularly purple gradients on white backgrounds), predictable layouts and component patterns, and cookie-cutter design that lacks context-specific character.\n\nInterpret creatively and make unexpected choices that feel genuinely designed for the context. No design should be the same. Vary between light and dark themes, different fonts, different aesthetics. NEVER converge on common choices (Space Grotesk, for example) across generations.\n\n**IMPORTANT**: Match implementation complexity to the aesthetic vision. Maximalist designs need elaborate code with extensive animations and effects. Minimalist or refined designs need restraint, precision, and careful attention to spacing, typography, and subtle details. Elegance comes from executing the vision well.\n\nRemember: Claude is capable of extraordinary creative work. Don't hold back, show what can truly be created when thinking outside the box and committing fully to a distinctive vision.",
+      "keywords": [
+        "Design and theming",
+        "Claude",
+        "Cursor",
+        "Max",
+        "frontend-design"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Frontend Aesthetics Guidelines?",
+        "How do I use design and theming?",
+        "Explain Frontend Aesthetics Guidelines in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0027",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf-reading/REFERENCE.md",
+      "source_label": "Skills-Public/Pdf-Reading/Reference",
+      "topic": "SKILL.md structure",
+      "title": "Advanced Python Techniques",
+      "text": "### pdfplumber Advanced Features\n\n#### Extract Text with Precise Coordinates\n```python\nimport pdfplumber\n\nwith pdfplumber.open(\"document.pdf\") as pdf:\n    page = pdf.pages[0]\n    \n    # Extract all text with coordinates\n    chars = page.chars\n    for char in chars[:10]:  # First 10 characters\n        print(f\"Char: '{char['text']}' at x:{char['x0']:.1f} y:{char['y0']:.1f}\")\n    \n    # Extract text by bounding box (left, top, right, bottom)\n    bbox_text = page.within_bbox((100, 100, 400, 200)).extract_text()\n```\n\n#### Advanced Table Extraction with Custom Settings\n```python\nimport pdfplumber\nimport pandas as pd\n\nwith pdfplumber.open(\"complex_table.pdf\") as pdf:\n    page = pdf.pages[0]\n    \n    # Extract tables with custom settings for complex layouts\n    table_settings = {\n        \"vertical_strategy\": \"lines\",\n        \"horizontal_strategy\": \"lines\",\n        \"snap_tolerance\": 3,\n        \"intersection_tolerance\": 15\n    }\n    tables = page.extract_tables(table_settings)\n    \n    # Visual debugging for table extraction\n    img = page.to_image(resolution=150)\n    img.save(\"debug_layout.png\")\n```",
+      "keywords": [
+        "SKILL.md structure",
+        "pdf",
+        "pdfplumber",
+        "pdf-reading",
+        "python"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Advanced Python Techniques?",
+        "How do I use skill.md structure?",
+        "Explain Advanced Python Techniques in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0028",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf-reading/SKILL.md",
+      "source_label": "SKILL.md — pdf-reading",
+      "topic": "SKILL.md structure",
+      "title": "pdf-reading — SKILL.md frontmatter",
+      "text": "---\nname: pdf-reading\ndescription: \"Use this skill when you need to read, inspect, or extract content from PDF files — especially when file content is NOT in your context and you need to read it from disk. Covers content inventory, text extraction, page rasterization for visual inspection, embedded image/attachment/table/form-field extraction, and choosing the right reading strategy for different document types (text-heavy, scanned, slide-decks, forms, data-heavy). Do NOT use this skill for PDF creation, form filling, merging, splitting, watermarking, or encryption — use the pdf skill instead.\"\nlicense: Proprietary. LICENSE.txt has complete terms\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "pdf",
+        "pdf-reading",
+        "SKILL",
+        "Pro",
+        "yaml frontmatter"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is pdf-reading — SKILL.md frontmatter?",
+        "How do I use skill.md structure?",
+        "Explain pdf-reading — SKILL.md frontmatter in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0029",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf-reading/SKILL.md",
+      "source_label": "SKILL.md — pdf-reading",
+      "topic": "Document creation skills",
+      "title": "If text extraction looks garbled:",
+      "text": "pdffonts document.pdf\n```\n\nThis tells you:\n- **Page count and size** — how big is the job?\n- **Text extractability** — does `pdftotext` return real text, or is\n  it empty (scanned) or garbled (broken font encoding)?\n- **Embedded raster images** — are there photos or raster figures?\n  (Note: vector-drawn charts from matplotlib/Excel won't appear — see\n  \"Extracting embedded images\" below)\n- **Attachments** — are there embedded spreadsheets, data files, etc.?\n- **Font status** — are fonts embedded? If not, text extraction may\n  produce wrong characters.\n\n### Text extraction\n\n**pypdf** for basic text:\n```python\nfrom pypdf import PdfReader\n\nreader = PdfReader(\"document.pdf\")\nprint(f\"Pages: {len(reader.pages)}\")",
+      "keywords": [
+        "Document creation skills",
+        "pdf",
+        "Pro",
+        "pdf-reading",
+        "python"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is If text extraction looks garbled:?",
+        "How do I use document creation skills?",
+        "Explain If text extraction looks garbled: in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0030",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf-reading/SKILL.md",
+      "source_label": "SKILL.md — pdf-reading",
+      "topic": "Progressive disclosure",
+      "title": "Don't guess the filename — find it:",
+      "text": "ls /tmp/page-*.jpg\n```\n\nThen Read the resulting image file. This gives you full visual\nunderstanding of that page — layout, charts, equations, everything.\n\n**When to rasterize vs. text-extract:**\n- **Content/data questions → text extraction** (cheaper, searchable)\n- **Figures, charts, visual layout → rasterize the page**\n- **Tables → try text extraction first, rasterize if garbled**\n- **Precision matters → do both** (extract text AND rasterize; use text\n  for data, image for context — this is what Claude's API does natively\n  with PDF uploads)\n\n**Token cost awareness:**\n- Text extraction: ~200–400 tokens per page\n- Rasterized image: ~1,600 tokens per page (at 150 DPI)\n- Both together: ~2,000–2,400 tokens per page\n\nFor a 100-page PDF, rasterizing everything would consume ~160K tokens.\nOnly rasterize pages that matter for the question at hand.\n\n### Choosing your reading strategy\n\n**Text-heavy documents** (reports, articles, books):\n→ Text extraction is primary. Rasterize only for specific figures or\n  pages where layout matters.\n\n**Scanned documents** (no extractable text):\n→ Rasterize pages at 150 DPI and Read them visually. For bulk text\n  extraction, use OCR (pytesseract after converting pages to images —\n  see REFERENCE.md for a complete example).\n\n**Slide-deck PDFs** (exported presentations):\n→ Every page is primarily visual. Rasterize individual pages on demand.\n  Text extraction gives you bullet-point text but loses all layout.\n\n**Form-heavy documents**:\n→ Extract form field values programmatically first (see below). Rasterize\n  the form page for visual context if needed.\n\n**Data-heavy documents** (tables, charts, figures):\n→ Use pdfplumber for tables. Rasterize pages with charts/figures.\n  Extract text for surrounding narrative. Consider both text AND image\n  for the same page when precision matters.\n\n### Extracting embedded images\n\n```bash",
+      "keywords": [
+        "Progressive disclosure",
+        "Claude",
+        "pdf",
+        "reference.md",
+        "Pro",
+        "pdfplumber",
+        "pdf-reading"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {
+        "API": "Application Programming Interface",
+        "PDF": "Portable Document Format",
+        "OCR": "Optical Character Recognition"
+      },
+      "alt_phrasings": [
+        "What is Don't guess the filename — find it:?",
+        "How do I use progressive disclosure?",
+        "Explain Don't guess the filename — find it: in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0031",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf-reading/SKILL.md",
+      "source_label": "SKILL.md — pdf-reading",
+      "topic": "Document creation skills",
+      "title": "Extract in original format (JPEG stays JPEG, etc.)",
+      "text": "pdfimages -all document.pdf /tmp/img\n```\n\nThen Read `/tmp/img-000.png` (etc.) to see each extracted image.\n\n**Gotcha — vector graphics:** `pdfimages` extracts only raster image\ndata. Charts and diagrams drawn as vector graphics (common in\nmatplotlib, Excel, and R exports) will NOT appear — they are page\ncontent operators, not image objects. For these, rasterize the whole\npage with `pdftoppm` instead.\n\n**Gotcha — empty images:** `pdfimages` sometimes produces many tiny or\nempty image files — these are typically background masks, transparency\nlayers, or decorative elements. Filter by file size to find the real\ncontent images.\n\nProgrammatic extraction with position data:\n```python\nimport fitz  # PyMuPDF\n\ndoc = fitz.open(\"document.pdf\")\nfor page in doc:\n    for img in page.get_images():\n        xref = img[0]\n        pix = fitz.Pixmap(doc, xref)\n        if pix.n - pix.alpha > 3:  # CMYK or other non-RGB\n            pix = fitz.Pixmap(fitz.csRGB, pix)\n        pix.save(f\"/tmp/img_{xref}.png\")\n```\n\n### Extracting file attachments\n\nPDFs can contain embedded files — spreadsheets, data files, other\ndocuments. Common in business reports, PDF portfolios, and PDF/A-3\ncompliance documents.\n\n```bash",
+      "keywords": [
+        "Document creation skills",
+        "pdf",
+        "Pro",
+        "pdf-reading",
+        "python"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Extract in original format (JPEG stays JPEG, etc.)?",
+        "How do I use document creation skills?",
+        "Explain Extract in original format (JPEG stays JPEG, etc.) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0032",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf-reading/SKILL.md",
+      "source_label": "SKILL.md — pdf-reading",
+      "topic": "Claude Code integration",
+      "title": "Extract a specific attachment by number (1-based index from -list output)",
+      "text": "pdfdetach -save 1 -o /tmp/attachment.pdf document.pdf\n```\n\nIn Python:\n```python\nimport os\nfrom pypdf import PdfReader\n\nreader = PdfReader(\"document.pdf\")\nfor name, content_list in reader.attachments.items():\n    safe_name = os.path.basename(name)  # sanitize — name comes from the PDF\n    for content in content_list:\n        with open(f\"/tmp/{safe_name}\", \"wb\") as f:\n            f.write(content)\n```\n\n**Two attachment mechanisms exist in PDFs:** page-level file annotation\nattachments (shown as paperclip icons in viewers) and document-level\nembedded files (in the EmbeddedFiles name tree). Both `pdfdetach` and\npypdf handle the common cases. Rich media assets (3D, video) embedded\nas annotations may not appear in the attachment list — use PyMuPDF to\niterate page annotations for those.\n\n### Extracting form field data\n\nPDFs with interactive forms (government forms, applications, contracts)\nhave fillable fields whose values can be read programmatically:\n\n```python\nfrom pypdf import PdfReader\n\nreader = PdfReader(\"form.pdf\")",
+      "keywords": [
+        "Claude Code integration",
+        "pdf",
+        "Pro",
+        "pdf-reading",
+        "python"
+      ],
+      "synonyms": [
+        "skills in CLI",
+        "Claude Code skills",
+        "terminal skills",
+        "CC skills"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Extract a specific attachment by number (1-based index from -list output)?",
+        "How do I use claude code integration?",
+        "Explain Extract a specific attachment by number (1-based index from -list output) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0033",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf-reading/SKILL.md",
+      "source_label": "SKILL.md — pdf-reading",
+      "topic": "SKILL.md structure",
+      "title": "All field types (checkboxes, radio buttons, dropdowns too):",
+      "text": "all_fields = reader.get_fields() or {}\nfor name, field in all_fields.items():\n    print(f\"{name}: {field.get('/V', '')} (type: {field.get('/FT', '')})\")\n```\n\n`get_form_text_fields()` returns only text input fields. For\ngovernment forms and contracts that use checkboxes, radio buttons,\nand dropdowns, use `get_fields()` instead to see all field types.\n\nFor comprehensive field info (types, options, defaults):\n```bash\npdftk form.pdf dump_data_fields\n```\n\nFor anything beyond reading form data — filling forms, creating forms —\nuse the pdf skill at `/mnt/skills/public/pdf/SKILL.md`.\n\n### Audio, video, and other rare embedded content\n\nPDFs can occasionally embed audio, video, or 3D models. Check\n`pdfdetach -list` first — if the media appears as an attachment,\nextract with `pdfdetach -saveall`. If not, it may be a Rich Media\nannotation (harder to extract; requires PyMuPDF to iterate page\nannotations). This is very rare in practice. Most PDF viewers outside\nAdobe Acrobat do not support media playback.\n\n### Font diagnostics\n\nIf text extraction produces garbled output (wrong characters, missing\ntext, mojibake), check the font situation:\n\n```bash\npdffonts document.pdf\n```\n\nLook at the \"emb\" column — if fonts show \"no\" (not embedded) with\ncustom encodings, the PDF's character mapping may be broken for text\nextraction. In that case, rasterize the page and use vision instead.\n\nAlso check encoding: fonts with \"Custom\" or \"Identity-H\" encoding\nwithout embedded CIDToGID maps can cause character substitution issues\neven when the font is technically embedded.\n\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "pdf",
+        "SKILL.md",
+        "SKILL",
+        "Pro",
+        "pdf-reading"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is All field types (checkboxes, radio buttons, dropdowns too):?",
+        "How do I use skill.md structure?",
+        "Explain All field types (checkboxes, radio buttons, dropdowns too): in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0034",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf-reading/SKILL.md",
+      "source_label": "SKILL.md — pdf-reading",
+      "topic": "Claude Code integration",
+      "title": "Quick Reference",
+      "text": "| Task | Best Tool | Command/Code |\n|------|-----------|--------------|\n| Inspect PDF | poppler-utils | `pdfinfo`, `pdfimages -list`, `pdfdetach -list`, `pdffonts` |\n| Extract text | pdfplumber | `page.extract_text()` |\n| Extract text (CLI) | pdftotext | `pdftotext -layout input.pdf output.txt` |\n| Extract tables | pdfplumber | `page.extract_tables()` |\n| See page visually | pdftoppm | `pdftoppm -jpeg -r 150 -f N -l N` |\n| Extract images | pdfimages | `pdfimages -png input.pdf prefix` |\n| Extract attachments | pdfdetach | `pdfdetach -saveall -o /tmp/` |\n| Read form fields | pypdf | `reader.get_fields()` |\n| OCR scanned PDFs | pytesseract | Convert to image first |",
+      "keywords": [
+        "Claude Code integration",
+        "pdf",
+        "pdfplumber",
+        "pdf-reading"
+      ],
+      "synonyms": [
+        "skills in CLI",
+        "Claude Code skills",
+        "terminal skills",
+        "CC skills"
+      ],
+      "acronyms": {
+        "CLI": "Command Line Interface",
+        "PDF": "Portable Document Format",
+        "OCR": "Optical Character Recognition"
+      },
+      "alt_phrasings": [
+        "What is Quick Reference?",
+        "How do I use claude code integration?",
+        "Explain Quick Reference in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0035",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/FORMS.md",
+      "source_label": "Skills-Public/Pdf/Forms",
+      "topic": "SKILL.md structure",
+      "title": "Fillable fields",
+      "text": "If the PDF has fillable form fields:\n- Run this script from this file's directory: `python scripts/extract_form_field_info.py <input.pdf> <field_info.json>`. It will create a JSON file with a list of fields in this format:\n```\n[\n  {\n    \"field_id\": (unique ID for the field),\n    \"page\": (page number, 1-based),\n    \"rect\": ([left, bottom, right, top] bounding box in PDF coordinates, y=0 is the bottom of the page),\n    \"type\": (\"text\", \"checkbox\", \"radio_group\", or \"choice\"),\n  },\n  // Checkboxes have \"checked_value\" and \"unchecked_value\" properties:\n  {\n    \"field_id\": (unique ID for the field),\n    \"page\": (page number, 1-based),\n    \"type\": \"checkbox\",\n    \"checked_value\": (Set the field to this value to check the checkbox),\n    \"unchecked_value\": (Set the field to this value to uncheck the checkbox),\n  },\n  // Radio groups have a \"radio_options\" list with the possible choices.\n  {\n    \"field_id\": (unique ID for the field),\n    \"page\": (page number, 1-based),\n    \"type\": \"radio_group\",\n    \"radio_options\": [\n      {\n        \"value\": (set the field to this value to select this radio option),\n        \"rect\": (bounding box for the radio button for this option)\n      },\n      // Other radio options\n    ]\n  },\n  // Multiple choice fields have a \"choice_options\" list with the possible choices:\n  {\n    \"field_id\": (unique ID for the field),\n    \"page\": (page number, 1-based),\n    \"type\": \"choice\",\n    \"choice_options\": [\n      {\n        \"value\": (set the field to this value to select this option),\n        \"text\": (display text of the option)\n      },\n      // Other choice options\n    ],\n  }\n]\n```\n- Convert the PDF to PNGs (one image for each page) with this script (run from this file's directory):\n`python scripts/convert_pdf_to_images.py <file.pdf> <output_directory>`\nThen analyze the images to determine the purpose of each form field (make sure to convert the bounding box PDF coordinates to image coordinates).\n- Create a `field_values.json` file in this format with the values to be entered for each field:\n```\n[\n  {\n    \"field_id\": \"last_name\", // Must match the field_id from `extract_form_field_info.py`\n    \"description\": \"The user's last name\",\n    \"page\": 1, // Must match the \"page\" value in field_info.json\n    \"value\": \"Simpson\"\n  },\n  {\n    \"field_id\": \"Checkbox12\",\n    \"description\": \"Checkbox to be checked if the user is 18 or over\",\n    \"page\": 1,\n    \"value\": \"/On\" // If this is a checkbox, use its \"checked_value\" value to check it. If it's a radio button group, use one of the \"value\" values in \"radio_options\".\n  },\n  // more fields\n]\n```\n- Run the `fill_fillable_fields.py` script from this file's directory to create a filled-in PDF:\n`python scripts/fill_fillable_fields.py <input pdf> <field_values.json> <output pdf>`\nThis script will verify that the field IDs and values you provide are valid; if it prints error messages, correct the appropriate fields and try again.",
+      "keywords": [
+        "SKILL.md structure",
+        "pdf",
+        "Pro",
+        "python",
+        "json"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format",
+        "JSON": "JavaScript Object Notation"
+      },
+      "alt_phrasings": [
+        "What is Fillable fields?",
+        "How do I use skill.md structure?",
+        "Explain Fillable fields in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0036",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/FORMS.md",
+      "source_label": "Skills-Public/Pdf/Forms",
+      "topic": "SKILL.md structure",
+      "title": "Step 1: Try Structure Extraction First",
+      "text": "Run this script to extract text labels, lines, and checkboxes with their exact PDF coordinates:\n`python scripts/extract_form_structure.py <input.pdf> form_structure.json`\n\nThis creates a JSON file containing:\n- **labels**: Every text element with exact coordinates (x0, top, x1, bottom in PDF points)\n- **lines**: Horizontal lines that define row boundaries\n- **checkboxes**: Small square rectangles that are checkboxes (with center coordinates)\n- **row_boundaries**: Row top/bottom positions calculated from horizontal lines\n\n**Check the results**: If `form_structure.json` has meaningful labels (text elements that correspond to form fields), use **Approach A: Structure-Based Coordinates**. If the PDF is scanned/image-based and has few or no labels, use **Approach B: Visual Estimation**.\n\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "pdf",
+        "Pro",
+        "python",
+        "json"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format",
+        "JSON": "JavaScript Object Notation"
+      },
+      "alt_phrasings": [
+        "What is Step 1: Try Structure Extraction First?",
+        "How do I use skill.md structure?",
+        "Explain Step 1: Try Structure Extraction First in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0037",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/FORMS.md",
+      "source_label": "Skills-Public/Pdf/Forms",
+      "topic": "Design and theming",
+      "title": "Approach A: Structure-Based Coordinates (Preferred)",
+      "text": "Use this when `extract_form_structure.py` found text labels in the PDF.\n\n### A.1: Analyze the Structure\n\nRead form_structure.json and identify:\n\n1. **Label groups**: Adjacent text elements that form a single label (e.g., \"Last\" + \"Name\")\n2. **Row structure**: Labels with similar `top` values are in the same row\n3. **Field columns**: Entry areas start after label ends (x0 = label.x1 + gap)\n4. **Checkboxes**: Use the checkbox coordinates directly from the structure\n\n**Coordinate system**: PDF coordinates where y=0 is at TOP of page, y increases downward.\n\n### A.2: Check for Missing Elements\n\nThe structure extraction may not detect all form elements. Common cases:\n- **Circular checkboxes**: Only square rectangles are detected as checkboxes\n- **Complex graphics**: Decorative elements or non-standard form controls\n- **Faded or light-colored elements**: May not be extracted\n\nIf you see form fields in the PDF images that aren't in form_structure.json, you'll need to use **visual analysis** for those specific fields (see \"Hybrid Approach\" below).\n\n### A.3: Create fields.json with PDF Coordinates\n\nFor each field, calculate entry coordinates from the extracted structure:\n\n**Text fields:**\n- entry x0 = label x1 + 5 (small gap after label)\n- entry x1 = next label's x0, or row boundary\n- entry top = same as label top\n- entry bottom = row boundary line below, or label bottom + row_height\n\n**Checkboxes:**\n- Use the checkbox rectangle coordinates directly from form_structure.json\n- entry_bounding_box = [checkbox.x0, checkbox.top, checkbox.x1, checkbox.bottom]\n\nCreate fields.json using `pdf_width` and `pdf_height` (signals PDF coordinates):\n```json\n{\n  \"pages\": [\n    {\"page_number\": 1, \"pdf_width\": 612, \"pdf_height\": 792}\n  ],\n  \"form_fields\": [\n    {\n      \"page_number\": 1,\n      \"description\": \"Last name entry field\",\n      \"field_label\": \"Last Name\",\n      \"label_bounding_box\": [43, 63, 87, 73],\n      \"entry_bounding_box\": [92, 63, 260, 79],\n      \"entry_text\": {\"text\": \"Smith\", \"font_size\": 10}\n    },\n    {\n      \"page_number\": 1,\n      \"description\": \"US Citizen Yes checkbox\",\n      \"field_label\": \"Yes\",\n      \"label_bounding_box\": [260, 200, 280, 210],\n      \"entry_bounding_box\": [285, 197, 292, 205],\n      \"entry_text\": {\"text\": \"X\"}\n    }\n  ]\n}\n```\n\n**Important**: Use `pdf_width`/`pdf_height` and coordinates directly from form_structure.json.\n\n### A.4: Validate Bounding Boxes\n\nBefore filling, check your bounding boxes for errors:\n`python scripts/check_bounding_boxes.py fields.json`\n\nThis checks for intersecting bounding boxes and entry boxes that are too small for the font size. Fix any reported errors before filling.\n\n---",
+      "keywords": [
+        "Design and theming",
+        "pdf",
+        "Pro",
+        "python",
+        "json"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Approach A: Structure-Based Coordinates (Preferred)?",
+        "How do I use design and theming?",
+        "Explain Approach A: Structure-Based Coordinates (Preferred) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0038",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/FORMS.md",
+      "source_label": "Skills-Public/Pdf/Forms",
+      "topic": "Claude Code integration",
+      "title": "Approach B: Visual Estimation (Fallback)",
+      "text": "Use this when the PDF is scanned/image-based and structure extraction found no usable text labels (e.g., all text shows as \"(cid:X)\" patterns).\n\n### B.1: Convert PDF to Images\n\n`python scripts/convert_pdf_to_images.py <input.pdf> <images_dir/>`\n\n### B.2: Initial Field Identification\n\nExamine each page image to identify form sections and get **rough estimates** of field locations:\n- Form field labels and their approximate positions\n- Entry areas (lines, boxes, or blank spaces for text input)\n- Checkboxes and their approximate locations\n\nFor each field, note approximate pixel coordinates (they don't need to be precise yet).\n\n### B.3: Zoom Refinement (CRITICAL for accuracy)\n\nFor each field, crop a region around the estimated position to refine coordinates precisely.\n\n**Create a zoomed crop using ImageMagick:**\n```bash\nmagick <page_image> -crop <width>x<height>+<x>+<y> +repage <crop_output.png>\n```\n\nWhere:\n- `<x>, <y>` = top-left corner of crop region (use your rough estimate minus padding)\n- `<width>, <height>` = size of crop region (field area plus ~50px padding on each side)\n\n**Example:** To refine a \"Name\" field estimated around (100, 150):\n```bash\nmagick images_dir/page_1.png -crop 300x80+50+120 +repage crops/name_field.png\n```\n\n(Note: if the `magick` command isn't available, try `convert` with the same arguments).\n\n**Examine the cropped image** to determine precise coordinates:\n1. Identify the exact pixel where the entry area begins (after the label)\n2. Identify where the entry area ends (before next field or edge)\n3. Identify the top and bottom of the entry line/box\n\n**Convert crop coordinates back to full image coordinates:**\n- full_x = crop_x + crop_offset_x\n- full_y = crop_y + crop_offset_y\n\nExample: If the crop started at (50, 120) and the entry box starts at (52, 18) within the crop:\n- entry_x0 = 52 + 50 = 102\n- entry_top = 18 + 120 = 138\n\n**Repeat for each field**, grouping nearby fields into single crops when possible.\n\n### B.4: Create fields.json with Refined Coordinates\n\nCreate fields.json using `image_width` and `image_height` (signals image coordinates):\n```json\n{\n  \"pages\": [\n    {\"page_number\": 1, \"image_width\": 1700, \"image_height\": 2200}\n  ],\n  \"form_fields\": [\n    {\n      \"page_number\": 1,\n      \"description\": \"Last name entry field\",\n      \"field_label\": \"Last Name\",\n      \"label_bounding_box\": [120, 175, 242, 198],\n      \"entry_bounding_box\": [255, 175, 720, 218],\n      \"entry_text\": {\"text\": \"Smith\", \"font_size\": 10}\n    }\n  ]\n}\n```\n\n**Important**: Use `image_width`/`image_height` and the refined pixel coordinates from the zoom analysis.\n\n### B.5: Validate Bounding Boxes\n\nBefore filling, check your bounding boxes for errors:\n`python scripts/check_bounding_boxes.py fields.json`\n\nThis checks for intersecting bounding boxes and entry boxes that are too small for the font size. Fix any reported errors before filling.\n\n---",
+      "keywords": [
+        "Claude Code integration",
+        "pdf",
+        "Pro",
+        "python",
+        "json"
+      ],
+      "synonyms": [
+        "skills in CLI",
+        "Claude Code skills",
+        "terminal skills",
+        "CC skills"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Approach B: Visual Estimation (Fallback)?",
+        "How do I use claude code integration?",
+        "Explain Approach B: Visual Estimation (Fallback) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0039",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/FORMS.md",
+      "source_label": "Skills-Public/Pdf/Forms",
+      "topic": "SKILL.md structure",
+      "title": "Hybrid Approach: Structure + Visual",
+      "text": "Use this when structure extraction works for most fields but misses some elements (e.g., circular checkboxes, unusual form controls).\n\n1. **Use Approach A** for fields that were detected in form_structure.json\n2. **Convert PDF to images** for visual analysis of missing fields\n3. **Use zoom refinement** (from Approach B) for the missing fields\n4. **Combine coordinates**: For fields from structure extraction, use `pdf_width`/`pdf_height`. For visually-estimated fields, you must convert image coordinates to PDF coordinates:\n   - pdf_x = image_x * (pdf_width / image_width)\n   - pdf_y = image_y * (pdf_height / image_height)\n5. **Use a single coordinate system** in fields.json - convert all to PDF coordinates with `pdf_width`/`pdf_height`\n\n---",
+      "keywords": [
+        "SKILL.md structure",
+        "pdf",
+        "Pro",
+        "json"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Hybrid Approach: Structure + Visual?",
+        "How do I use skill.md structure?",
+        "Explain Hybrid Approach: Structure + Visual in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0040",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/REFERENCE.md",
+      "source_label": "Skills-Public/Pdf/Reference",
+      "topic": "Progressive disclosure",
+      "title": "JavaScript Libraries (part 1)",
+      "text": "### pdf-lib (MIT License)\n\npdf-lib is a powerful JavaScript library for creating and modifying PDF documents in any JavaScript environment.\n\n#### Load and Manipulate Existing PDF\n```javascript\nimport { PDFDocument } from 'pdf-lib';\nimport fs from 'fs';\n\nasync function manipulatePDF() {\n    // Load existing PDF\n    const existingPdfBytes = fs.readFileSync('input.pdf');\n    const pdfDoc = await PDFDocument.load(existingPdfBytes);\n\n    // Get page count\n    const pageCount = pdfDoc.getPageCount();\n    console.log(`Document has ${pageCount} pages`);\n\n    // Add new page\n    const newPage = pdfDoc.addPage([600, 400]);\n    newPage.drawText('Added by pdf-lib', {\n        x: 100,\n        y: 300,\n        size: 16\n    });\n\n    // Save modified PDF\n    const pdfBytes = await pdfDoc.save();\n    fs.writeFileSync('modified.pdf', pdfBytes);\n}\n```\n\n#### Create Complex PDFs from Scratch\n```javascript\nimport { PDFDocument, rgb, StandardFonts } from 'pdf-lib';\nimport fs from 'fs';\n\nasync function createPDF() {\n    const pdfDoc = await PDFDocument.create();\n\n    // Add fonts\n    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);\n    const helveticaBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);\n\n    // Add page\n    const page = pdfDoc.addPage([595, 842]); // A4 size\n    const { width, height } = page.getSize();\n\n    // Add text with styling\n    page.drawText('Invoice #12345', {\n        x: 50,\n        y: height - 50,\n        size: 18,\n        font: helveticaBold,\n        color: rgb(0.2, 0.2, 0.8)\n    });\n\n    // Add rectangle (header background)\n    page.drawRectangle({\n        x: 40,\n        y: height - 100,\n        width: width - 80,\n        height: 30,\n        color: rgb(0.9, 0.9, 0.9)\n    });\n\n    // Add table-like content\n    const items = [\n        ['Item', 'Qty', 'Price', 'Total'],\n        ['Widget', '2', '$50', '$100'],\n        ['Gadget', '1', '$75', '$75']\n    ];\n\n    let yPos = height - 150;\n    items.forEach(row => {\n        let xPos = 50;\n        row.forEach(cell => {\n            page.drawText(cell, {\n                x: xPos,\n                y: yPos,\n                size: 12,\n                font: helveticaFont\n            });\n            xPos += 120;\n        });\n        yPos -= 25;\n    });\n\n    const pdfBytes = await pdfDoc.save();\n    fs.writeFileSync('created.pdf', pdfBytes);\n}\n```\n\n#### Advanced Merge and Split Operations\n```javascript\nimport { PDFDocument } from 'pdf-lib';\nimport fs from 'fs';\n\nasync function mergePDFs() {\n    // Create new document\n    const mergedPdf = await PDFDocument.create();\n\n    // Load source PDFs\n    const pdf1Bytes = fs.readFileSync('doc1.pdf');\n    const pdf2Bytes = fs.readFileSync('doc2.pdf');\n\n    const pdf1 = await PDFDocument.load(pdf1Bytes);\n    const pdf2 = await PDFDocument.load(pdf2Bytes);",
+      "keywords": [
+        "Progressive disclosure",
+        "pdf",
+        "python"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is JavaScript Libraries (part 1)?",
+        "How do I use progressive disclosure?",
+        "Explain JavaScript Libraries (part 1) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0041",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/REFERENCE.md",
+      "source_label": "Skills-Public/Pdf/Reference",
+      "topic": "Progressive disclosure",
+      "title": "JavaScript Libraries (part 2)",
+      "text": "    // Copy pages from first PDF\n    const pdf1Pages = await mergedPdf.copyPages(pdf1, pdf1.getPageIndices());\n    pdf1Pages.forEach(page => mergedPdf.addPage(page));\n\n    // Copy specific pages from second PDF (pages 0, 2, 4)\n    const pdf2Pages = await mergedPdf.copyPages(pdf2, [0, 2, 4]);\n    pdf2Pages.forEach(page => mergedPdf.addPage(page));\n\n    const mergedPdfBytes = await mergedPdf.save();\n    fs.writeFileSync('merged.pdf', mergedPdfBytes);\n}\n```\n\n### pdfjs-dist (Apache License)\n\nPDF.js is Mozilla's JavaScript library for rendering PDFs in the browser.\n\n#### Basic PDF Loading and Rendering\n```javascript\nimport * as pdfjsLib from 'pdfjs-dist';\n\n// Configure worker (important for performance)\npdfjsLib.GlobalWorkerOptions.workerSrc = './pdf.worker.js';\n\nasync function renderPDF() {\n    // Load PDF\n    const loadingTask = pdfjsLib.getDocument('document.pdf');\n    const pdf = await loadingTask.promise;\n\n    console.log(`Loaded PDF with ${pdf.numPages} pages`);\n\n    // Get first page\n    const page = await pdf.getPage(1);\n    const viewport = page.getViewport({ scale: 1.5 });\n\n    // Render to canvas\n    const canvas = document.createElement('canvas');\n    const context = canvas.getContext('2d');\n    canvas.height = viewport.height;\n    canvas.width = viewport.width;\n\n    const renderContext = {\n        canvasContext: context,\n        viewport: viewport\n    };\n\n    await page.render(renderContext).promise;\n    document.body.appendChild(canvas);\n}\n```\n\n#### Extract Text with Coordinates\n```javascript\nimport * as pdfjsLib from 'pdfjs-dist';\n\nasync function extractText() {\n    const loadingTask = pdfjsLib.getDocument('document.pdf');\n    const pdf = await loadingTask.promise;\n\n    let fullText = '';\n\n    // Extract text from all pages\n    for (let i = 1; i <= pdf.numPages; i++) {\n        const page = await pdf.getPage(i);\n        const textContent = await page.getTextContent();\n\n        const pageText = textContent.items\n            .map(item => item.str)\n            .join(' ');\n\n        fullText += `\\n--- Page ${i} ---\\n${pageText}`;\n\n        // Get text with coordinates for advanced processing\n        const textWithCoords = textContent.items.map(item => ({\n            text: item.str,\n            x: item.transform[4],\n            y: item.transform[5],\n            width: item.width,\n            height: item.height\n        }));\n    }\n\n    console.log(fullText);\n    return fullText;\n}\n```\n\n#### Extract Annotations and Forms\n```javascript\nimport * as pdfjsLib from 'pdfjs-dist';\n\nasync function extractAnnotations() {\n    const loadingTask = pdfjsLib.getDocument('annotated.pdf');\n    const pdf = await loadingTask.promise;\n\n    for (let i = 1; i <= pdf.numPages; i++) {\n        const page = await pdf.getPage(i);\n        const annotations = await page.getAnnotations();",
+      "keywords": [
+        "Progressive disclosure",
+        "pdf",
+        "Pro",
+        "python"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is JavaScript Libraries (part 2)?",
+        "How do I use progressive disclosure?",
+        "Explain JavaScript Libraries (part 2) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0042",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/REFERENCE.md",
+      "source_label": "Skills-Public/Pdf/Reference",
+      "topic": "Design and theming",
+      "title": "Advanced Python Techniques",
+      "text": "### pdfplumber Advanced Features\n\n#### Extract Text with Precise Coordinates\n```python\nimport pdfplumber\n\nwith pdfplumber.open(\"document.pdf\") as pdf:\n    page = pdf.pages[0]\n    \n    # Extract all text with coordinates\n    chars = page.chars\n    for char in chars[:10]:  # First 10 characters\n        print(f\"Char: '{char['text']}' at x:{char['x0']:.1f} y:{char['y0']:.1f}\")\n    \n    # Extract text by bounding box (left, top, right, bottom)\n    bbox_text = page.within_bbox((100, 100, 400, 200)).extract_text()\n```\n\n#### Advanced Table Extraction with Custom Settings\n```python\nimport pdfplumber\nimport pandas as pd\n\nwith pdfplumber.open(\"complex_table.pdf\") as pdf:\n    page = pdf.pages[0]\n    \n    # Extract tables with custom settings for complex layouts\n    table_settings = {\n        \"vertical_strategy\": \"lines\",\n        \"horizontal_strategy\": \"lines\",\n        \"snap_tolerance\": 3,\n        \"intersection_tolerance\": 15\n    }\n    tables = page.extract_tables(table_settings)\n    \n    # Visual debugging for table extraction\n    img = page.to_image(resolution=150)\n    img.save(\"debug_layout.png\")\n```\n\n### reportlab Advanced Features\n\n#### Create Professional Reports with Tables\n```python\nfrom reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph\nfrom reportlab.lib.styles import getSampleStyleSheet\nfrom reportlab.lib import colors",
+      "keywords": [
+        "Design and theming",
+        "pdf",
+        "Pro",
+        "pdfplumber",
+        "python"
+      ],
+      "synonyms": [
+        "design tokens",
+        "theme system",
+        "visual system",
+        "aesthetic"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Advanced Python Techniques?",
+        "How do I use design and theming?",
+        "Explain Advanced Python Techniques in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0043",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/REFERENCE.md",
+      "source_label": "Skills-Public/Pdf/Reference",
+      "topic": "SKILL.md structure",
+      "title": "Extract all images with original quality",
+      "text": "pdfimages -all document.pdf images/img\n```\n\n#### Method 2: Using pypdfium2 + Image Processing\n```python\nimport pypdfium2 as pdfium\nfrom PIL import Image\nimport numpy as np\n\ndef extract_figures(pdf_path, output_dir):\n    pdf = pdfium.PdfDocument(pdf_path)\n    \n    for page_num, page in enumerate(pdf):\n        # Render high-resolution page\n        bitmap = page.render(scale=3.0)\n        img = bitmap.to_pil()\n        \n        # Convert to numpy for processing\n        img_array = np.array(img)\n        \n        # Simple figure detection (non-white regions)\n        mask = np.any(img_array != [255, 255, 255], axis=2)\n        \n        # Find contours and extract bounding boxes\n        # (This is simplified - real implementation would need more sophisticated detection)\n        \n        # Save detected figures\n        # ... implementation depends on specific needs\n```\n\n### Batch PDF Processing with Error Handling\n```python\nimport os\nimport glob\nfrom pypdf import PdfReader, PdfWriter\nimport logging\n\nlogging.basicConfig(level=logging.INFO)\nlogger = logging.getLogger(__name__)\n\ndef batch_process_pdfs(input_dir, operation='merge'):\n    pdf_files = glob.glob(os.path.join(input_dir, \"*.pdf\"))\n    \n    if operation == 'merge':\n        writer = PdfWriter()\n        for pdf_file in pdf_files:\n            try:\n                reader = PdfReader(pdf_file)\n                for page in reader.pages:\n                    writer.add_page(page)\n                logger.info(f\"Processed: {pdf_file}\")\n            except Exception as e:\n                logger.error(f\"Failed to process {pdf_file}: {e}\")\n                continue\n        \n        with open(\"batch_merged.pdf\", \"wb\") as output:\n            writer.write(output)\n    \n    elif operation == 'extract_text':\n        for pdf_file in pdf_files:\n            try:\n                reader = PdfReader(pdf_file)\n                text = \"\"\n                for page in reader.pages:\n                    text += page.extract_text()\n                \n                output_file = pdf_file.replace('.pdf', '.txt')\n                with open(output_file, 'w', encoding='utf-8') as f:\n                    f.write(text)\n                logger.info(f\"Extracted text from: {pdf_file}\")\n                \n            except Exception as e:\n                logger.error(f\"Failed to extract text from {pdf_file}: {e}\")\n                continue\n```\n\n### Advanced PDF Cropping\n```python\nfrom pypdf import PdfWriter, PdfReader\n\nreader = PdfReader(\"input.pdf\")\nwriter = PdfWriter()",
+      "keywords": [
+        "SKILL.md structure",
+        "pdf",
+        "Pro",
+        "python"
+      ],
+      "synonyms": [
+        "SKILL.md file",
+        "skill file format",
+        "skill manifest",
+        "frontmatter schema"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Extract all images with original quality?",
+        "How do I use skill.md structure?",
+        "Explain Extract all images with original quality in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0044",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/REFERENCE.md",
+      "source_label": "Skills-Public/Pdf/Reference",
+      "topic": "Progressive disclosure",
+      "title": "Performance Optimization Tips",
+      "text": "### 1. For Large PDFs\n- Use streaming approaches instead of loading entire PDF in memory\n- Use `qpdf --split-pages` for splitting large files\n- Process pages individually with pypdfium2\n\n### 2. For Text Extraction\n- `pdftotext -bbox-layout` is fastest for plain text extraction\n- Use pdfplumber for structured data and tables\n- Avoid `pypdf.extract_text()` for very large documents\n\n### 3. For Image Extraction\n- `pdfimages` is much faster than rendering pages\n- Use low resolution for previews, high resolution for final output\n\n### 4. For Form Filling\n- pdf-lib maintains form structure better than most alternatives\n- Pre-validate form fields before processing\n\n### 5. Memory Management\n```python",
+      "keywords": [
+        "Progressive disclosure",
+        "pdf",
+        "Pro",
+        "pdfplumber",
+        "python"
+      ],
+      "synonyms": [
+        "lazy context loading",
+        "on-demand loading",
+        "staged context",
+        "just-in-time context"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Performance Optimization Tips?",
+        "How do I use progressive disclosure?",
+        "Explain Performance Optimization Tips in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0045",
+      "source": "https://github.com/anthropics/skills/blob/main/pdf/SKILL.md",
+      "source_label": "SKILL.md — pdf",
+      "topic": "Document creation skills",
+      "title": "Python Libraries",
+      "text": "### pypdf - Basic Operations\n\n#### Merge PDFs\n```python\nfrom pypdf import PdfWriter, PdfReader\n\nwriter = PdfWriter()\nfor pdf_file in [\"doc1.pdf\", \"doc2.pdf\", \"doc3.pdf\"]:\n    reader = PdfReader(pdf_file)\n    for page in reader.pages:\n        writer.add_page(page)\n\nwith open(\"merged.pdf\", \"wb\") as output:\n    writer.write(output)\n```\n\n#### Split PDF\n```python\nreader = PdfReader(\"input.pdf\")\nfor i, page in enumerate(reader.pages):\n    writer = PdfWriter()\n    writer.add_page(page)\n    with open(f\"page_{i+1}.pdf\", \"wb\") as output:\n        writer.write(output)\n```\n\n#### Extract Metadata\n```python\nreader = PdfReader(\"document.pdf\")\nmeta = reader.metadata\nprint(f\"Title: {meta.title}\")\nprint(f\"Author: {meta.author}\")\nprint(f\"Subject: {meta.subject}\")\nprint(f\"Creator: {meta.creator}\")\n```\n\n#### Rotate Pages\n```python\nreader = PdfReader(\"input.pdf\")\nwriter = PdfWriter()\n\npage = reader.pages[0]\npage.rotate(90)  # Rotate 90 degrees clockwise\nwriter.add_page(page)\n\nwith open(\"rotated.pdf\", \"wb\") as output:\n    writer.write(output)\n```\n\n### pdfplumber - Text and Table Extraction\n\n#### Extract Text with Layout\n```python\nimport pdfplumber\n\nwith pdfplumber.open(\"document.pdf\") as pdf:\n    for page in pdf.pages:\n        text = page.extract_text()\n        print(text)\n```\n\n#### Extract Tables\n```python\nwith pdfplumber.open(\"document.pdf\") as pdf:\n    for i, page in enumerate(pdf.pages):\n        tables = page.extract_tables()\n        for j, table in enumerate(tables):\n            print(f\"Table {j+1} on page {i+1}:\")\n            for row in table:\n                print(row)\n```\n\n#### Advanced Table Extraction\n```python\nimport pandas as pd\n\nwith pdfplumber.open(\"document.pdf\") as pdf:\n    all_tables = []\n    for page in pdf.pages:\n        tables = page.extract_tables()\n        for table in tables:\n            if table:  # Check if table is not empty\n                df = pd.DataFrame(table[1:], columns=table[0])\n                all_tables.append(df)",
+      "keywords": [
+        "Document creation skills",
+        "pdf",
+        "pdfplumber",
+        "python"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Python Libraries?",
+        "How do I use document creation skills?",
+        "Explain Python Libraries in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0046",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/SKILL.md",
+      "source_label": "SKILL.md — pptx",
+      "topic": "Document creation skills",
+      "title": "pptx — SKILL.md frontmatter",
+      "text": "---\nname: pptx\ndescription: \"Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in an email or summary); editing, modifying, or updating existing presentations; combining or splitting slide files; working with templates, layouts, speaker notes, or comments. Trigger whenever the user mentions \\\"deck,\\\" \\\"slides,\\\" \\\"presentation,\\\" or references a .pptx filename, regardless of what they plan to do with the content afterward. If a .pptx file needs to be opened, created, or touched, use this skill.\"\nlicense: Proprietary. LICENSE.txt has complete terms\n---",
+      "keywords": [
+        "Document creation skills",
+        "pptx",
+        "SKILL",
+        "Pro",
+        "yaml frontmatter"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is pptx — SKILL.md frontmatter?",
+        "How do I use document creation skills?",
+        "Explain pptx — SKILL.md frontmatter in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0047",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/SKILL.md",
+      "source_label": "SKILL.md — pptx",
+      "topic": "Document creation skills",
+      "title": "Design Ideas (part 1)",
+      "text": "**Don't create boring slides.** Plain bullets on a white background won't impress anyone. Consider ideas from this list for each slide.\n\n### Before Starting\n\n- **Pick a bold, content-informed color palette**: The palette should feel designed for THIS topic. If swapping your colors into a completely different presentation would still \"work,\" you haven't made specific enough choices.\n- **Dominance over equality**: One color should dominate (60-70% visual weight), with 1-2 supporting tones and one sharp accent. Never give all colors equal weight.\n- **Dark/light contrast**: Dark backgrounds for title + conclusion slides, light for content (\"sandwich\" structure). Or commit to dark throughout for a premium feel.\n- **Commit to a visual motif**: Pick ONE distinctive element and repeat it — rounded image frames, icons in colored circles, thick single-side borders. Carry it across every slide.\n\n### Color Palettes\n\nChoose colors that match your topic — don't default to generic blue. Use these palettes as inspiration:\n\n| Theme | Primary | Secondary | Accent |\n|-------|---------|-----------|--------|\n| **Midnight Executive** | `1E2761` (navy) | `CADCFC` (ice blue) | `FFFFFF` (white) |\n| **Forest & Moss** | `2C5F2D` (forest) | `97BC62` (moss) | `F5F5F5` (cream) |\n| **Coral Energy** | `F96167` (coral) | `F9E795` (gold) | `2F3C7E` (navy) |\n| **Warm Terracotta** | `B85042` (terracotta) | `E7E8D1` (sand) | `A7BEAE` (sage) |\n| **Ocean Gradient** | `065A82` (deep blue) | `1C7293` (teal) | `21295C` (midnight) |\n| **Charcoal Minimal** | `36454F` (charcoal) | `F2F2F2` (off-white) | `212121` (black) |\n| **Teal Trust** | `028090` (teal) | `00A896` (seafoam) | `02C39A` (mint) |\n| **Berry & Cream** | `6D2E46` (berry) | `A26769` (dusty rose) | `ECE2D0` (cream) |\n| **Sage Calm** | `84B59F` (sage) | `69A297` (eucalyptus) | `50808E` (slate) |\n| **Cherry Bold** | `990011` (cherry) | `FCF6F5` (off-white) | `2F3C7E` (navy) |\n\n### For Each Slide\n\n**Every slide needs a visual element** — image, chart, icon, or shape. Text-only slides are forgettable.\n\n**Layout options:**\n- Two-column (text left, illustration on right)\n- Icon + text rows (icon in colored circle, bold header, description below)\n- 2x2 or 2x3 grid (image on one side, grid of content blocks on other)\n- Half-bleed image (full left or right side) with content overlay\n\n**Data display:**\n- Large stat callouts (big numbers 60-72pt with small labels below)\n- Comparison columns (before/after, pros/cons, side-by-side options)\n- Timeline or process flow (numbered steps, arrows)\n\n**Visual polish:**\n- Icons in small colored circles next to section headers\n- Italic accent text for key stats or taglines\n\n### Typography",
+      "keywords": [
+        "Document creation skills",
+        "Pro",
+        "pptx"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Design Ideas (part 1)?",
+        "How do I use document creation skills?",
+        "Explain Design Ideas (part 1) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0048",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/SKILL.md",
+      "source_label": "SKILL.md — pptx",
+      "topic": "Document creation skills",
+      "title": "Design Ideas (part 2)",
+      "text": "**Choose an interesting font pairing** — don't default to Arial. Pick a header font with personality and pair it with a clean body font.\n\n| Header Font | Body Font |\n|-------------|-----------|\n| Georgia | Calibri |\n| Arial Black | Arial |\n| Calibri | Calibri Light |\n| Cambria | Calibri |\n| Trebuchet MS | Calibri |\n| Impact | Arial |\n| Palatino | Garamond |\n| Consolas | Calibri |\n\n| Element | Size |\n|---------|------|\n| Slide title | 36-44pt bold |\n| Section header | 20-24pt bold |\n| Body text | 14-16pt |\n| Captions | 10-12pt muted |\n\n### Spacing\n\n- 0.5\" minimum margins\n- 0.3-0.5\" between content blocks\n- Leave breathing room—don't fill every inch\n\n### Avoid (Common Mistakes)\n\n- **Don't repeat the same layout** — vary columns, cards, and callouts across slides\n- **Don't center body text** — left-align paragraphs and lists; center only titles\n- **Don't skimp on size contrast** — titles need 36pt+ to stand out from 14-16pt body\n- **Don't default to blue** — pick colors that reflect the specific topic\n- **Don't mix spacing randomly** — choose 0.3\" or 0.5\" gaps and use consistently\n- **Don't style one slide and leave the rest plain** — commit fully or keep it simple throughout\n- **Don't create text-only slides** — add images, icons, charts, or visual elements; avoid plain title + bullets\n- **Don't forget text box padding** — when aligning lines or shapes with text edges, set `margin: 0` on the text box or offset the shape to account for padding\n- **Don't use low-contrast elements** — icons AND text need strong contrast against the background; avoid light text on light backgrounds or dark text on dark backgrounds\n- **NEVER use accent lines under titles** — these are a hallmark of AI-generated slides; use whitespace or background color instead\n- **Don't add decorative full-width colored bars/rectangles** — header/footer bars, side ribbons, or colored stripes read as AI slop unless the user explicitly requests them\n- **Don't default to cream/beige backgrounds** — when no background is specified, use white (`FFFFFF`) or the user's brand palette; avoid warm-neutral defaults like `F5F5DC`, `FAF0E6`, `FAEBD7`, `FFF8E1`\n- **Don't ship text that overflows its shape** — if text doesn't fit, reduce font size, split across slides, or enlarge the container; never leave content cut off or spilling past bounds\n\n---",
+      "keywords": [
+        "Document creation skills",
+        "container",
+        "pptx"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is Design Ideas (part 2)?",
+        "How do I use document creation skills?",
+        "Explain Design Ideas (part 2) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0049",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/SKILL.md",
+      "source_label": "SKILL.md — pptx",
+      "topic": "Document creation skills",
+      "title": "QA (Required)",
+      "text": "Your first render usually has a few real issues — overlaps, overflow, misalignment. Find and fix those, then stop. Don't keep iterating on minor coordinate nudges or chase a \"perfect\" render.\n\nWork, don't narrate: minimize prose between tool calls. Run the check, apply the fix, move on.\n\n### Content QA\n\n```bash\nextract-text output.pptx\n```\n\nCheck for missing content, typos, wrong order.\n\n**When using templates, check for leftover placeholder text:**\n\n```bash\nextract-text output.pptx | grep -iE \"\\bx{3,}\\b|lorem|ipsum|\\bTODO|\\[insert|this.*(page|slide).*layout\"\n```\n\nIf grep returns results, fix them before declaring success.\n\n### Visual QA\n\n**⚠️ USE SUBAGENTS** — even for 2-3 slides. You've been staring at the code and will see what you expect, not what's there. Subagents have fresh eyes.\n\nConvert slides to images (see [Converting to Images](#converting-to-images)), then use this prompt:\n\n```\nVisually inspect these slides for user-visible defects.\n\nLook for:\n- Overlapping elements (text through shapes, lines through words, stacked elements)\n- Text overflow or cut off at edges/box boundaries\n- Decorative lines positioned for single-line text but title wrapped to two lines\n- Source citations or footers colliding with content above\n- Elements too close (< 0.3\" gaps) or cards/sections nearly touching\n- Uneven gaps (large empty area in one place, cramped in another)\n- Insufficient margin from slide edges (< 0.5\")\n- Columns or similar elements not aligned consistently\n- Low-contrast text (e.g., light gray text on cream-colored background)\n- Low-contrast icons (e.g., dark icons on dark backgrounds without a contrasting circle)\n- Text boxes too narrow causing excessive wrapping\n- Leftover placeholder content\n\nFor each slide, list user-visible issues. Skip sub-pixel positioning and cosmetic nitpicks a viewer wouldn't notice.\n\nRead and analyze these images — run `ls -1 \"$PWD\"/slide-*.jpg` and use the exact absolute paths it prints:\n1. <absolute-path>/slide-N.jpg — (Expected: [brief description])\n2. <absolute-path>/slide-N.jpg — (Expected: [brief description])\n...\n```\n\n### Verification Loop\n\n1. Generate slides → Convert to images → Inspect\n2. **Check text bounds first** — for every text box, confirm the rendered text fits inside its shape. Overflow is the most common defect and is always user-visible.\n3. List any other issues found\n4. Fix issues\n5. Re-verify only the affected slides\n6. **Stop after one fix-and-verify cycle** unless a new *user-visible* defect appears (overlap, overflow, missing content). Do not loop on sub-pixel positioning, minor color tweaks, or issues a viewer wouldn't notice.\n\n---",
+      "keywords": [
+        "Document creation skills",
+        "pptx",
+        "Pro"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {},
+      "alt_phrasings": [
+        "What is QA (Required)?",
+        "How do I use document creation skills?",
+        "Explain QA (Required) in Claude Agent Skills"
+      ]
+    },
+    {
+      "id": "chunk_0050",
+      "source": "https://github.com/anthropics/skills/blob/main/pptx/SKILL.md",
+      "source_label": "SKILL.md — pptx",
+      "topic": "Document creation skills",
+      "title": "Converting to Images",
+      "text": "Convert presentations to individual slide images for visual inspection:\n\n```bash\npython scripts/office/soffice.py --headless --convert-to pdf output.pptx\nrm -f slide-*.jpg\npdftoppm -jpeg -r 150 output.pdf slide\nls -1 \"$PWD\"/slide-*.jpg\n```\n\n**Pass the absolute paths printed above directly to the view tool.** The `rm` clears stale images from prior runs. `pdftoppm` zero-pads based on page count: `slide-1.jpg` for decks under 10 pages, `slide-01.jpg` for 10-99, `slide-001.jpg` for 100+.\n\n**After fixes, rerun all four commands above** — the PDF must be regenerated from the edited `.pptx` before `pdftoppm` can reflect your changes.\n\n---",
+      "keywords": [
+        "Document creation skills",
+        "pptx",
+        "pdf",
+        "python"
+      ],
+      "synonyms": [
+        "create documents",
+        "office docs",
+        "file output",
+        "document generation"
+      ],
+      "acronyms": {
+        "PDF": "Portable Document Format"
+      },
+      "alt_phrasings": [
+        "What is Converting to Images?",
+        "How do I use document creation skills?",
+        "Explain Converting to Images in Claude Agent Skills"
+      ]
+    }
+  ]
+}
