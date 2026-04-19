@@ -3,7 +3,7 @@
   "project": "Anthropic Agent Skills Archive",
   "description": "Every SKILL.md, guide, and reference for the Anthropic Agent Skills system — pre-built and custom.",
   "topic": "Full list + details of original (Anthropic pre-built) and user-built (custom/community) Skills for Claude: SKILL.md format, progressive disclosure, integration across Claude.ai / Claude Code / API, best practices.",
-  "built_at": "2026-04-19T15:51:02.851725Z",
+  "built_at": "2026-04-19T19:25:55Z",
   "accent_color": "2563eb",
   "embedding_model": "Xenova/all-MiniLM-L6-v2",
   "embedding_dim": 0,
@@ -11,93 +11,13 @@
   "embeddings_pending": true,
   "stats": {
     "files": 53,
-    "chunks": 190,
+    "chunks": 203,
     "topics": 11,
     "sources": 41,
     "total_characters": 307702,
     "index_size_kb": 461
   },
   "topics": [
-    {
-      "name": "SKILL.md structure",
-      "description": "The SKILL.md file format — YAML frontmatter, name and description fields, the body as procedural instructions, and why the description is a trigger.",
-      "keywords": [
-        "frontmatter",
-        "yaml",
-        "name",
-        "description",
-        "skill.md",
-        "trigger"
-      ],
-      "chunk_count": 19
-    },
-    {
-      "name": "Progressive disclosure",
-      "description": "The core design principle: Claude loads skill metadata at startup, the SKILL.md body only when relevant, and bundled files only on demand.",
-      "keywords": [
-        "progressive disclosure",
-        "context window",
-        "lazy loading",
-        "metadata",
-        "bundled files"
-      ],
-      "chunk_count": 20
-    },
-    {
-      "name": "Pre-built Skills",
-      "description": "Anthropic-provided Agent Skills for document work: docx, xlsx, pptx, pdf, pdf-reading, file-reading, frontend-design, product-self-knowledge.",
-      "keywords": [
-        "docx",
-        "xlsx",
-        "pptx",
-        "pdf",
-        "pre-built",
-        "anthropic skills",
-        "document creation"
-      ],
-      "chunk_count": 5
-    },
-    {
-      "name": "Custom Skills",
-      "description": "User-built Skills — creating them from scratch, the skill-creator workflow, organizing a skill directory, and effective description writing.",
-      "keywords": [
-        "custom skill",
-        "skill-creator",
-        "create skill",
-        "author skill",
-        "build skill",
-        "template"
-      ],
-      "chunk_count": 36
-    },
-    {
-      "name": "Claude Code integration",
-      "description": "How Claude Code discovers and loads Skills — user settings, project settings, plugin skills, built-in skills, and how Skills differ from CLAUDE.md, hooks, and subagents.",
-      "keywords": [
-        "claude code",
-        "cli",
-        ".claude/skills",
-        "settings",
-        "plugin",
-        "hooks",
-        "subagent"
-      ],
-      "chunk_count": 5
-    },
-    {
-      "name": "API and Messages integration",
-      "description": "Using Skills via the Claude API — the container parameter, skill_id, versioning, the code execution tool, and combining Skills in a single request.",
-      "keywords": [
-        "messages api",
-        "container",
-        "skill_id",
-        "code execution",
-        "beta",
-        "versioning",
-        "api"
-      ],
-      "chunk_count": 1
-    },
     {
       "name": "MCP and tool integration",
       "description": "How Skills relate to Model Context Protocol (MCP) servers and tools — when to use which, and how to build MCP servers that complement Skills.",
@@ -111,31 +31,17 @@
       "chunk_count": 54
     },
     {
-      "name": "Sharing and distribution",
-      "description": "Committing Skills to a repository, distributing through plugins, deploying organization-wide via enterprise managed settings.",
+      "name": "Custom Skills",
+      "description": "User-built Skills — creating them from scratch, the skill-creator workflow, organizing a skill directory, and effective description writing.",
       "keywords": [
-        "share",
-        "distribute",
-        "repository",
-        "plugin",
-        "enterprise",
-        "managed settings"
+        "custom skill",
+        "skill-creator",
+        "create skill",
+        "author skill",
+        "build skill",
+        "template"
       ],
-      "chunk_count": 1
-    },
-    {
-      "name": "Document creation skills",
-      "description": "Detailed guidance for the docx, xlsx, pptx, and pdf Skills — when to use each, output conventions, and common patterns.",
-      "keywords": [
-        "document",
-        "word",
-        "excel",
-        "powerpoint",
-        "pdf",
-        "create",
-        "output"
-      ],
-      "chunk_count": 23
+      "chunk_count": 36
     },
     {
       "name": "Design and theming",
@@ -152,6 +58,73 @@
       "chunk_count": 25
     },
     {
+      "name": "Document creation skills",
+      "description": "Detailed guidance for the docx, xlsx, pptx, and pdf Skills — when to use each, output conventions, and common patterns.",
+      "keywords": [
+        "document",
+        "word",
+        "excel",
+        "powerpoint",
+        "pdf",
+        "create",
+        "output"
+      ],
+      "chunk_count": 23
+    },
+    {
+      "name": "Progressive disclosure",
+      "description": "The core design principle: Claude loads skill metadata at startup, the SKILL.md body only when relevant, and bundled files only on demand.",
+      "keywords": [
+        "progressive disclosure",
+        "context window",
+        "lazy loading",
+        "metadata",
+        "bundled files"
+      ],
+      "chunk_count": 20
+    },
+    {
+      "name": "SKILL.md structure",
+      "description": "The SKILL.md file format — YAML frontmatter, name and description fields, the body as procedural instructions, and why the description is a trigger.",
+      "keywords": [
+        "frontmatter",
+        "yaml",
+        "name",
+        "description",
+        "skill.md",
+        "trigger"
+      ],
+      "chunk_count": 19
+    },
+    {
+      "name": "Pre-built Skills",
+      "description": "Anthropic-provided Agent Skills for document work: docx, xlsx, pptx, pdf, pdf-reading, file-reading, frontend-design, product-self-knowledge.",
+      "keywords": [
+        "docx",
+        "xlsx",
+        "pptx",
+        "pdf",
+        "pre-built",
+        "anthropic skills",
+        "document creation"
+      ],
+      "chunk_count": 8
+    },
+    {
+      "name": "Claude Code integration",
+      "description": "How Claude Code discovers and loads Skills — user settings, project settings, plugin skills, built-in skills, and how Skills differ from CLAUDE.md, hooks, and subagents.",
+      "keywords": [
+        "claude code",
+        "cli",
+        ".claude/skills",
+        "settings",
+        "plugin",
+        "hooks",
+        "subagent"
+      ],
+      "chunk_count": 7
+    },
+    {
       "name": "Best practices",
       "description": "Authoring guidelines — start with evaluation, structure for scale, keep SKILL.md lean, use reference files, test on real tasks.",
       "keywords": [
@@ -163,7 +136,34 @@
         "lean",
         "scale"
       ],
-      "chunk_count": 1
+      "chunk_count": 5
+    },
+    {
+      "name": "API and Messages integration",
+      "description": "Using Skills via the Claude API — the container parameter, skill_id, versioning, the code execution tool, and combining Skills in a single request.",
+      "keywords": [
+        "messages api",
+        "container",
+        "skill_id",
+        "code execution",
+        "beta",
+        "versioning",
+        "api"
+      ],
+      "chunk_count": 3
+    },
+    {
+      "name": "Sharing and distribution",
+      "description": "Committing Skills to a repository, distributing through plugins, deploying organization-wide via enterprise managed settings.",
+      "keywords": [
+        "share",
+        "distribute",
+        "repository",
+        "plugin",
+        "enterprise",
+        "managed settings"
+      ],
+      "chunk_count": 3
     }
   ],
   "sources": [
@@ -345,7 +345,7 @@
       "label": "Agent Skills — Overview (platform.claude.com)",
       "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
       "type": "html",
-      "chunk_count": 1
+      "chunk_count": 14
     },
     {
       "label": "Equipping agents for the real world with Agent Skills (Anthropic Engineering)",
@@ -482,6 +482,10 @@
       ],
       "embedding_scale": null,
       "embedding_zero_point": null
+    },
+    {
+      "chunks_url": "chunks/shard-005.json",
+      "chunk_count": 13
     }
   ],
   "suggested_questions": [
