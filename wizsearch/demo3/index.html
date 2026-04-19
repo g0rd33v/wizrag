@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<!--
+  WizSearch - Anthropic Agent Skills Archive
+  Version 1.0 stable - multi-token search
+
+  Single-file, zero-build. External deps: Fuse.js@7 CDN, Inter webfont.
+
+  Architecture:
+    [state]    ALL_CHUNKS, FUSE, INDEX_READY, viewMode, focusedIdx
+    [storage]  localStorage history (key: wizsearch-history)
+    [loading]  fetch manifest + shards, build Fuse.js index
+    [search]   tokenize + multi-token merge fallback
+    [render]   results/groups/history/topics/starters
+    [keyboard] arrows / enter / space / slash / escape
+    [boot]     DOM ready + fuse ready -> go
+
+  To expand the index, see README.md in this directory.
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -879,74 +896,8 @@ function tokensOf(q) {
     resultsCountEl.textContent = matches.length +
       ' match' + (matches.length === 1 ? '' : 'es') + ' for "' + query + '"';
 
-    if (viewMode === 'grouped') {
-      renderGrouped(query, matches, resultsListEl);
-    } else {
-      renderFlat(query, matches, resultsListEl);
-    }
-    return; // skip the legacy inline loop below
-    for (const m of matches) {
-      const c = m.item;
-      const article = document.createElement('article');
-      article.className = 'result';
-
-      // Title links out to source
-      const title = document.createElement('a');
-      title.className = 'result-title';
-      title.href = c.source || '#';
-      title.target = '_blank';
-      title.rel = 'noopener';
-      title.innerHTML = highlight(c.title || 'Untitled', query);
-
-      // Meta: topic chip + source label
-      const meta = document.createElement('div');
-      meta.className = 'result-meta';
-      const topic = document.createElement('span');
-      topic.className = 'result-topic';
-      topic.textContent = c.topic || 'Untitled topic';
-      const source = document.createElement('span');
-      source.className = 'result-source';
-      if (c.source) {
-        const a = document.createElement('a');
-        a.href = c.source;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.textContent = c.source_label || c.source;
-        source.appendChild(a);
-      } else {
-        source.textContent = c.source_label || '';
-      }
-      meta.appendChild(topic);
-      meta.appendChild(source);
-
-      // Snippet — centered on first query-token match, highlighted
-      const body = document.createElement('div');
-      body.className = 'result-text';
-      const snip = document.createElement('span');
-      snip.className = 'result-snippet';
-      snip.innerHTML = highlight(snippet(c.text, query, 240), query);
-      const full = document.createElement('span');
-      full.className = 'result-text-full';
-      full.innerHTML = highlight(c.text || '', query);
-      body.appendChild(snip);
-      body.appendChild(full);
-
-      const expand = document.createElement('button');
-      expand.type = 'button';
-      expand.className = 'result-expand';
-      expand.textContent = 'Read full chunk ↓';
-      expand.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isExpanded = article.classList.toggle('expanded');
-        expand.textContent = isExpanded ? 'Collapse ↑' : 'Read full chunk ↓';
-      });
-
-      article.appendChild(title);
-      article.appendChild(meta);
-      article.appendChild(body);
-      article.appendChild(expand);
-      resultsListEl.appendChild(article);
-    }
+    if (viewMode === 'grouped') renderGrouped(query, matches, resultsListEl);
+    else renderFlat(query, matches, resultsListEl);
   }
 
   // ---------- form ----------
