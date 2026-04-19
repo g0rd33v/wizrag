@@ -1,0 +1,55 @@
+{
+  "_README_FOR_LLM": "This is a TEMPLATE wizindex.json for WizRAG v2. Read the BUILD INSTRUCTIONS at the top of wizsearch.html for the full schema and enrichment requirements. Every chunk must be self-contained and enriched with synonyms, acronyms, and alt_phrasings. Remove this _README_FOR_LLM field from the final output. Filenames must be lowercase. If you have write access to the repo, commit both files.",
+
+  "version": "2.0",
+  "project": "{{PROJECT_NAME}}",
+  "description": "{{PROJECT_DESCRIPTION}}",
+  "built_at": "{{ISO_TIMESTAMP}}",
+  "logo": null,
+  "accent_color": "#2563eb",
+
+  "stats": {
+    "files": 0,
+    "chunks": 0,
+    "topics": 0,
+    "total_characters": 0,
+    "index_size_kb": 0
+  },
+
+  "sources": [
+    {
+      "label": "{{SOURCE_LABEL}}",
+      "url": "{{SOURCE_URL}}",
+      "type": "github"
+    }
+  ],
+
+  "topics": [
+    {
+      "name": "{{TOPIC_NAME}}",
+      "description": "{{ONE_LINE_DESCRIPTION_80_TO_140_CHARS}}",
+      "keywords": ["{{KW1}}", "{{KW2}}", "{{KW3}}"],
+      "chunk_count": 0
+    }
+  ],
+
+  "entries": [
+    {
+      "id": "chunk_001",
+      "source": "{{CANONICAL_URL_OR_PATH}}",
+      "source_label": "{{HUMAN_READABLE_SOURCE}}",
+      "topic": "{{MUST_MATCH_TOPIC_NAME}}",
+      "title": "{{3_TO_8_WORD_HEADLINE}}",
+      "text": "{{FULL_SELF_CONTAINED_CHUNK_TEXT_400_TO_1200_TOKENS_MARKDOWN_OK}}",
+      "keywords": ["{{KW1}}", "{{KW2}}", "{{KW3}}", "{{KW4}}"],
+      "synonyms": ["{{SYN1}}", "{{SYN2}}", "{{SYN3}}"],
+      "acronyms": {
+        "{{ACRONYM}}": "{{FULL_EXPANSION}}"
+      },
+      "alt_phrasings": [
+        "{{NATURAL_LANGUAGE_QUESTION_FORM_1}}",
+        "{{NATURAL_LANGUAGE_QUESTION_FORM_2}}"
+      ]
+    }
+  ]
+}

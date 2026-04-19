@@ -2,6 +2,8 @@
 
 **A static, two-file knowledge base search system. Drop into any GitHub repo. Works in any AI.**
 
+> **v2.0 is out.** The new bundle is **[`wiz2.zip`](./wiz2.zip)**. Loose templates live in [`/v2/`](./v2). Summary of changes in [`CHANGELOG.md`](./CHANGELOG.md). v1 (`wiz.zip`) is preserved alongside for backward compatibility.
+
 WizSearch is a sub-product of WizRAG. Where the main WizRAG project (still in development) is a hosted service with persistent memory and write-back, WizSearch is the radically simple version: two static files, hosted anywhere, queried by humans, browser agents, and raw-fetch LLMs alike.
 
 If you have a folder of documents and you want any AI to be able to retrieve from them, WizSearch turns that folder into a queryable knowledge base in about two minutes — for free, forever.
