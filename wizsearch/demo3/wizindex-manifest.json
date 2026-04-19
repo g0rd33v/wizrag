@@ -1,9 +1,9 @@
 {
   "version": "3.0",
-  "project": "Anthropic Agent Skills Archive",
-  "description": "Every SKILL.md, guide, and reference for the Anthropic Agent Skills system — pre-built and custom.",
+  "project": "Anthropic Claude Capabilities Index",
+  "description": "A search index over Anthropic Claude capabilities — Agent Skills, Claude API features (tool use, vision, prompt caching, extended thinking, computer use, MCP), Claude Code, Claude.ai (Projects, Artifacts, Research, Memory), beta products (Claude for Chrome, Excel, Cowork), and more.",
   "topic": "Full list + details of original (Anthropic pre-built) and user-built (custom/community) Skills for Claude: SKILL.md format, progressive disclosure, integration across Claude.ai / Claude Code / API, best practices.",
-  "built_at": "2026-04-19T19:25:55Z",
+  "built_at": "2026-04-19T20:14:35Z",
   "accent_color": "2563eb",
   "embedding_model": "Xenova/all-MiniLM-L6-v2",
   "embedding_dim": 0,
@@ -11,9 +11,9 @@
   "embeddings_pending": true,
   "stats": {
     "files": 53,
-    "chunks": 203,
-    "topics": 11,
-    "sources": 41,
+    "chunks": 235,
+    "topics": 24,
+    "sources": 59,
     "total_characters": 307702,
     "index_size_kb": 461
   },
@@ -139,6 +139,16 @@
       "chunk_count": 5
     },
     {
+      "name": "Claude.ai features",
+      "chunk_count": 4,
+      "description": "Projects, Artifacts, Research, Memory"
+    },
+    {
+      "name": "API fundamentals",
+      "chunk_count": 4,
+      "description": "Batch API, Files API, Streaming, Rate limits"
+    },
+    {
       "name": "API and Messages integration",
       "description": "Using Skills via the Claude API — the container parameter, skill_id, versioning, the code execution tool, and combining Skills in a single request.",
       "keywords": [
@@ -164,6 +174,61 @@
         "managed settings"
       ],
       "chunk_count": 3
+    },
+    {
+      "name": "Tool use and function calling",
+      "chunk_count": 3,
+      "description": "Function calling / tool use API, parallel tool use, tool_choice"
+    },
+    {
+      "name": "Claude Code",
+      "chunk_count": 3,
+      "description": "CLI coding agent, subagents, hooks"
+    },
+    {
+      "name": "Claude beta products",
+      "chunk_count": 3,
+      "description": "Claude for Chrome, Claude in Excel, Cowork"
+    },
+    {
+      "name": "Vision and multimodal",
+      "chunk_count": 2,
+      "description": "Images, PDFs, visual input to Claude"
+    },
+    {
+      "name": "Prompt caching",
+      "chunk_count": 2,
+      "description": "Ephemeral cache, cache_control, cost reduction"
+    },
+    {
+      "name": "Extended thinking",
+      "chunk_count": 2,
+      "description": "Reasoning tokens, thinking_budget, adaptive thinking"
+    },
+    {
+      "name": "Computer use",
+      "chunk_count": 2,
+      "description": "Computer use tool, text editor tool, bash tool"
+    },
+    {
+      "name": "Model Context Protocol (MCP)",
+      "chunk_count": 2,
+      "description": "MCP servers, MCP clients, building integrations"
+    },
+    {
+      "name": "Models",
+      "chunk_count": 2,
+      "description": "Opus / Sonnet / Haiku, context window, model selection"
+    },
+    {
+      "name": "Prompt engineering",
+      "chunk_count": 2,
+      "description": "Prompting principles, XML tags, best practices"
+    },
+    {
+      "name": "Admin and governance",
+      "chunk_count": 1,
+      "description": "Admin API, workspaces, usage reporting"
     }
   ],
   "sources": [
@@ -412,6 +477,96 @@
       "url": "https://github.com/anthropics/skills/blob/main/web-artifacts-builder/SKILL.md",
       "type": "github_repo",
       "chunk_count": 1
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
+      "label": "Tool use — Claude API Docs",
+      "chunk_count": 3
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/vision",
+      "label": "Vision — Claude API Docs",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/pdf-support",
+      "label": "PDF support — Claude API Docs",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "label": "Prompt caching — Claude API Docs",
+      "chunk_count": 2
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/extended-thinking",
+      "label": "Extended thinking — Claude API Docs",
+      "chunk_count": 2
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/computer-use",
+      "label": "Computer use — Claude API Docs",
+      "chunk_count": 2
+    },
+    {
+      "url": "https://modelcontextprotocol.io",
+      "label": "Model Context Protocol (modelcontextprotocol.io)",
+      "chunk_count": 2
+    },
+    {
+      "url": "https://code.claude.com/docs/en/overview",
+      "label": "Claude Code — Overview",
+      "chunk_count": 3
+    },
+    {
+      "url": "https://claude.ai",
+      "label": "Claude.ai",
+      "chunk_count": 4
+    },
+    {
+      "url": "https://www.anthropic.com/news/claude-for-chrome",
+      "label": "Claude for Chrome — Anthropic",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://www.anthropic.com/news",
+      "label": "Anthropic — News",
+      "chunk_count": 2
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+      "label": "Batch API — Claude API Docs",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/files",
+      "label": "Files API — Claude API Docs",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/streaming",
+      "label": "Streaming — Claude API Docs",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/api/rate-limits",
+      "label": "Rate limits — Claude API Docs",
+      "chunk_count": 1
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/models/overview",
+      "label": "Models — Claude API Docs",
+      "chunk_count": 2
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+      "label": "Prompt engineering — Claude API Docs",
+      "chunk_count": 2
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/build-with-claude/administration-api",
+      "label": "Admin API — Claude API Docs",
+      "chunk_count": 1
     }
   ],
   "shards": [
@@ -486,14 +641,20 @@
     {
       "chunks_url": "chunks/shard-005.json",
       "chunk_count": 13
+    },
+    {
+      "chunks_url": "chunks/shard-006.json",
+      "chunk_count": 32
     }
   ],
   "suggested_questions": [
+    "How does tool use / function calling work?",
+    "How do I enable prompt caching?",
+    "What is MCP and how do I build an MCP server?",
+    "How does computer use work?",
     "What is a SKILL.md file and what goes in its frontmatter?",
-    "How does progressive disclosure work for Agent Skills?",
-    "Which Anthropic pre-built Skills are available, and what does each do?",
-    "How do I create a custom Skill with skill-creator?",
-    "How do Skills work in Claude Code vs the Claude API?"
+    "What can Claude in Chrome do?",
+    "Which Claude model should I use?"
   ],
   "llm": {
     "note": "Runtime supports three answer tiers: API key (remote LLM), local browser LLM, or retrieval-only. User picks at runtime.",
