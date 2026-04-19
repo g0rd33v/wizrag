@@ -673,17 +673,19 @@ function tokensOf(q) {
         byId.set(id, entry);
       }
     }
-    // Require at least ceil(tokens/2) tokens matched.
-    // For 2-token queries, allow 1 to catch imperfect metadata (e.g., missing plurals in keywords).
-    const minMatch = tokens.length <= 2 ? 1 : Math.ceil(tokens.length / 2);
-    const merged = [...byId.values()]
-      .filter(e => e.tokensMatched >= minMatch)
-      .map(e => ({
-        item: e.item,
-        // Lower score = better match. Prefer high tokensMatched, then low bestScore.
-        score: (1 - e.tokensMatched / tokens.length) + e.bestScore * 0.2
-      }));
+    // Tiered: prefer chunks matching ALL tokens. Only loosen if that's empty.
+    const entries = [...byId.values()];
+    const strictMin = tokens.length;
+    const looseMin = Math.max(1, Math.ceil(tokens.length / 2));
+    function score(e) { return (1 - e.tokensMatched / tokens.length) + e.bestScore * 0.2; }
+    let merged = entries.filter(e => e.tokensMatched >= strictMin)
+      .map(e => ({ item: e.item, score: score(e) }));
     merged.sort((a, b) => a.score - b.score);
+    if (merged.length === 0) {
+      merged = entries.filter(e => e.tokensMatched >= looseMin)
+        .map(e => ({ item: e.item, score: score(e) }));
+      merged.sort((a, b) => a.score - b.score);
+    }
     return merged.slice(0, MAX_RESULTS);
   }
 
