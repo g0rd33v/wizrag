@@ -123,7 +123,7 @@ STEP-BY-STEP BUILD PROCESS
    - Nearly five decades of annual letters from Warren Buffett and Greg Abel — searchable, offline-capable, in a single static page. — one-line description (80-140 chars)
    - e5817f — hex WITHOUT # (default: "e5817f")
    - 19 April 2026 — human-readable date ("18 April 2026")
-   - 2026-04-19T01:20:12Z — ISO timestamp for <time datetime="">
+   - 2026-04-19T01:24:52Z — ISO timestamp for <time datetime="">
    - 49 — number of source files
    - 1,206 — number of chunks
    - 14 — number of topics
@@ -1352,7 +1352,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
       <span>Vol. II · No. 01</span>
     </div>
     <div class="masthead-right">
-      <time datetime="2026-04-19T01:20:12Z">19 April 2026</time>
+      <time datetime="2026-04-19T01:24:52Z">19 April 2026</time>
       <span class="sep">·</span>
       <span class="cache-pill">
         <span class="cache-dot" id="cache-dot"></span>
@@ -1376,14 +1376,13 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
   </div>
   <div class="nameplate-right">
     <strong>Edition</strong>
-    Built <time datetime="2026-04-19T01:20:12Z">19 April 2026</time><br>WizRAG v2.0
+    Built <time datetime="2026-04-19T01:24:52Z">19 April 2026</time><br>WizRAG v2.0
   </div>
 </header>
 
 <section class="hero" style="border-bottom: 1px solid var(--rule);">
   <div class="hero-main">
     <div class="hero-kicker">The Knowledge Record</div>
-    <h1>Everything searchable. In one static file.</h1>
 
     <form class="search-box" id="search-form" onsubmit="event.preventDefault(); runSearch();">
       <span class="search-icon">
@@ -1399,6 +1398,7 @@ END OF BUILD INSTRUCTIONS — TEMPLATE BEGINS BELOW
       <span class="ex-label">Suggested</span>
     </div>
 
+    <h1>Everything searchable. In one static file.</h1>
     <p class="hero-dek">Nearly five decades of annual letters from Warren Buffett and Greg Abel — searchable, offline-capable, in a single static page.</p>
   </div>
   <aside class="hero-byline">
@@ -1763,9 +1763,10 @@ function buildFuse() {
       { name: 'text',          weight: 0.12 }
     ],
     includeScore: true,
-    threshold: 0.4,
+    threshold: 0.3,
+    distance: 120,
     ignoreLocation: true,
-    minMatchCharLength: 2,
+    minMatchCharLength: 3,
     useExtendedSearch: true
   });
 }
@@ -1786,7 +1787,11 @@ async function runSearch() {
     }
   }
 
-  const matches = FUSE.search(expandedQ, { limit: 12 });
+  // Pull a wider candidate set, then filter by score so nonsense queries → 0 hits
+  const SCORE_CUTOFF = 0.45;   // Fuse: 0 = perfect, 1 = unrelated
+  const MAX_RESULTS = 25;
+  const raw = FUSE.search(expandedQ, { limit: 80 });
+  const matches = raw.filter(m => m.score <= SCORE_CUTOFF).slice(0, MAX_RESULTS);
   renderResults(matches, q);
 
   const url = new URL(window.location);
