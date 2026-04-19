@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WizSearch — A research project by Eugene Gord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{
+  background:#000;
+  color:#d4d4d4;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-weight:400;
+  font-size:16px;
+  line-height:1.65;
+  padding:72px 24px 120px;
+  min-height:100vh;
+}
+.wrap{max-width:740px;margin:0 auto}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:#666;
+  margin-bottom:20px;
+}
+h1{
+  font-size:56px;
+  font-weight:800;
+  letter-spacing:-0.045em;
+  line-height:1;
+  color:#fff;
+  margin-bottom:20px;
+}
+.lede{
+  font-size:19px;
+  line-height:1.5;
+  color:#9a9a9a;
+  max-width:620px;
+  margin-bottom:64px;
+}
+h2{
+  font-size:13px;
+  font-family:'JetBrains Mono',monospace;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:#666;
+  margin:56px 0 20px;
+}
+p{margin-bottom:16px;color:#bdbdbd}
+p.tight{margin-bottom:8px}
+a{
+  color:#fff;
+  text-decoration:underline;
+  text-decoration-color:#444;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+  transition:text-decoration-color 120ms ease;
+}
+a:hover{text-decoration-color:#fff}
+em{color:#e5e5e5;font-style:normal;font-weight:500}
+code{
+  background:#0f0f0f;
+  border:1px solid rgba(255,255,255,0.06);
+  padding:2px 7px;
+  border-radius:5px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:13px;
+  color:#d4d4d4;
+}
+.stack{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.chip{
+  background:#0f0f0f;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:13px;
+  font-weight:500;
+  color:#d4d4d4;
+}
+.chip.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
+.rule{
+  height:1px;
+  background:linear-gradient(to right, rgba(255,255,255,0.12), rgba(255,255,255,0));
+  margin:40px 0;
+  border:0;
+}
+.card{
+  background:#0b0b0b;
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;
+  padding:26px 28px;
+  margin-bottom:12px;
+  transition:border-color 160ms ease, background 160ms ease;
+}
+.card:hover{border-color:rgba(255,255,255,0.14)}
+.card-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.card-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  font-weight:500;
+  color:#555;
+  letter-spacing:0.06em;
+}
+.card h3{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:-0.015em;
+  color:#fff;
+}
+.card .meta{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:#666;
+  margin-bottom:14px;
+}
+.card p{color:#a8a8a8;font-size:15px;line-height:1.6;margin-bottom:14px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.btn{
+  display:inline-block;
+  color:#e5e5e5;
+  font-size:13px;
+  font-weight:500;
+  text-decoration:none;
+  padding:8px 14px;
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;
+  transition:all 140ms ease;
+}
+.btn:hover{
+  background:rgba(255,255,255,0.04);
+  border-color:rgba(255,255,255,0.28);
+  color:#fff;
+}
+.btn.ghost{color:#888;border-color:rgba(255,255,255,0.07)}
+.btn.ghost:hover{color:#d4d4d4}
+.story{
+  border-left:2px solid #2a2a2a;
+  padding:4px 0 4px 22px;
+  margin:8px 0 0;
+}
+.story p{color:#a8a8a8}
+footer{
+  margin-top:88px;
+  padding-top:32px;
+  border-top:1px solid rgba(255,255,255,0.07);
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  color:#555;
+  display:flex;
+  gap:24px;
+  flex-wrap:wrap;
+}
+footer a{color:#999;text-decoration:none}
+footer a:hover{color:#fff}
+@media (max-width:640px){
+  body{padding:48px 20px 80px}
+  h1{font-size:40px;letter-spacing:-0.035em}
+  .lede{font-size:17px}
+  .card{padding:22px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="eyebrow">Research · WizSearch</div>
+<h1>Search, built in chat.</h1>
+<p class="lede">A small research project on semantic search over curated corpora — with one constraint: every file, every commit, every byte shipped through conversation. No code written by hand.</p>
+
+<h2>The researcher</h2>
+<p>I'm <em>Eugene Gord</em> (<a href="https://x.com/egordeev">@egordeev</a> on X). I don't code. I don't open a terminal, don't run a CLI, don't touch Claude Code, don't touch Cowork. This whole project was built using exactly two tools:</p>
+<div class="stack">
+<span class="chip">Claude Opus 4.7</span>
+<span class="chip">GitHub</span>
+</div>
+<p>Pure chat and a repository. That's it. If you've ever wondered whether a non-engineer can ship real, working software by just talking to Claude — this page is one answer.</p>
+
+<h2>What it is</h2>
+<p>WizSearch turns a body of text into a fast, semantic search engine that lives on a static web page. No backend, no database, no server — a JSON index and a little JavaScript in the browser. Each demo points the same engine at a different corpus.</p>
+
+<h2>How it works</h2>
+<p>Every demo accepts a <code>?q=</code> parameter. Append a query to any demo URL and it loads with that search already run. Example: <code>demo3/?q=github</code> opens the page and immediately shows matches for <em>github</em>. That makes results shareable — drop a link, the other person sees what you saw.</p>
+
+<hr class="rule">
+
+<h2>Three demos</h2>
+
+<div class="card">
+<div class="card-head"><span class="card-num">01</span><h3>Anthropic Agent Skills</h3></div>
+<div class="meta">762 chunks · 10 topics</div>
+<p>The first prototype. Indexed Anthropic's Agent Skills documentation so it could be searched the way it should be searched. This proved the pattern worked.</p>
+<div class="actions">
+<a class="btn" href="./demo/">Open demo 01</a>
+<a class="btn ghost" href="./demo/?q=pdf">Try: <em>pdf</em></a>
+</div>
+</div>
+
+<div class="card">
+<div class="card-head"><span class="card-num">02</span><h3>Warren Buffett · Berkshire Letters</h3></div>
+<div class="meta">49 letters · 1977–2025</div>
+<p>Same engine, different corpus. Forty-nine years of Buffett's annual letters indexed as one searchable body. Ask about moats, float, capital allocation, mistakes — you get the exact passages, across every year.</p>
+<div class="actions">
+<a class="btn" href="./demo2/">Open demo 02</a>
+<a class="btn ghost" href="./demo2/?q=moat">Try: <em>moat</em></a>
+</div>
+</div>
+
+<div class="card">
+<div class="card-head"><span class="card-num">03</span><h3>The Claude Capability Validator</h3></div>
+<div class="meta">2,305 chunks · 2,045 skills · 67 sources</div>
+<p>The biggest one. Indexes the full Claude ecosystem — every official Anthropic skill, MCP reference servers, and the 2,000+ community servers from awesome-mcp-servers. Built so Claude itself can validate: given a task, search here and decide which skill or MCP fits.</p>
+<div class="actions">
+<a class="btn" href="./demo3/">Open demo 03</a>
+<a class="btn ghost" href="./demo3/?q=github">Try: <em>github</em></a>
+</div>
+</div>
+
+<hr class="rule">
+
+<h2>A small story about demo 03</h2>
+<div class="story">
+<p>Early on, I needed Claude to manage a GitHub repository on my behalf — commits, pushes, file deletions. The obvious approaches were slow and expensive in tokens.</p>
+<p>So we searched demo 03. Somewhere in those 2,045 skills was the right one. We found it, Claude used it, and a task that had been burning minutes and tokens collapsed to seconds. I won't spoil the trick. The point is: the catalog works. You drop a question in, it hands back a capability.</p>
+<p>That moment is the reason demo 03 exists.</p>
+</div>
+
+<footer>
+<a href="https://x.com/egordeev">@egordeev</a>
+<a href="https://github.com/g0rd33v/wizrag">github.com/g0rd33v/wizrag</a>
+<span>Eugene Gord · 2026</span>
+</footer>
+
+</div>
+</body>
+</html>
