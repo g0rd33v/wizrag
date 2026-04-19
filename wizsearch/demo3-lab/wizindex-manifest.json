@@ -1,0 +1,28 @@
+{
+  "version": "3.0",
+  "project": "Test Lab",
+  "description": "Minimal empty index for isolating the v3 freeze bug.",
+  "topic": "test",
+  "built_at": "2026-04-19T17:25:25.818305Z",
+  "accent_color": "2563eb",
+  "embedding_model": "Xenova/all-MiniLM-L6-v2",
+  "embedding_dim": 0,
+  "embedding_dtype": null,
+  "embeddings_pending": true,
+  "stats": {
+    "files": 0,
+    "chunks": 0,
+    "topics": 0,
+    "sources": 0,
+    "total_characters": 0,
+    "index_size_kb": 0
+  },
+  "topics": [],
+  "sources": [],
+  "shards": [],
+  "suggested_questions": [
+    "Does this page load?",
+    "Does it freeze?",
+    "Is the runtime ok?"
+  ]
+}
