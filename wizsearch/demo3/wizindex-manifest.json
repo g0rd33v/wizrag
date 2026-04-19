@@ -1,7 +1,7 @@
 {
   "version": "3.0",
   "project": "Anthropic Agent Skills Archive",
-  "description": "Every SKILL.md, guide, and reference for Anthropic's Agent Skills system — pre-built and custom.",
+  "description": "Every SKILL.md, guide, and reference for the Anthropic Agent Skills system — pre-built and custom.",
   "topic": "Full list + details of original (Anthropic pre-built) and user-built (custom/community) Skills for Claude: SKILL.md format, progressive disclosure, integration across Claude.ai / Claude Code / API, best practices.",
   "built_at": "2026-04-19T15:51:02.851725Z",
   "accent_color": "2563eb",
