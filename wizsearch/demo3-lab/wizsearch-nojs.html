@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<!--
+================================================================================
+WIZSEARCH V3 — wizsearch.html
+================================================================================
+
+You are an LLM. To build this page for a user's knowledge base, read README.md
+in this bundle for the full build process. This file is the RUNTIME TEMPLATE.
+
+Replace these placeholders only:
+  Test Lab         — e.g., "Anthropic Skills Archive"
+  Minimal empty index for isolating the v3 freeze bug.  — one-line, 80-140 chars
+  2563eb         — hex without #, default "2563eb"
+  19 April 2026             — human-readable date, e.g., "19 April 2026"
+  0         — integer
+  0        — integer
+  0         — integer
+  <li>Empty test</li>   — static <li> list of topics, for raw-fetch LLMs
+  ["Does this page load?","Does it freeze?","Is the runtime ok?"] — JSON array of 3-5 strings
+
+DO NOT modify <style>, <script>, or these instructions.
+
+The runtime fetches wizindex-manifest.json on load, then lazy-loads shards.
+================================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>WizSearch 3 · Test Lab</title>
+<meta name="description" content="Minimal empty index for isolating the v3 freeze bug.">
+<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='6' fill='%232563eb'/%3E%3C/svg%3E">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+<style>
+  *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f6f6f5;
+    --bg-hover: #efeeed;
+    --ink: #111111;
+    --ink-2: #3f3f3f;
+    --ink-3: #767676;
+    --ink-4: #a9a9a9;
+    --rule: #e8e7e5;
+    --rule-soft: #f0efed;
+    --accent: #2563eb;
+    --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
+    --accent-text: var(--accent);
+    --user-bubble: #2563eb;
+    --user-text: #ffffff;
+
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --max: 760px;
+    --input-height: 88px;
+  }
+
+  [data-theme="dark"] {
+    --bg: #0f0f0f;
+    --bg-soft: #1a1a1a;
+    --bg-hover: #252525;
+    --ink: #f5f5f5;
+    --ink-2: #c5c5c5;
+    --ink-3: #8f8f8f;
+    --ink-4: #5a5a5a;
+    --rule: #262626;
+    --rule-soft: #1d1d1d;
+    --accent-soft: color-mix(in srgb, var(--accent) 22%, transparent);
+    --user-text: #ffffff;
+  }
+
+  html, body { height: 100%; background: var(--bg); }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  ::selection { background: var(--accent); color: #fff; }
+
+  button { font-family: inherit; background: none; border: none; color: inherit; cursor: pointer; padding: 0; }
+  input, textarea { font-family: inherit; font-size: inherit; color: inherit; background: none; border: none; outline: none; }
+
+  /* ============ HEADER ============ */
+  header {
+    flex-shrink: 0;
+    height: 52px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    background: var(--bg);
+    z-index: 10;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+  }
+  .brand-dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .brand-name {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .brand-sep {
+    color: var(--ink-4);
+    font-weight: 400;
+    margin: 0 2px;
+  }
+  .brand-project {
+    color: var(--ink-3);
+    font-size: 13px;
+    font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .header-actions {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .icon-btn {
+    width: 34px; height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: var(--ink-2);
+    transition: background 0.15s;
+  }
+  .icon-btn:hover { background: var(--bg-hover); color: var(--ink); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* ============ HISTORY PANEL ============ */
+  .history-panel {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 280px;
+    max-height: 70vh;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-right: none;
+    border-top: none;
+    border-radius: 0 0 0 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    overflow-y: auto;
+    z-index: 20;
+    display: none;
+  }
+  [data-theme="dark"] .history-panel { box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+  .history-panel.open { display: block; }
+  .history-header {
+    padding: 12px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--rule);
+  }
+  .history-empty {
+    padding: 20px 14px;
+    font-size: 13px;
+    color: var(--ink-3);
+    text-align: center;
+  }
+  .history-item {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule-soft);
+    cursor: pointer;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    transition: background 0.12s;
+  }
+  .history-item:hover { background: var(--bg-soft); }
+  .history-item-body { flex: 1; min-width: 0; }
+  .history-item-title {
+    font-size: 13px;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 2px;
+  }
+  .history-item-meta {
+    font-size: 11px;
+    color: var(--ink-4);
+    font-family: var(--mono);
+  }
+  .history-item-delete {
+    opacity: 0;
+    transition: opacity 0.15s;
+    color: var(--ink-3);
+    padding: 2px;
+    border-radius: 4px;
+  }
+  .history-item:hover .history-item-delete { opacity: 1; }
+  .history-item-delete:hover { color: var(--ink); background: var(--bg-hover); }
+
+  /* ============ SETTINGS PANEL ============ */
+  .settings-panel {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 340px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-right: none;
+    border-top: none;
+    border-radius: 0 0 0 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    z-index: 20;
+    display: none;
+  }
+  [data-theme="dark"] .settings-panel { box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+  .settings-panel.open { display: block; }
+  .settings-section { padding: 14px; border-bottom: 1px solid var(--rule); }
+  .settings-section:last-child { border-bottom: none; }
+  .settings-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .settings-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .settings-row:last-child { margin-bottom: 0; }
+  .settings-select {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    background: var(--bg-soft);
+    font-size: 13px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .settings-input {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    background: var(--bg-soft);
+    font-size: 13px;
+    color: var(--ink);
+    font-family: var(--mono);
+  }
+  .settings-input:focus { border-color: var(--accent); }
+  .settings-hint {
+    font-size: 12px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+  .settings-hint a { color: var(--accent); text-decoration: none; }
+  .settings-hint a:hover { text-decoration: underline; }
+  .settings-btn {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .settings-btn:hover { opacity: 0.9; }
+  .settings-btn-secondary {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: var(--bg-soft);
+    color: var(--ink-2);
+    font-size: 13px;
+    border: 1px solid var(--rule);
+  }
+
+  /* ============ CHAT AREA ============ */
+  .chat {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chat-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 28px 20px 140px;
+  }
+
+  .message {
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease both;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  .message-user {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .message-user .message-body {
+    background: var(--user-bubble);
+    color: var(--user-text);
+    padding: 10px 14px;
+    border-radius: 16px 16px 4px 16px;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+
+  .message-assistant .message-body {
+    color: var(--ink);
+    padding: 2px 0;
+    line-height: 1.65;
+  }
+  .message-assistant .message-body p { margin-bottom: 0.7em; }
+  .message-assistant .message-body p:last-child { margin-bottom: 0; }
+  .message-assistant .message-body h1, .message-assistant .message-body h2, .message-assistant .message-body h3 {
+    font-weight: 600;
+    margin: 1.2em 0 0.4em;
+    letter-spacing: -0.015em;
+    line-height: 1.3;
+  }
+  .message-assistant .message-body h1 { font-size: 18px; }
+  .message-assistant .message-body h2 { font-size: 16px; }
+  .message-assistant .message-body h3 { font-size: 15px; }
+  .message-assistant .message-body ul, .message-assistant .message-body ol { margin: 0.5em 0 0.5em 22px; }
+  .message-assistant .message-body li { margin: 0.25em 0; }
+  .message-assistant .message-body strong { font-weight: 600; color: var(--ink); }
+  .message-assistant .message-body code {
+    font-family: var(--mono);
+    font-size: 0.88em;
+    background: var(--bg-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .message-assistant .message-body pre {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    padding: 12px 14px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 0.8em 0;
+    line-height: 1.5;
+  }
+  .message-assistant .message-body pre code { background: none; padding: 0; }
+  .message-assistant .message-body blockquote {
+    border-left: 2px solid var(--accent);
+    padding-left: 12px;
+    color: var(--ink-2);
+    margin: 0.8em 0;
+  }
+  .message-assistant .message-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+  .message-assistant .message-body mark {
+    background: var(--accent-soft);
+    color: var(--ink);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  /* Citations */
+  .cite {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 4px;
+    margin: 0 1px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--mono);
+    vertical-align: baseline;
+    line-height: 1.4;
+  }
+  .cite:hover { background: var(--accent); color: #fff; }
+
+  .citations-list {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .citations-list-title {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .citation {
+    padding: 10px 12px;
+    background: var(--bg-soft);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .citation-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 4px;
+  }
+  .citation-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .citation-title {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 13px;
+    flex: 1;
+  }
+  .citation-source {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  .citation-source a { color: var(--ink-3); text-decoration: none; }
+  .citation-source a:hover { color: var(--accent); }
+  .citation-snippet { color: var(--ink-2); }
+  .citation-actions { margin-top: 6px; }
+  .citation-copy {
+    font-size: 11px;
+    color: var(--ink-3);
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+  }
+  .citation-copy:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Message actions */
+  .message-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .message:hover .message-actions { opacity: 1; }
+  .msg-action-btn {
+    padding: 3px 8px;
+    font-size: 11px;
+    color: var(--ink-3);
+    border-radius: 4px;
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+  }
+  .msg-action-btn:hover { color: var(--accent); background: var(--bg-hover); }
+  .msg-action-btn.copied { color: var(--accent); }
+
+  /* First message card */
+  .intro-card {
+    padding: 18px;
+    background: var(--bg-soft);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid var(--rule);
+  }
+  .intro-card h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+  .intro-card .intro-desc {
+    font-size: 14px;
+    color: var(--ink-2);
+    margin-bottom: 12px;
+    line-height: 1.55;
+  }
+  .intro-stats {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .intro-stat { font-size: 12px; color: var(--ink-3); }
+  .intro-stat strong { color: var(--ink); font-weight: 600; font-size: 13px; margin-right: 4px; font-family: var(--mono); }
+  .intro-topics { margin-bottom: 14px; }
+  .intro-topics-title {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .intro-topics ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .intro-topics li {
+    padding: 4px 10px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    font-size: 12px;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .intro-topics li:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .suggested {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .suggested-title {
+    font-size: 11px;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .suggested-btn {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .suggested-btn:hover {
+    background: var(--accent-soft);
+    color: var(--ink);
+    border-color: var(--accent);
+  }
+  .suggested-btn::before {
+    content: "→ ";
+    color: var(--accent);
+    font-weight: 500;
+    margin-right: 2px;
+  }
+
+  /* ============ INPUT ============ */
+  .input-wrap {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, var(--bg) 60%, transparent);
+    padding: 16px 20px 20px;
+    z-index: 5;
+  }
+  .input-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 8px 8px 8px 14px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .input-inner:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .chat-input {
+    flex: 1;
+    background: none;
+    border: none;
+    resize: none;
+    padding: 8px 0;
+    max-height: 120px;
+    min-height: 22px;
+    line-height: 1.4;
+    font-size: 15px;
+    color: var(--ink);
+    font-family: var(--sans);
+  }
+  .chat-input::placeholder { color: var(--ink-4); }
+  .input-buttons { display: flex; gap: 2px; flex-shrink: 0; }
+  .voice-btn, .send-btn {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+  }
+  .voice-btn { color: var(--ink-3); }
+  .voice-btn:hover { background: var(--bg-hover); color: var(--ink); }
+  .voice-btn.recording { color: #ef4444; background: color-mix(in srgb, #ef4444 12%, transparent); }
+  .send-btn {
+    background: var(--accent);
+    color: #fff;
+  }
+  .send-btn:disabled { background: var(--bg-hover); color: var(--ink-4); cursor: not-allowed; }
+  .send-btn svg { width: 18px; height: 18px; }
+  .voice-btn svg { width: 18px; height: 18px; }
+  .input-footer {
+    max-width: var(--max);
+    margin: 6px auto 0;
+    padding: 0 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--ink-4);
+    font-family: var(--mono);
+    letter-spacing: 0.02em;
+  }
+  .mode-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .mode-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--ink-4);
+  }
+  .mode-dot.ready { background: #22c55e; }
+  .mode-dot.loading { background: #f59e0b; animation: pulse 1.3s ease infinite; }
+  @keyframes pulse { 50% { opacity: 0.3; } }
+
+  /* ============ LOADING ============ */
+  .typing {
+    display: inline-flex;
+    gap: 4px;
+    padding: 8px 0;
+  }
+  .typing span {
+    width: 6px; height: 6px;
+    background: var(--ink-4);
+    border-radius: 50%;
+    animation: bounce 1.4s ease infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* ============ STATIC FALLBACK (raw-fetch LLMs) ============ */
+  .static-fallback { display: none; }
+  noscript .static-fallback { display: block; padding: 20px; max-width: var(--max); margin: 0 auto; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 600px) {
+    .brand-project { display: none; }
+    .intro-card { padding: 14px; }
+    .history-panel, .settings-panel { width: calc(100vw - 32px); max-width: 340px; }
+    .chat-inner { padding: 20px 16px 120px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">WizSearch 3</span>
+    <span class="brand-sep">·</span>
+    <span class="brand-project">Test Lab</span>
+  </div>
+  <div class="header-actions">
+    <button class="icon-btn" id="btn-new" title="New chat" aria-label="New chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 1 1 3 3L7 19l-4 1 1-4Z"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-history" title="Past chats" aria-label="Past chats">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-settings" title="Settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-theme" title="Toggle theme" aria-label="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="icon-moon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HISTORY PANEL -->
+<div class="history-panel" id="history-panel">
+  <div class="history-header">Past chats</div>
+  <div id="history-list"></div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-panel" id="settings-panel">
+  <div class="settings-section">
+    <div class="settings-label">Answer mode</div>
+    <div class="settings-row">
+      <select class="settings-select" id="sel-mode">
+        <option value="retrieval">Retrieval only (instant, no AI)</option>
+        <option value="api">Remote API (fast, requires key)</option>
+        <option value="local" disabled>Local AI in browser (offline, 900MB)</option>
+      </select>
+      <div class="settings-hint" id="mode-hint">Shows top chunks directly. No AI synthesis, no setup.</div>
+    </div>
+  </div>
+  <div class="settings-section" id="api-section" style="display:none">
+    <div class="settings-label">API provider</div>
+    <div class="settings-row">
+      <select class="settings-select" id="sel-provider">
+        <option value="groq">Groq (free tier, fastest)</option>
+        <option value="anthropic">Anthropic</option>
+        <option value="openai">OpenAI</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <input type="password" class="settings-input" id="inp-apikey" placeholder="Paste API key">
+      <div class="settings-hint" id="provider-hint">
+        Free Groq keys at <a href="https://console.groq.com/keys" target="_blank" rel="noopener">console.groq.com/keys</a>. Stored locally, never sent to us.
+      </div>
+    </div>
+    <div class="settings-row" style="flex-direction:row; gap:6px">
+      <button class="settings-btn" id="btn-save-key">Save</button>
+      <button class="settings-btn-secondary" id="btn-clear-key">Clear</button>
+    </div>
+  </div>
+  <div class="settings-section">
+    <div class="settings-label">Search</div>
+    <div class="settings-row">
+      <select class="settings-select" id="sel-search">
+        <option value="hybrid">Hybrid (semantic + fuzzy)</option>
+        <option value="semantic">Semantic only</option>
+        <option value="fuzzy">Fuzzy only (instant)</option>
+      </select>
+      <div class="settings-hint">Hybrid is slowest on first query (loads the embedder) but most accurate.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT AREA -->
+<main class="chat" id="chat">
+  <div class="chat-inner" id="chat-inner">
+    <!-- Intro message renders here -->
+  </div>
+</main>
+
+<!-- INPUT -->
+<div class="input-wrap">
+  <div class="input-inner">
+    <textarea
+      class="chat-input"
+      id="chat-input"
+      placeholder="Ask anything about Test Lab…"
+      rows="1"
+      autocomplete="off"
+      spellcheck="false"></textarea>
+    <div class="input-buttons">
+      <button class="voice-btn" id="btn-voice" title="Voice input" aria-label="Voice input">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+      </button>
+      <button class="send-btn" id="btn-send" title="Send" aria-label="Send" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="input-footer">
+    <span class="mode-indicator">
+      <span class="mode-dot" id="mode-dot"></span>
+      <span id="mode-label">Retrieval only</span>
+    </span>
+    <span><kbd>Enter</kbd> send · <kbd>Shift+Enter</kbd> newline</span>
+  </div>
+</div>
+
+<!-- STATIC FALLBACK: visible to raw-fetch LLMs and users without JS -->
+<noscript>
+  <div class="static-fallback">
+    <h1>WizSearch 3 — Test Lab</h1>
+    <p><strong>Minimal empty index for isolating the v3 freeze bug.</strong></p>
+    <p>Indexed 19 April 2026 · 0 chunks across 0 sources in 0 topics.</p>
+    <h2>Topics</h2>
+    <ul><li>Empty test</li></ul>
+    <p><strong>For AI agents:</strong> Fetch <code>wizindex-manifest.json</code> from the same folder. It lists sharded chunk files and embedding files. Each shard contains fully enriched self-contained chunks you can use to answer questions.</p>
+  </div>
+</noscript>
+
+<!-- Hidden static data for raw-fetch LLMs -->
+<div style="display:none" id="static-meta" data-suggested='["Does this page load?","Does it freeze?","Is the runtime ok?"]'>
+  <h2>Topics in this knowledge base:</h2>
+  <ul><li>Empty test</li></ul>
+</div>
+
+<script>window.__stub_no_runtime = true; console.log("[stub] v3 runtime stripped");</script>
+
+</body>
+</html>
