@@ -1,0 +1,783 @@
+{
+  "version": "3.0",
+  "shard_index": 6,
+  "chunk_count": 32,
+  "scope_note": "Broader Anthropic capabilities — not just Agent Skills. Covers Claude API features, Claude Code, Claude.ai, MCP, beta products.",
+  "chunks": [
+    {
+      "id": "chunk_006_001",
+      "topic": "Tool use and function calling",
+      "title": "Tool use overview — how Claude calls functions",
+      "keywords": [
+        "tool use",
+        "function calling",
+        "tools",
+        "claude api",
+        "agent",
+        "tool_use",
+        "tool_result"
+      ],
+      "synonyms": [
+        "function calling",
+        "tools API",
+        "agents"
+      ],
+      "alt_phrasings": [
+        "how does Claude call tools",
+        "how to enable function calling",
+        "what is tool_use"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview",
+      "source_label": "Tool use — Claude API Docs",
+      "text": "Tool use lets Claude call structured functions you define. You pass a tools array with JSON schemas to the Messages API; Claude decides when to invoke them and returns a tool_use content block with the tool name and arguments. Your code executes the tool and returns the result in a tool_result block. Tool use is the foundation for agentic behavior: search, calculator, database queries, custom APIs. Supported on all modern Claude models. No beta header required."
+    },
+    {
+      "id": "chunk_006_002",
+      "topic": "Tool use and function calling",
+      "title": "Tool choice — letting Claude decide vs forcing a tool",
+      "keywords": [
+        "tool_choice",
+        "auto",
+        "any",
+        "force tool",
+        "required tool",
+        "tool selection"
+      ],
+      "synonyms": [
+        "tool choice parameter"
+      ],
+      "alt_phrasings": [
+        "how to force a tool call",
+        "how to make Claude use a specific tool",
+        "prevent tool use"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-choice",
+      "source_label": "Tool use — Tool choice",
+      "text": "The tool_choice parameter controls tool invocation. Set to {\"type\": \"auto\"} (default) to let Claude decide whether to call a tool or reply with text. Set to {\"type\": \"any\"} to require a tool call but let Claude choose which one. Set to {\"type\": \"tool\", \"name\": \"my_tool\"} to force a specific tool. Set to {\"type\": \"none\"} to disable tools entirely for this turn (useful when you want a text-only response after gathering context)."
+    },
+    {
+      "id": "chunk_006_003",
+      "topic": "Tool use and function calling",
+      "title": "Parallel tool use",
+      "keywords": [
+        "parallel tool use",
+        "concurrent tools",
+        "multiple tools",
+        "batch tool calls"
+      ],
+      "synonyms": [
+        "concurrent tool calls"
+      ],
+      "alt_phrasings": [
+        "can Claude call multiple tools at once",
+        "parallel function calls"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/parallel-tool-use",
+      "source_label": "Tool use — Parallel calls",
+      "text": "Claude can call multiple tools in a single response. You receive multiple tool_use blocks in the same message and should execute them in parallel, then return all tool_result blocks in the next user message. To disable this behavior and force sequential calls, set disable_parallel_tool_use=true on the tool_choice parameter. Parallel calls are the default on Claude 4 family models and significantly reduce latency for agent workflows that need independent lookups."
+    },
+    {
+      "id": "chunk_006_004",
+      "topic": "Vision and multimodal",
+      "title": "Vision — sending images to Claude",
+      "keywords": [
+        "vision",
+        "images",
+        "multimodal",
+        "image input",
+        "base64",
+        "image url",
+        "png",
+        "jpeg",
+        "gif",
+        "webp"
+      ],
+      "synonyms": [
+        "image understanding",
+        "image analysis",
+        "visual input"
+      ],
+      "alt_phrasings": [
+        "how to send an image to Claude",
+        "how does Claude analyze images",
+        "image input format"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/vision",
+      "source_label": "Vision — Claude API Docs",
+      "text": "Claude accepts images via the Messages API. Pass them as content blocks with type \"image\" and source as base64 (for inline bytes) or URL (for public HTTPS URLs). Supported formats: PNG, JPEG, GIF, WebP. Max 3.75 megapixels recommended, 8000x8000 absolute max. Up to 100 images per request. Use cases: OCR, chart/diagram reading, UI screenshot analysis, visual QA, document understanding. Vision is supported on all Claude 3.5+ models including the entire Claude 4 family."
+    },
+    {
+      "id": "chunk_006_005",
+      "topic": "Vision and multimodal",
+      "title": "PDF input — Claude reading documents natively",
+      "keywords": [
+        "pdf",
+        "document",
+        "pdf input",
+        "read pdf",
+        "native pdf",
+        "pdf api"
+      ],
+      "synonyms": [
+        "PDF understanding",
+        "document input"
+      ],
+      "alt_phrasings": [
+        "how to send a PDF to Claude",
+        "PDF upload API",
+        "document analysis"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/pdf-support",
+      "source_label": "PDF support — Claude API Docs",
+      "text": "Claude reads PDFs natively via the Messages API. Send a document content block with type \"document\" and a base64-encoded PDF or a URL. Claude processes both text layers and visual elements (charts, tables, figures). Max 100 pages and 32MB per request. Works with multi-column layouts, scanned documents, and forms. Combines well with prompt caching for long reference docs you query repeatedly."
+    },
+    {
+      "id": "chunk_006_006",
+      "topic": "Prompt caching",
+      "title": "Prompt caching — reuse context, cut cost and latency",
+      "keywords": [
+        "prompt caching",
+        "cache_control",
+        "cached tokens",
+        "ephemeral cache",
+        "cost reduction"
+      ],
+      "synonyms": [
+        "cache",
+        "context caching",
+        "prefix caching"
+      ],
+      "alt_phrasings": [
+        "how to cache prompts",
+        "prompt caching cost",
+        "cached tokens pricing"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "source_label": "Prompt caching — Claude API Docs",
+      "text": "Prompt caching lets you cache a portion of the input so subsequent requests reuse it at a fraction of the cost. Mark a content block with cache_control: { type: \"ephemeral\" } to cache everything up to that point. Reads from cache are 10% of normal input price; writes are 125%. Cache TTL is 5 minutes by default (1 hour available on a separate tier). Ideal for large system prompts, long documents, few-shot examples, or conversation history that stays stable across turns."
+    },
+    {
+      "id": "chunk_006_007",
+      "topic": "Prompt caching",
+      "title": "Cache breakpoints and maximum cache entries",
+      "keywords": [
+        "cache breakpoint",
+        "cache entries",
+        "cache control",
+        "multiple caches",
+        "cache reuse"
+      ],
+      "synonyms": [
+        "cache markers"
+      ],
+      "alt_phrasings": [
+        "how many cache entries can I have",
+        "multiple prompt caches"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
+      "source_label": "Prompt caching — breakpoints",
+      "text": "You can set up to four cache_control breakpoints per request. Each breakpoint caches everything from the start of the prompt through that point. This lets you have nested caches — system prompt cached once, system-plus-tools cached together, system-plus-tools-plus-docs cached together. On a request Claude matches the longest possible cached prefix. Caching works across tools, system prompts, and messages content blocks."
+    },
+    {
+      "id": "chunk_006_008",
+      "topic": "Extended thinking",
+      "title": "Extended thinking — letting Claude reason before answering",
+      "keywords": [
+        "extended thinking",
+        "reasoning",
+        "thinking",
+        "thinking tokens",
+        "thinking_budget",
+        "reasoning_effort"
+      ],
+      "synonyms": [
+        "reasoning mode",
+        "thinking mode",
+        "chain of thought"
+      ],
+      "alt_phrasings": [
+        "how to enable thinking mode",
+        "extended thinking budget",
+        "reasoning tokens"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/extended-thinking",
+      "source_label": "Extended thinking — Claude API Docs",
+      "text": "Extended thinking gives Claude internal reasoning tokens before the final response. Enable it with the thinking parameter on supported models. Set budget_tokens to cap reasoning length (minimum 1024, typical 1024-16000). The API returns both thinking content blocks (visible to you, shown separately from the final answer) and the final text. Thinking improves hard reasoning, math, complex coding, agentic planning. Costs apply to thinking tokens at normal input rates."
+    },
+    {
+      "id": "chunk_006_009",
+      "topic": "Extended thinking",
+      "title": "Adaptive thinking and effort presets",
+      "keywords": [
+        "adaptive thinking",
+        "reasoning_effort",
+        "thinking effort",
+        "low medium high",
+        "task budgets"
+      ],
+      "synonyms": [
+        "reasoning effort",
+        "thinking presets"
+      ],
+      "alt_phrasings": [
+        "adaptive reasoning",
+        "thinking effort level"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/adaptive-thinking",
+      "source_label": "Adaptive thinking — Claude API Docs",
+      "text": "Newer Claude models support adaptive thinking: instead of a fixed token budget, pass reasoning_effort as \"low\", \"medium\", or \"high\". Claude decides in-flight how much to think based on the problem. This is simpler than manually tuning thinking_budget for each task type. Task budgets offer even finer control by letting you cap total tokens across a multi-step agent run. Adaptive thinking is the recommended default for new integrations."
+    },
+    {
+      "id": "chunk_006_010",
+      "topic": "Computer use",
+      "title": "Computer use — Claude operating a virtual desktop",
+      "keywords": [
+        "computer use",
+        "screenshot",
+        "click",
+        "type",
+        "mouse",
+        "keyboard",
+        "desktop agent",
+        "computer_20241022"
+      ],
+      "synonyms": [
+        "desktop automation",
+        "GUI automation",
+        "computer control"
+      ],
+      "alt_phrasings": [
+        "how Claude controls a computer",
+        "computer use demo",
+        "desktop automation API"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/computer-use",
+      "source_label": "Computer use — Claude API Docs",
+      "text": "Computer use is a capability that lets Claude take screenshots and send mouse/keyboard actions to operate a computer. Enable it by passing the \"computer\" tool definition with display width/height. Claude receives screenshots after each action and decides the next click, drag, type, or key press. Runs in a sandboxed environment you provide (typically a Docker container or VM). Use cases: browser automation, legacy app automation, testing. Requires a specific beta header and a dedicated tool type."
+    },
+    {
+      "id": "chunk_006_011",
+      "topic": "Computer use",
+      "title": "Text editor tool and Bash tool",
+      "keywords": [
+        "text_editor",
+        "bash tool",
+        "str_replace",
+        "create_file",
+        "view",
+        "file editing",
+        "shell"
+      ],
+      "synonyms": [
+        "editor tool",
+        "shell tool"
+      ],
+      "alt_phrasings": [
+        "how Claude edits files",
+        "Claude terminal access"
+      ],
+      "source": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/text-editor-tool",
+      "source_label": "Text editor and Bash tools",
+      "text": "Alongside computer use, Claude has two first-class tools for code agents: text_editor (view, create, str_replace, insert operations on files with precise line-level semantics) and bash (execute shell commands in a session). These are the primitives Claude Code is built on. They require no computer use beta and work on any Claude 4 model. Combined with tool_use, you can build a coding agent in a few hundred lines of glue code."
+    },
+    {
+      "id": "chunk_006_012",
+      "topic": "Model Context Protocol (MCP)",
+      "title": "MCP — open protocol for connecting Claude to external systems",
+      "keywords": [
+        "mcp",
+        "model context protocol",
+        "mcp server",
+        "mcp client",
+        "integrations",
+        "connectors"
+      ],
+      "synonyms": [
+        "MCP servers",
+        "Model Context Protocol",
+        "external tool protocol"
+      ],
+      "alt_phrasings": [
+        "what is MCP",
+        "how does MCP work",
+        "Claude integrations"
+      ],
+      "source": "https://modelcontextprotocol.io",
+      "source_label": "Model Context Protocol (modelcontextprotocol.io)",
+      "text": "MCP is an open protocol for connecting LLMs to external data sources and tools. An MCP server exposes tools, resources, and prompts; an MCP client (like Claude Code, Claude.ai connectors, or custom apps) consumes them. It standardizes what used to be per-vendor plugin APIs. Built on JSON-RPC with transports over stdio, HTTP/SSE, or HTTP streamable. Many vendors (Linear, Slack, GitHub, Notion, Asana, Atlassian) publish official MCP servers for Claude to connect to directly."
+    },
+    {
+      "id": "chunk_006_013",
+      "topic": "Model Context Protocol (MCP)",
+      "title": "MCP servers — how to build or use one",
+      "keywords": [
+        "mcp server",
+        "server sdk",
+        "build mcp",
+        "python sdk",
+        "typescript sdk",
+        "stdio transport"
+      ],
+      "synonyms": [
+        "custom MCP server"
+      ],
+      "alt_phrasings": [
+        "how to build an MCP server",
+        "MCP SDK",
+        "write custom MCP"
+      ],
+      "source": "https://modelcontextprotocol.io/quickstart",
+      "source_label": "MCP — Build your own server",
+      "text": "MCP servers are small programs exposing tools/resources/prompts over JSON-RPC. Official SDKs: Python (mcp), TypeScript (@modelcontextprotocol/sdk), Swift, Kotlin, Java, C#. A minimal server is ~30 lines: declare tools with schemas, implement handlers, start stdio transport. You connect it to Claude Code with `claude mcp add`, or to Claude.ai via the connectors UI. Servers are process-isolated from Claude — the model only sees what you choose to expose."
+    },
+    {
+      "id": "chunk_006_014",
+      "topic": "Claude Code",
+      "title": "Claude Code — terminal-native coding agent",
+      "keywords": [
+        "claude code",
+        "cli",
+        "terminal",
+        "coding agent",
+        "agentic coding",
+        "npm install -g @anthropic-ai/claude-code"
+      ],
+      "synonyms": [
+        "Code",
+        "CC",
+        "Anthropic code CLI"
+      ],
+      "alt_phrasings": [
+        "what is Claude Code",
+        "how to install Claude Code",
+        "Claude Code features"
+      ],
+      "source": "https://code.claude.com/docs/en/overview",
+      "source_label": "Claude Code — Overview",
+      "text": "Claude Code is a command-line coding agent from Anthropic. Install via npm (@anthropic-ai/claude-code) or the native installer. Runs in your terminal, reads and writes your actual filesystem, executes commands, manages git, calls tests. Works with any code editor (you run Code separately in a terminal pane). Supports MCP servers for external integrations, custom Skills for domain-specific expertise, and subagents for parallel work."
+    },
+    {
+      "id": "chunk_006_015",
+      "topic": "Claude Code",
+      "title": "Claude Code subagents and parallel work",
+      "keywords": [
+        "subagent",
+        "task agent",
+        "parallel agents",
+        "agent spawning",
+        "delegation"
+      ],
+      "synonyms": [
+        "sub-agents",
+        "spawned agents"
+      ],
+      "alt_phrasings": [
+        "Claude Code multi-agent",
+        "run agents in parallel"
+      ],
+      "source": "https://code.claude.com/docs/en/subagents",
+      "source_label": "Claude Code — Subagents",
+      "text": "Claude Code can spawn subagents to work on subtasks in parallel. Useful for: analyzing multiple files concurrently, running independent test suites, researching several options at once. Each subagent has its own context window and tool set. The parent Code instance coordinates results. Subagents inherit the project's MCP servers and Skills. Overuse burns tokens — best when subtasks are truly independent."
+    },
+    {
+      "id": "chunk_006_016",
+      "topic": "Claude Code",
+      "title": "Claude Code hooks",
+      "keywords": [
+        "hooks",
+        "pre-commit",
+        "post-commit",
+        "lifecycle hooks",
+        "automation"
+      ],
+      "synonyms": [
+        "lifecycle hooks",
+        "event hooks"
+      ],
+      "alt_phrasings": [
+        "how to add pre-commit to Claude Code",
+        "Code automation on events"
+      ],
+      "source": "https://code.claude.com/docs/en/hooks",
+      "source_label": "Claude Code — Hooks",
+      "text": "Hooks let you run scripts at lifecycle events in a Claude Code session: before a user message, after a tool call, before commit, after agent exit. Useful for auto-linting, log capture, audit trails, blocking dangerous operations. Configured in .claude/hooks/ with simple shell scripts. Hooks receive context about the event on stdin and can block the action by exiting non-zero."
+    },
+    {
+      "id": "chunk_006_017",
+      "topic": "Claude.ai features",
+      "title": "Projects — organize conversations with shared context",
+      "keywords": [
+        "projects",
+        "claude.ai projects",
+        "project knowledge",
+        "shared context",
+        "custom instructions"
+      ],
+      "synonyms": [
+        "workspaces",
+        "Claude Projects"
+      ],
+      "alt_phrasings": [
+        "what are Claude Projects",
+        "how to set up a Project",
+        "project knowledge"
+      ],
+      "source": "https://claude.ai",
+      "source_label": "Claude.ai — Projects",
+      "text": "Projects on Claude.ai group conversations around a shared knowledge base and instructions. Upload reference docs, set custom instructions, define the project goal — all chats within that Project reuse this context automatically. Project knowledge is searched by Claude when relevant. Useful for: ongoing research, team wikis, personal knowledge management, codebase-specific work. Available on Pro, Team, and Enterprise plans."
+    },
+    {
+      "id": "chunk_006_018",
+      "topic": "Claude.ai features",
+      "title": "Artifacts — interactive content that renders beside the chat",
+      "keywords": [
+        "artifacts",
+        "claude.ai artifacts",
+        "canvas",
+        "preview",
+        "react component",
+        "html artifact",
+        "svg"
+      ],
+      "synonyms": [
+        "canvas",
+        "Claude artifact"
+      ],
+      "alt_phrasings": [
+        "what are artifacts",
+        "how do artifacts work"
+      ],
+      "source": "https://claude.ai",
+      "source_label": "Claude.ai — Artifacts",
+      "text": "Artifacts are standalone pieces of content — HTML pages, React components, SVG, Markdown documents, code — that Claude creates in a side panel beside the chat. You can iterate on them, fork versions, and download them. Artifacts can use a live preview for interactive components. They can also call the Claude API itself via a provided window.fetch pattern, letting you build AI-powered mini-apps in a single chat turn."
+    },
+    {
+      "id": "chunk_006_019",
+      "topic": "Claude.ai features",
+      "title": "Research mode — multi-step web research",
+      "keywords": [
+        "research",
+        "deep research",
+        "research mode",
+        "multi-step research",
+        "web browsing"
+      ],
+      "synonyms": [
+        "Deep Research",
+        "agentic research"
+      ],
+      "alt_phrasings": [
+        "how does research mode work",
+        "Claude deep research"
+      ],
+      "source": "https://claude.ai",
+      "source_label": "Claude.ai — Research",
+      "text": "Research mode turns Claude into a multi-step research agent: it browses the web, reads pages, follows references, and synthesizes a structured report with citations. Behind the scenes it runs dozens of searches and fetches in a single session. Use it for literature review, competitor analysis, market intelligence, or any question that needs broad sweep. Available on Pro/Max plans and enterprise tiers."
+    },
+    {
+      "id": "chunk_006_020",
+      "topic": "Claude.ai features",
+      "title": "Memory and past chats",
+      "keywords": [
+        "memory",
+        "past chats",
+        "user memory",
+        "remember",
+        "chat history",
+        "search past chats"
+      ],
+      "synonyms": [
+        "chat memory",
+        "conversation memory"
+      ],
+      "alt_phrasings": [
+        "does Claude remember me",
+        "how to enable memory",
+        "past chats search"
+      ],
+      "source": "https://claude.ai",
+      "source_label": "Claude.ai — Memory",
+      "text": "Claude.ai has an opt-in memory system that carries context across chats: names, preferences, ongoing projects. Memory is derived automatically from conversations and updates nightly. Users can view, edit, and delete memories in Settings. Separately, you can enable \"Search past chats\" to let Claude retrieve your previous conversations on demand. Memory is off in Incognito Conversations."
+    },
+    {
+      "id": "chunk_006_021",
+      "topic": "Claude beta products",
+      "title": "Claude for Chrome — agentic browsing",
+      "keywords": [
+        "claude in chrome",
+        "chrome extension",
+        "browsing agent",
+        "browser automation",
+        "web agent"
+      ],
+      "synonyms": [
+        "Claude Chrome",
+        "browser agent"
+      ],
+      "alt_phrasings": [
+        "what is Claude for Chrome",
+        "browser automation with Claude"
+      ],
+      "source": "https://www.anthropic.com/news/claude-for-chrome",
+      "source_label": "Claude for Chrome — Anthropic",
+      "text": "Claude for Chrome is a browser extension that lets Claude operate your actual browser tabs: navigate, click, fill forms, scroll, read pages. Useful for research you want Claude to gather live, form-heavy workflows, tab juggling. Respects the same-origin model: Claude never sees cookies or saved passwords. Currently beta, available to Max subscribers."
+    },
+    {
+      "id": "chunk_006_022",
+      "topic": "Claude beta products",
+      "title": "Claude in Excel",
+      "keywords": [
+        "claude in excel",
+        "excel",
+        "spreadsheet",
+        "excel integration",
+        "office add-in"
+      ],
+      "synonyms": [
+        "Excel add-in",
+        "Claude Excel"
+      ],
+      "alt_phrasings": [
+        "Claude Excel integration",
+        "AI in Excel"
+      ],
+      "source": "https://www.anthropic.com/news",
+      "source_label": "Claude in Excel — Anthropic",
+      "text": "Claude in Excel is a Microsoft Excel add-in that makes Claude aware of your workbook: cells, ranges, formulas, sheets. Use natural language to analyze data, generate formulas, build pivot tables, or write VBA. Claude reads only what you give it access to — selected ranges or whole sheets — and respects your workbook boundaries. Beta, rolling out to Enterprise users."
+    },
+    {
+      "id": "chunk_006_023",
+      "topic": "Claude beta products",
+      "title": "Cowork — desktop automation for non-developers",
+      "keywords": [
+        "cowork",
+        "desktop agent",
+        "file automation",
+        "task agent",
+        "non-developer agent"
+      ],
+      "synonyms": [
+        "Claude Cowork"
+      ],
+      "alt_phrasings": [
+        "what is Cowork",
+        "Anthropic desktop agent"
+      ],
+      "source": "https://www.anthropic.com/news",
+      "source_label": "Cowork — Anthropic",
+      "text": "Cowork is a macOS/Windows desktop app that lets non-developers delegate file and task work to Claude. Drag files in, describe what to do (\"clean up these CSVs, rename them by date, merge into one report\"), Claude executes. Different from Claude Code (which is for devs in a terminal) and Claude for Chrome (which is browser-only). Beta, targeted at knowledge workers."
+    },
+    {
+      "id": "chunk_006_024",
+      "topic": "API fundamentals",
+      "title": "Batch API — process large volumes async at 50% cost",
+      "keywords": [
+        "batch api",
+        "batch processing",
+        "async batch",
+        "message batches",
+        "bulk api"
+      ],
+      "synonyms": [
+        "Message Batches API"
+      ],
+      "alt_phrasings": [
+        "how to batch API calls",
+        "batch pricing",
+        "async Claude requests"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+      "source_label": "Message Batches — Claude API Docs",
+      "text": "The Message Batches API lets you submit up to 100,000 Messages requests in one batch and get results back within 24 hours (often much faster). Pricing is 50% of synchronous Messages API. No rate-limit pressure. Ideal for: evaluation runs, bulk content generation, offline data enrichment, nightly pipelines. Submit the batch, poll its status, download the NDJSON results file when complete."
+    },
+    {
+      "id": "chunk_006_025",
+      "topic": "API fundamentals",
+      "title": "Files API — upload once, reference many times",
+      "keywords": [
+        "files api",
+        "file upload",
+        "file reference",
+        "file_id",
+        "reusable files"
+      ],
+      "synonyms": [
+        "file storage API"
+      ],
+      "alt_phrasings": [
+        "how to upload a file to Claude",
+        "reuse files across requests"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/files",
+      "source_label": "Files API — Claude API Docs",
+      "text": "The Files API lets you upload PDFs, images, and other documents once and reference them by file_id across many Messages requests. Replaces base64-embedding for large assets. File uploads persist in your workspace and can be listed, deleted. Useful when you query the same reference document many times, or when passing large inputs between requests in a workflow. Combines well with prompt caching."
+    },
+    {
+      "id": "chunk_006_026",
+      "topic": "API fundamentals",
+      "title": "Streaming responses — SSE for partial output",
+      "keywords": [
+        "streaming",
+        "sse",
+        "server-sent events",
+        "stream",
+        "partial response",
+        "chunk delta"
+      ],
+      "synonyms": [
+        "SSE streaming"
+      ],
+      "alt_phrasings": [
+        "how to stream Claude responses",
+        "streaming API"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/streaming",
+      "source_label": "Streaming — Claude API Docs",
+      "text": "Set stream=true on a Messages request to receive the response as a server-sent events stream. You get message_start, content_block_start/delta/stop, message_delta, and message_stop events. Use it to render text token-by-token in a UI, to cancel mid-stream if the response goes off-track, or to feed tool_use deltas into a live parser. All official SDKs abstract SSE parsing — just iterate the stream object."
+    },
+    {
+      "id": "chunk_006_027",
+      "topic": "API fundamentals",
+      "title": "Rate limits and tier progression",
+      "keywords": [
+        "rate limit",
+        "rpm",
+        "tpm",
+        "tokens per minute",
+        "tier",
+        "usage tier",
+        "quota"
+      ],
+      "synonyms": [
+        "API quota",
+        "rate limits"
+      ],
+      "alt_phrasings": [
+        "what are the rate limits",
+        "how to increase rate limit",
+        "API tiers"
+      ],
+      "source": "https://platform.claude.com/docs/en/api/rate-limits",
+      "source_label": "Rate limits — Claude API Docs",
+      "text": "The Claude API has per-model rate limits in both requests per minute (RPM) and tokens per minute (TPM, separated into input and output). Limits start low on Tier 1 and increase automatically as you accumulate spend and a clean usage history. Enterprise customers can request custom limits. The Messages Batches API has no rate limit contention with sync requests. 429 responses include a retry-after header you should honor."
+    },
+    {
+      "id": "chunk_006_028",
+      "topic": "Models",
+      "title": "Claude model family overview",
+      "keywords": [
+        "claude models",
+        "opus",
+        "sonnet",
+        "haiku",
+        "model family",
+        "claude 4.7",
+        "claude 4.6"
+      ],
+      "synonyms": [
+        "Claude lineup",
+        "available models"
+      ],
+      "alt_phrasings": [
+        "which Claude model should I use",
+        "Claude model comparison"
+      ],
+      "source": "https://platform.claude.com/docs/en/about-claude/models/overview",
+      "source_label": "Models — Claude API Docs",
+      "text": "Claude comes in three tiers. Opus is the most capable (best for hard reasoning, complex agents, research) but most expensive and slowest. Sonnet is balanced (capable enough for most tasks, affordable, fast) and is the default recommendation. Haiku is fastest and cheapest (best for high-volume classification, routing, summarization). The 4.7 family is current as of this writing, with Claude Opus 4.7 the flagship. Model strings follow the pattern claude-{tier}-{major}-{minor}."
+    },
+    {
+      "id": "chunk_006_029",
+      "topic": "Models",
+      "title": "Context windows and output limits",
+      "keywords": [
+        "context window",
+        "200k",
+        "output tokens",
+        "max tokens",
+        "token limit"
+      ],
+      "synonyms": [
+        "token budget",
+        "max input tokens"
+      ],
+      "alt_phrasings": [
+        "how big is the context window",
+        "max output length"
+      ],
+      "source": "https://platform.claude.com/docs/en/about-claude/models/overview",
+      "source_label": "Models — context windows",
+      "text": "Claude 4 family models have a 200K token context window for input. Output is capped at 32K tokens for Sonnet/Haiku and 64K+ for Opus depending on reasoning settings. With extended thinking enabled, thinking tokens count toward the output budget. Long context does not always mean better quality — place the most relevant content early, use prompt caching for large stable prefixes, and use retrieval to filter context rather than dumping everything."
+    },
+    {
+      "id": "chunk_006_030",
+      "topic": "Prompt engineering",
+      "title": "Prompt engineering principles for Claude",
+      "keywords": [
+        "prompt engineering",
+        "prompt design",
+        "clarity",
+        "examples",
+        "xml tags",
+        "best practices"
+      ],
+      "synonyms": [
+        "prompting",
+        "prompt design"
+      ],
+      "alt_phrasings": [
+        "how to write good prompts",
+        "prompting best practices"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+      "source_label": "Prompt engineering — Claude API Docs",
+      "text": "Effective prompting for Claude emphasizes: clarity (spell out what you want, with concrete constraints), positive and negative examples (show the pattern you want and the pattern you don't), step-by-step reasoning cues, XML tags to delimit sections, and specifying desired length and format. Claude responds well to direct, professional tone. Avoid ambiguous pronouns. For complex tasks, break the problem into sub-tasks or chain prompts together."
+    },
+    {
+      "id": "chunk_006_031",
+      "topic": "Prompt engineering",
+      "title": "XML tags in prompts — why they help",
+      "keywords": [
+        "xml tags",
+        "structured prompts",
+        "prompt structure",
+        "delimiters",
+        "sections"
+      ],
+      "synonyms": [
+        "prompt tags",
+        "structured input"
+      ],
+      "alt_phrasings": [
+        "should I use XML in prompts",
+        "how to delimit prompt sections"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/use-xml-tags",
+      "source_label": "Use XML tags — Claude API Docs",
+      "text": "Claude was trained with lots of XML-structured data and responds reliably to XML-tagged prompts. Wrap sections: <instructions>...</instructions>, <context>...</context>, <examples>...</examples>, <question>...</question>. This makes it easy for Claude to know what is reference material vs. what you want it to produce. You can ask Claude to emit its response inside specific tags too (<answer>...</answer>, <plan>...</plan>) for reliable parsing."
+    },
+    {
+      "id": "chunk_006_032",
+      "topic": "Admin and governance",
+      "title": "Admin API — manage your Anthropic organization programmatically",
+      "keywords": [
+        "admin api",
+        "organization",
+        "workspaces",
+        "api keys",
+        "members",
+        "usage reporting"
+      ],
+      "synonyms": [
+        "administration API"
+      ],
+      "alt_phrasings": [
+        "how to manage workspaces",
+        "admin API keys"
+      ],
+      "source": "https://platform.claude.com/docs/en/build-with-claude/administration-api",
+      "source_label": "Admin API — Claude API Docs",
+      "text": "The Admin API lets you programmatically manage your Anthropic organization: create and archive workspaces, issue and revoke API keys, invite and remove members, query usage and cost by workspace. Requires a special admin key distinct from regular API keys. Useful for enterprises managing hundreds of teams or for SaaS builders provisioning per-customer workspaces."
+    }
+  ]
+}
