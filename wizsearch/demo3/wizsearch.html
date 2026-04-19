@@ -1019,20 +1019,29 @@ async function loadManifest() {
 async function loadAllShards() {
   if (!MANIFEST || !MANIFEST.shards) return;
   ALL_CHUNKS = [];
-  for (const shard of MANIFEST.shards) {
+  // Fetch all shards in parallel instead of sequentially
+  const results = await Promise.all(MANIFEST.shards.map(async (shard) => {
     let chunks = await idbGet(DB_STORE_SHARDS, 'chunks:' + shard.id);
     if (!chunks) {
       try {
         const r = await fetch(shard.chunks_url);
-        if (!r.ok) continue;
+        if (!r.ok) return { shard, chunks: [] };
         const data = await r.json();
         chunks = data.chunks || [];
         await idbSet(DB_STORE_SHARDS, 'chunks:' + shard.id, chunks);
-      } catch { continue; }
+      } catch {
+        return { shard, chunks: [] };
+      }
     }
+    return { shard, chunks };
+  }));
+  for (const { shard, chunks } of results) {
     for (const c of chunks) c._shard = shard.id;
     ALL_CHUNKS.push(...chunks);
   }
+  // Yield to the UI thread before the expensive Fuse build so the browser
+  // can repaint and the "Page Unresponsive" watchdog is reset.
+  await new Promise(r => setTimeout(r, 0));
   rebuildFuse();
 }
 
@@ -1070,16 +1079,28 @@ async function loadShardEmbeddings(shardId) {
 }
 
 function rebuildFuse() {
+  // Build a search-optimized view. Fuse indexes on `_search_text` (truncated)
+  // not the full text — full text stays on `text` for display. With 190 chunks
+  // that can hit 4500 chars each, indexing on `text` would block the main
+  // thread long enough to trigger Chrome's Page Unresponsive dialog.
+  for (const c of ALL_CHUNKS) {
+    if (c._search_text === undefined) {
+      c._search_text = (c.text || '').slice(0, 400);
+    }
+  }
   FUSE = new Fuse(ALL_CHUNKS, {
     keys: [
-      { name: 'title', weight: 0.30 },
-      { name: 'keywords', weight: 0.25 },
-      { name: 'synonyms', weight: 0.15 },
+      { name: 'title',         weight: 0.30 },
+      { name: 'keywords',      weight: 0.25 },
+      { name: 'synonyms',      weight: 0.15 },
       { name: 'alt_phrasings', weight: 0.10 },
-      { name: 'topic', weight: 0.08 },
-      { name: 'text', weight: 0.12 }
+      { name: 'topic',         weight: 0.08 },
+      { name: '_search_text',  weight: 0.12 }
     ],
-    includeScore: true, threshold: 0.4, ignoreLocation: true, minMatchCharLength: 2
+    includeScore: true,
+    threshold: 0.4,
+    ignoreLocation: true,
+    minMatchCharLength: 3
   });
 }
 
