@@ -628,7 +628,7 @@
 
   // ---------- search ----------
   const SCORE_CUTOFF = 0.38;
-  const MAX_RESULTS = 25;
+  const MAX_RESULTS = 500; // effectively unlimited
 
   // ---------- query preprocessing ----------
   const STOPWORDS = new Set([
@@ -662,7 +662,7 @@ function tokensOf(q) {
     // Score: count how many tokens matched the chunk; record the best per-token score.
     const byId = new Map(); // id -> { chunk, tokensMatched, bestScore }
     for (const t of tokens) {
-      const raw = FUSE.search(t, { limit: 80 });
+      const raw = FUSE.search(t, { limit: 500 });
       const filtered = raw.filter(m => m.score <= MT_PER_TOKEN_CUTOFF);
       for (const m of filtered) {
         const id = m.item.id;
@@ -699,7 +699,7 @@ function tokensOf(q) {
     addToHistory(q);
 
     // 1. Raw full-query Fuse first
-    let raw = FUSE.search(q, { limit: 80 });
+    let raw = FUSE.search(q, { limit: 500 });
     let matches = raw.filter(m => m.score <= SCORE_CUTOFF).slice(0, MAX_RESULTS);
 
     // 2. If empty AND we have multiple meaningful tokens, do multi-token
@@ -709,7 +709,7 @@ function tokensOf(q) {
         matches = multiTokenSearch(tokens);
       } else if (tokens.length === 1 && tokens[0] !== q) {
         // Single meaningful token, run it directly
-        raw = FUSE.search(tokens[0], { limit: 80 });
+        raw = FUSE.search(tokens[0], { limit: 500 });
         matches = raw.filter(m => m.score <= SCORE_CUTOFF).slice(0, MAX_RESULTS);
       }
     }
