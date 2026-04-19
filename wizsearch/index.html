@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WizSearch — A research project by Eugene Gord</title>
+<meta name="description" content="Semantic search over curated corpora. Built entirely in chat by Eugene Gord.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -11,152 +12,123 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body{
-  background:#000;
-  color:#d4d4d4;
+  background:#000;color:#d4d4d4;
   font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  font-weight:400;
-  font-size:16px;
-  line-height:1.65;
-  padding:72px 24px 120px;
-  min-height:100vh;
+  font-weight:400;font-size:16px;line-height:1.65;
+  padding:72px 24px 120px;min-height:100vh;
 }
-.wrap{max-width:740px;margin:0 auto}
+.wrap{max-width:760px;margin:0 auto}
 .eyebrow{
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;
-  font-weight:500;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  color:#666;
-  margin-bottom:20px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+  letter-spacing:0.08em;text-transform:uppercase;color:#666;margin-bottom:20px;
 }
 h1{
-  font-size:56px;
-  font-weight:800;
-  letter-spacing:-0.045em;
-  line-height:1;
-  color:#fff;
-  margin-bottom:20px;
+  font-size:56px;font-weight:800;letter-spacing:-0.045em;
+  line-height:1;color:#fff;margin-bottom:20px;
 }
 .lede{
-  font-size:19px;
-  line-height:1.5;
-  color:#9a9a9a;
-  max-width:620px;
-  margin-bottom:64px;
+  font-size:19px;line-height:1.55;color:#9a9a9a;
+  max-width:640px;margin-bottom:56px;
 }
 h2{
-  font-size:13px;
-  font-family:'JetBrains Mono',monospace;
-  font-weight:500;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  color:#666;
-  margin:56px 0 20px;
+  font-size:13px;font-family:'JetBrains Mono',monospace;font-weight:500;
+  letter-spacing:0.1em;text-transform:uppercase;color:#666;
+  margin:56px 0 18px;
 }
 p{margin-bottom:16px;color:#bdbdbd}
-p.tight{margin-bottom:8px}
 a{
-  color:#fff;
-  text-decoration:underline;
-  text-decoration-color:#444;
-  text-decoration-thickness:1px;
-  text-underline-offset:3px;
+  color:#fff;text-decoration:underline;text-decoration-color:#444;
+  text-decoration-thickness:1px;text-underline-offset:3px;
   transition:text-decoration-color 120ms ease;
 }
 a:hover{text-decoration-color:#fff}
 em{color:#e5e5e5;font-style:normal;font-weight:500}
 code{
-  background:#0f0f0f;
-  border:1px solid rgba(255,255,255,0.06);
-  padding:2px 7px;
-  border-radius:5px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:13px;
-  color:#d4d4d4;
+  background:#0f0f0f;border:1px solid rgba(255,255,255,0.06);
+  padding:2px 7px;border-radius:5px;
+  font-family:'JetBrains Mono',monospace;font-size:13px;color:#d4d4d4;
 }
-.stack{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 24px}
+.stack{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 24px}
 .chip{
-  background:#0f0f0f;
-  border:1px solid rgba(255,255,255,0.07);
-  border-radius:999px;
-  padding:6px 14px;
-  font-size:13px;
-  font-weight:500;
-  color:#d4d4d4;
+  background:#0f0f0f;border:1px solid rgba(255,255,255,0.07);
+  border-radius:999px;padding:6px 14px;font-size:13px;font-weight:500;color:#d4d4d4;
 }
-.chip.mono{font-family:'JetBrains Mono',monospace;font-size:12px}
 .rule{
-  height:1px;
-  background:linear-gradient(to right, rgba(255,255,255,0.12), rgba(255,255,255,0));
-  margin:40px 0;
-  border:0;
+  height:1px;background:linear-gradient(to right, rgba(255,255,255,0.12), rgba(255,255,255,0));
+  margin:44px 0;border:0;
 }
 .card{
-  background:#0b0b0b;
-  border:1px solid rgba(255,255,255,0.07);
-  border-radius:14px;
-  padding:26px 28px;
-  margin-bottom:12px;
-  transition:border-color 160ms ease, background 160ms ease;
+  background:#0b0b0b;border:1px solid rgba(255,255,255,0.07);
+  border-radius:14px;padding:26px 28px;margin-bottom:12px;
+  transition:border-color 160ms ease;
 }
 .card:hover{border-color:rgba(255,255,255,0.14)}
 .card-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
 .card-num{
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;
-  font-weight:500;
-  color:#555;
-  letter-spacing:0.06em;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+  color:#555;letter-spacing:0.06em;
 }
 .card h3{
-  font-size:20px;
-  font-weight:700;
-  letter-spacing:-0.015em;
-  color:#fff;
+  font-size:20px;font-weight:700;letter-spacing:-0.015em;color:#fff;
 }
-.card .meta{
-  font-family:'JetBrains Mono',monospace;
-  font-size:12px;
-  color:#666;
-  margin-bottom:14px;
+.meta{
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:#666;margin-bottom:14px;
 }
 .card p{color:#a8a8a8;font-size:15px;line-height:1.6;margin-bottom:14px}
+ul.features{
+  list-style:none;margin:0 0 18px;padding:0;
+  font-size:14px;color:#9a9a9a;line-height:1.55;
+}
+ul.features li{
+  position:relative;padding-left:20px;margin-bottom:6px;
+}
+ul.features li::before{
+  content:"";position:absolute;left:4px;top:10px;
+  width:4px;height:4px;border-radius:50%;background:#555;
+}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
 .btn{
-  display:inline-block;
-  color:#e5e5e5;
-  font-size:13px;
-  font-weight:500;
-  text-decoration:none;
-  padding:8px 14px;
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:8px;
+  display:inline-block;color:#e5e5e5;font-size:13px;font-weight:500;
+  text-decoration:none;padding:8px 14px;
+  border:1px solid rgba(255,255,255,0.12);border-radius:8px;
   transition:all 140ms ease;
 }
 .btn:hover{
   background:rgba(255,255,255,0.04);
-  border-color:rgba(255,255,255,0.28);
-  color:#fff;
+  border-color:rgba(255,255,255,0.28);color:#fff;
 }
 .btn.ghost{color:#888;border-color:rgba(255,255,255,0.07)}
 .btn.ghost:hover{color:#d4d4d4}
 .story{
   border-left:2px solid #2a2a2a;
-  padding:4px 0 4px 22px;
-  margin:8px 0 0;
+  padding:4px 0 4px 22px;margin:8px 0 0;
 }
 .story p{color:#a8a8a8}
-footer{
-  margin-top:88px;
-  padding-top:32px;
-  border-top:1px solid rgba(255,255,255,0.07);
+.kicker{
+  font-size:14px;color:#7a7a7a;
+  padding:14px 18px;background:#0a0a0a;
+  border:1px solid rgba(255,255,255,0.06);border-radius:10px;
+  margin-bottom:14px;
+}
+.kicker strong{color:#d4d4d4;font-weight:600}
+.archive-row{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:14px;padding:14px 18px;
+  background:#0a0a0a;border:1px solid rgba(255,255,255,0.06);
+  border-radius:10px;margin-bottom:8px;flex-wrap:wrap;
+}
+.archive-row .left{flex:1;min-width:200px}
+.archive-row h4{
+  font-size:15px;font-weight:600;color:#fff;margin-bottom:2px;
   font-family:'JetBrains Mono',monospace;
-  font-size:12px;
-  color:#555;
-  display:flex;
-  gap:24px;
-  flex-wrap:wrap;
+}
+.archive-row p{font-size:13px;color:#888;margin:0}
+footer{
+  margin-top:88px;padding-top:32px;
+  border-top:1px solid rgba(255,255,255,0.07);
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:#555;
+  display:flex;gap:24px;flex-wrap:wrap;
 }
 footer a{color:#999;text-decoration:none}
 footer a:hover{color:#fff}
@@ -173,63 +145,116 @@ footer a:hover{color:#fff}
 
 <div class="eyebrow">Research · WizSearch</div>
 <h1>Search, built in chat.</h1>
-<p class="lede">A small research project on semantic search over curated corpora — with one constraint: every file, every commit, every byte shipped through conversation. No code written by hand.</p>
+<p class="lede">A small research project on semantic search over curated corpora &mdash; with one constraint: every file, every commit, every byte shipped through conversation. No code written by hand.</p>
 
 <h2>The researcher</h2>
-<p>I'm <em>Eugene Gord</em> (<a href="https://x.com/egordeev">@egordeev</a> on X). I don't code. I don't open a terminal, don't run a CLI, don't touch Claude Code, don't touch Cowork. This whole project was built using exactly two tools:</p>
+<p>I'm <em>Eugene Gord</em> (<a href="https://x.com/egordeev">@egordeev</a> on X). I don't code. I don't open a terminal, don't run a CLI, don't use Claude Code, don't use Cowork. This whole project was built using exactly two tools:</p>
 <div class="stack">
 <span class="chip">Claude Opus 4.7</span>
 <span class="chip">GitHub</span>
 </div>
-<p>Pure chat and a repository. That's it. If you've ever wondered whether a non-engineer can ship real, working software by just talking to Claude — this page is one answer.</p>
+<p>Pure chat and a repository. That's it.</p>
+<p>I have retinitis pigmentosa, type RP25 &mdash; a genetic condition that narrows the visual field. Working through voice and chat instead of IDEs, dashboards, and terminals isn't a workaround for me; it's the native mode. That a person with failing vision can build something this involved, by talking, is a real blessing of this moment in AI.</p>
+<p>Everything on this page &mdash; the engine, three demos, the crawler, the 2,000+ item index &mdash; was built inside <em>a two-day weekend sprint</em>. Roughly 24 hours of actual work.</p>
 
 <h2>What it is</h2>
-<p>WizSearch turns a body of text into a fast, semantic search engine that lives on a static web page. No backend, no database, no server — a JSON index and a little JavaScript in the browser. Each demo points the same engine at a different corpus.</p>
+<p>WizSearch turns a body of text into a fast, semantic search engine that lives on a static web page. No backend, no database, no server &mdash; a JSON index and a little JavaScript in the browser. Each demo points the same engine at a different corpus.</p>
 
 <h2>How it works</h2>
-<p>Every demo accepts a <code>?q=</code> parameter. Append a query to any demo URL and it loads with that search already run. Example: <code>demo3/?q=github</code> opens the page and immediately shows matches for <em>github</em>. That makes results shareable — drop a link, the other person sees what you saw.</p>
+<p>Every demo accepts a <code>?q=</code> parameter. Append a query to any demo URL and it loads with that search already run. Example: <code>demo3/?q=github</code> opens the page and immediately shows matches for <em>github</em>. That makes results shareable &mdash; drop a link, the other person sees what you saw.</p>
+<p>The design has a second, more interesting property: <em>you can drop any of these URLs into any AI &mdash; Claude, GPT, Gemini &mdash; and it will work with the collected index.</em> The page is static, the index is public JSON, and the search is deterministic. An AI that fetches the page gets a knowledge base on the spot.</p>
 
 <hr class="rule">
 
 <h2>Three demos</h2>
 
 <div class="card">
-<div class="card-head"><span class="card-num">01</span><h3>Anthropic Agent Skills</h3></div>
-<div class="meta">762 chunks · 10 topics</div>
-<p>The first prototype. Indexed Anthropic's Agent Skills documentation so it could be searched the way it should be searched. This proved the pattern worked.</p>
+<div class="card-head"><span class="card-num">01</span><h3>The Claude Capability Validator</h3></div>
+<div class="meta">2,305 chunks · 2,045 skills · 67 sources · 75 topics</div>
+<p>The biggest and most active index. Covers the full Claude ecosystem &mdash; every official Anthropic skill, MCP reference servers, and 2,000+ community servers from <code>awesome-mcp-servers</code>. Built so Claude itself can validate: given a task, search here and decide which skill or MCP fits.</p>
+<ul class="features">
+<li>13-shard index, loaded on demand &mdash; scales to thousands of entries</li>
+<li>Multi-token search with strict and loose fallback tiers</li>
+<li>Up to 500 ranked results, no hard cap</li>
+<li>Suggested queries seeded in the manifest</li>
+<li>Source + topic facets for quick scoping</li>
+<li>Shareable searches via <code>?q=</code></li>
+</ul>
 <div class="actions">
-<a class="btn" href="./demo/">Open demo 01</a>
-<a class="btn ghost" href="./demo/?q=pdf">Try: <em>pdf</em></a>
+<a class="btn" href="./demo3/">Open demo 01</a>
+<a class="btn ghost" href="./demo3/?q=github">Try: <em>github</em></a>
+<a class="btn ghost" href="./demo3/?q=pdf">Try: <em>pdf</em></a>
 </div>
 </div>
 
 <div class="card">
-<div class="card-head"><span class="card-num">02</span><h3>Warren Buffett · Berkshire Letters</h3></div>
+<div class="card-head"><span class="card-num">02</span><h3>Warren Buffett &middot; Berkshire Letters</h3></div>
 <div class="meta">49 letters · 1977–2025</div>
-<p>Same engine, different corpus. Forty-nine years of Buffett's annual letters indexed as one searchable body. Ask about moats, float, capital allocation, mistakes — you get the exact passages, across every year.</p>
+<p>Same engine, different corpus. Forty-nine years of Buffett's annual letters indexed as one searchable body. Ask about moats, float, capital allocation, mistakes &mdash; you get the exact passages, across every year.</p>
+<ul class="features">
+<li>Cross-year semantic retrieval in a single query</li>
+<li>Passage-level results with clear year attribution</li>
+<li>Perfect for idea-level study of long-form writing</li>
+<li>Proof the engine generalizes past software documentation</li>
+</ul>
 <div class="actions">
 <a class="btn" href="./demo2/">Open demo 02</a>
 <a class="btn ghost" href="./demo2/?q=moat">Try: <em>moat</em></a>
+<a class="btn ghost" href="./demo2/?q=float">Try: <em>float</em></a>
 </div>
 </div>
 
 <div class="card">
-<div class="card-head"><span class="card-num">03</span><h3>The Claude Capability Validator</h3></div>
-<div class="meta">2,305 chunks · 2,045 skills · 67 sources</div>
-<p>The biggest one. Indexes the full Claude ecosystem — every official Anthropic skill, MCP reference servers, and the 2,000+ community servers from awesome-mcp-servers. Built so Claude itself can validate: given a task, search here and decide which skill or MCP fits.</p>
+<div class="card-head"><span class="card-num">03</span><h3>Anthropic Agent Skills</h3></div>
+<div class="meta">762 chunks · 10 topics</div>
+<p>The first prototype. Indexed Anthropic's Agent Skills documentation so it could be searched the way it should be searched. The version that proved the pattern worked, and every later demo is built on what this one taught.</p>
+<ul class="features">
+<li>Single-index architecture &mdash; simplest form of the engine</li>
+<li>Topic-scoped browsing</li>
+<li>Tight, focused corpus &mdash; good starting point to read the engine end-to-end</li>
+</ul>
 <div class="actions">
-<a class="btn" href="./demo3/">Open demo 03</a>
-<a class="btn ghost" href="./demo3/?q=github">Try: <em>github</em></a>
+<a class="btn" href="./demo/">Open demo 03</a>
+<a class="btn ghost" href="./demo/?q=artifact">Try: <em>artifact</em></a>
 </div>
 </div>
 
 <hr class="rule">
 
-<h2>A small story about demo 03</h2>
+<h2>Run it yourself</h2>
+<div class="kicker"><strong>Drop an archive into a new Claude chat and start working.</strong> That's the whole setup. The archives below contain the engine, a sample index, and the crawler. Claude reads them, you ask questions, you ship.</div>
+
+<div class="archive-row">
+<div class="left">
+<h4>wiz.zip</h4>
+<p>Original engine archive. Smallest, cleanest version.</p>
+</div>
+<a class="btn" href="./wiz.zip">Download</a>
+</div>
+
+<div class="archive-row">
+<div class="left">
+<h4>wiz2.zip</h4>
+<p>Current engine archive. Use this one by default.</p>
+</div>
+<a class="btn" href="./wiz2.zip">Download</a>
+</div>
+
+<div class="archive-row">
+<div class="left">
+<h4>wizcrawler.zip</h4>
+<p>The crawler. Use it to build a new index from any set of sources &mdash; websites, repos, documents &mdash; then feed that index into the engine.</p>
+</div>
+<a class="btn" href="./wizcrawler.zip">Download</a>
+</div>
+
+<hr class="rule">
+
+<h2>A small story about demo 01</h2>
 <div class="story">
-<p>Early on, I needed Claude to manage a GitHub repository on my behalf — commits, pushes, file deletions. The obvious approaches were slow and expensive in tokens.</p>
-<p>So we searched demo 03. Somewhere in those 2,045 skills was the right one. We found it, Claude used it, and a task that had been burning minutes and tokens collapsed to seconds. I won't spoil the trick. The point is: the catalog works. You drop a question in, it hands back a capability.</p>
-<p>That moment is the reason demo 03 exists.</p>
+<p>Early on, I needed Claude to manage a GitHub repository on my behalf &mdash; commits, pushes, file deletions. The obvious approaches were slow and expensive in tokens.</p>
+<p>So we searched demo 01. Somewhere in those 2,045 skills was the right one. We found it, Claude used it, and a task that had been burning minutes and tokens collapsed to seconds. I won't spoil the trick. The point is: the catalog works. You drop a question in, it hands back a capability.</p>
+<p>That moment is the reason demo 01 exists in its current form.</p>
 </div>
 
 <footer>
