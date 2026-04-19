@@ -8,6 +8,45 @@ WizSearch is a sub-product of WizRAG. Where the main WizRAG project (still in de
 
 If you have a folder of documents and you want any AI to be able to retrieve from them, WizSearch turns that folder into a queryable knowledge base in about two minutes — for free, forever.
 
+
+---
+
+## Live Demos in This Repo
+
+Three working demos live under `/wizsearch/`, each built on a different source and architecture. Together they show what WizSearch can do across scales — from a small single-file index to a sharded multi-thousand-entry catalog.
+
+### [`/demo/`](./demo) — Anthropic Skills (v1, single-file)
+
+WizSearch v1 indexed over [`anthropics/skills`](https://github.com/anthropics/skills) — Anthropic's official Agent Skills repo. **762 chunks across 10 topics**, built automatically by Claude reading the BUILD INSTRUCTIONS embedded in `wizsearch.html`. Architecture: two static files (`wizsearch.html` + `wizindex.json`).
+
+**Live:** https://g0rd33v.github.io/wizrag/wizsearch/demo/wizsearch.html
+
+Proves the core thesis: drop a zip into any LLM chat, get a searchable knowledge base. No code written, no backend.
+
+### [`/demo2/`](./demo2) — Warren Buffett's shareholder letters (v1, single-file)
+
+WizSearch v1 indexed over **Warren Buffett's annual Berkshire Hathaway shareholder letters, 1977–2025**. 49 letters spanning nearly five decades of investment philosophy. Same two-file architecture as `/demo/`.
+
+**Live:** https://g0rd33v.github.io/wizrag/wizsearch/demo2/wizsearch.html
+
+Proves WizSearch works for long-form curated content, not just code and docs.
+
+### [`/demo3/`](./demo3) — Claude skills & MCP capability index (v3, sharded)
+
+WizSearch v3 architecture. **2,305 chunks / 2,045 distinct skills / 75 topics / 67 sources.** Covers the full Anthropic/Claude ecosystem:
+
+- 17 official Anthropic Skills (from `anthropics/skills`)
+- 7 MCP reference servers (from `modelcontextprotocol/servers`)
+- 2,021 community MCP servers (from `awesome-mcp-servers`)
+- Claude capabilities (tool use, vision, prompt caching, extended thinking, computer use, Claude Code, Claude.ai features, beta products)
+- 8 marketplace meta-chunks (Smithery, ClaudeMarketplaces, SkillsDirectory, SkillsMP, etc.)
+
+**Live:** https://g0rd33v.github.io/wizrag/wizsearch/demo3/
+
+Architecture upgrade: `wizindex-manifest.json` + sharded `chunks/shard-NNN.json` files, loaded in parallel. Supports indices 10–100× larger than the single-file v1/v2 format.
+
+Designed as a **validator index** — Claude (or any LLM) browses this catalog to pick appropriate skills/MCP servers for a given task, checking category, runtime hints, and trust tier before deciding whether to use a skill.
+
 ---
 
 ## What's in the Bundle
