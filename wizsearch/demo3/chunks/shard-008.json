@@ -1,0 +1,378 @@
+{
+  "version": "3.0",
+  "shard_index": 8,
+  "chunk_count": 15,
+  "scope_note": "MCP reference servers + meta chunks describing trusted skill/MCP marketplaces",
+  "chunks": [
+    {
+      "id": "chunk_008_001",
+      "topic": "MCP reference servers",
+      "title": "everything — official MCP reference server",
+      "keywords": [
+        "mcp",
+        "mcp server",
+        "model context protocol",
+        "everything",
+        "reference implementation",
+        "modelcontextprotocol"
+      ],
+      "synonyms": [
+        "everything mcp",
+        "mcp everything"
+      ],
+      "alt_phrasings": [
+        "what does everything MCP server do",
+        "how to use everything MCP"
+      ],
+      "source": "https://github.com/modelcontextprotocol/servers/tree/main/src/everything",
+      "source_label": "MCP reference server: everything",
+      "text": "# Everything MCP Server\n**[Architecture](docs/architecture.md)\n| [Project Structure](docs/structure.md)\n| [Startup Process](docs/startup.md)\n| [Server Features](docs/features.md)\n| [Extension Points](docs/extension.md)\n| [How It Works](docs/how-it-works.md)**\n\n\nThis MCP server attempts to exercise all the features of the MCP protocol. It is not intended to be a useful server, but rather a test server for builders of MCP clients. It implements prompts, tools, resources, sampling, and more to showcase MCP capabilities.\n\n## Tools, Resources, Prompts, and Other Features\n\nA complete list of the registered MCP primitives and other protocol features demonstrated can be found in the [Server Features](docs/features.md) document.\n\n## Usage with Claude Desktop (uses [stdio Transport](https://modelcontextprotocol.io/specification/2025-03-26/basic/transports#stdio))\n\nAdd to your `claude_desktop_config.json`:\n\n```json\n{\n  \"mcpServers\": {\n    \"everything\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@modelcontextprotocol/server-everything\"\n      ]\n    }\n  }\n}\n```\n\nOn Windows, use `cmd /c` to launch `npx`:\n\n```json\n{\n  \"mcpServers\": {\n    \"everything\": {\n      \"command\": \"cmd\",\n      \"args\": [\n        \"/c\",\n        \"npx\",\n        \"-y\",\n        \"@modelcontextprotocol/server-everything\"\n      ]\n    }\n  }\n}\n```\n\n## Usage with VS Code\n\nFor quick installation, use one of the one-click install buttons below...\n\n[![Install with NPX in VS Code](https://img.shields.io/badge/VS_Co"
+    },
+    {
+      "id": "chunk_008_002",
+      "topic": "MCP reference servers",
+      "title": "fetch — official MCP reference server",
+      "keywords": [
+        "mcp",
+        "mcp server",
+        "model context protocol",
+        "fetch",
+        "reference implementation",
+        "modelcontextprotocol"
+      ],
+      "synonyms": [
+        "fetch mcp",
+        "mcp fetch"
+      ],
+      "alt_phrasings": [
+        "what does fetch MCP server do",
+        "how to use fetch MCP"
+      ],
+      "source": "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
+      "source_label": "MCP reference server: fetch",
+      "text": "# Fetch MCP Server\n\n<!-- mcp-name: io.github.modelcontextprotocol/server-fetch -->\n\nA Model Context Protocol server that provides web content fetching capabilities. This server enables LLMs to retrieve and process content from web pages, converting HTML to markdown for easier consumption.\n\n> [!CAUTION]\n> This server can access local/internal IP addresses and may represent a security risk. Exercise caution when using this MCP server to ensure this does not expose any sensitive data.\n\nThe fetch tool will truncate the response, but by using the `start_index` argument, you can specify where to start the content extraction. This lets models read a webpage in chunks, until they find the information they need.\n\n### Available Tools\n\n- `fetch` - Fetches a URL from the internet and extracts its contents as markdown.\n    - `url` (string, required): URL to fetch\n    - `max_length` (integer, optional): Maximum number of characters to return (default: 5000)\n    - `start_index` (integer, optional): Start content from this character index (default: 0)\n    - `raw` (boolean, optional): Get raw content without markdown conversion (default: false)\n\n### Prompts\n\n- **fetch**\n  - Fetch a URL and extract its contents as markdown\n  - Arguments:\n    - `url` (string, required): URL to fetch\n\n## Installation\n\nOptionally: Install node.js, this will cause the fetch server to use a different HTML simplifier that is more robust.\n\n### Using uv (recommended)\n\nWhen using [`uv`](https://docs.astral.sh/uv/) no s"
+    },
+    {
+      "id": "chunk_008_003",
+      "topic": "MCP reference servers",
+      "title": "filesystem — official MCP reference server",
+      "keywords": [
+        "mcp",
+        "mcp server",
+        "model context protocol",
+        "filesystem",
+        "reference implementation",
+        "modelcontextprotocol"
+      ],
+      "synonyms": [
+        "filesystem mcp",
+        "mcp filesystem"
+      ],
+      "alt_phrasings": [
+        "what does filesystem MCP server do",
+        "how to use filesystem MCP"
+      ],
+      "source": "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+      "source_label": "MCP reference server: filesystem",
+      "text": "# Filesystem MCP Server\n\nNode.js server implementing Model Context Protocol (MCP) for filesystem operations.\n\n## Features\n\n- Read/write files\n- Create/list/delete directories\n- Move files/directories\n- Search files\n- Get file metadata\n- Dynamic directory access control via [Roots](https://modelcontextprotocol.io/docs/learn/client-concepts#roots)\n\n## Directory Access Control\n\nThe server uses a flexible directory access control system. Directories can be specified via command-line arguments or dynamically via [Roots](https://modelcontextprotocol.io/docs/learn/client-concepts#roots).\n\n### Method 1: Command-line Arguments\nSpecify Allowed directories when starting the server:\n```bash\nmcp-server-filesystem /path/to/dir1 /path/to/dir2\n```\n\n### Method 2: MCP Roots (Recommended)\nMCP clients that support [Roots](https://modelcontextprotocol.io/docs/learn/client-concepts#roots) can dynamically update the Allowed directories. \n\nRoots notified by Client to Server, completely replace any server-side Allowed directories when provided.\n\n**Important**: If server starts without command-line arguments AND client doesn't support roots protocol (or provides empty roots), the server will throw an error during initialization.\n\nThis is the recommended method, as this enables runtime directory updates via `roots/list_changed` notifications without server restart, providing a more flexible and modern integration experience.\n\n### How It Works\n\nThe server's directory access control follows this flow:\n\n1"
+    },
+    {
+      "id": "chunk_008_004",
+      "topic": "MCP reference servers",
+      "title": "git — official MCP reference server",
+      "keywords": [
+        "mcp",
+        "mcp server",
+        "model context protocol",
+        "git",
+        "reference implementation",
+        "modelcontextprotocol"
+      ],
+      "synonyms": [
+        "git mcp",
+        "mcp git"
+      ],
+      "alt_phrasings": [
+        "what does git MCP server do",
+        "how to use git MCP"
+      ],
+      "source": "https://github.com/modelcontextprotocol/servers/tree/main/src/git",
+      "source_label": "MCP reference server: git",
+      "text": "# mcp-server-git: A git MCP server\n\n<!-- mcp-name: io.github.modelcontextprotocol/server-git -->\n\n## Overview\n\nA Model Context Protocol server for Git repository interaction and automation. This server provides tools to read, search, and manipulate Git repositories via Large Language Models.\n\nPlease note that mcp-server-git is currently in early development. The functionality and available tools are subject to change and expansion as we continue to develop and improve the server.\n\n### Tools\n\n1. `git_status`\n   - Shows the working tree status\n   - Input:\n     - `repo_path` (string): Path to Git repository\n   - Returns: Current status of working directory as text output\n\n2. `git_diff_unstaged`\n   - Shows changes in working directory not yet staged\n   - Inputs:\n     - `repo_path` (string): Path to Git repository\n     - `context_lines` (number, optional): Number of context lines to show (default: 3)\n   - Returns: Diff output of unstaged changes\n\n3. `git_diff_staged`\n   - Shows changes that are staged for commit\n   - Inputs:\n     - `repo_path` (string): Path to Git repository\n     - `context_lines` (number, optional): Number of context lines to show (default: 3)\n   - Returns: Diff output of staged changes\n\n4. `git_diff`\n   - Shows differences between branches or commits\n   - Inputs:\n     - `repo_path` (string): Path to Git repository\n     - `target` (string): Target branch or commit to compare with\n     - `context_lines` (number, optional): Number of context lines to show (default"
+    },
+    {
+      "id": "chunk_008_005",
+      "topic": "MCP reference servers",
+      "title": "memory — official MCP reference server",
+      "keywords": [
+        "mcp",
+        "mcp server",
+        "model context protocol",
+        "memory",
+        "reference implementation",
+        "modelcontextprotocol"
+      ],
+      "synonyms": [
+        "memory mcp",
+        "mcp memory"
+      ],
+      "alt_phrasings": [
+        "what does memory MCP server do",
+        "how to use memory MCP"
+      ],
+      "source": "https://github.com/modelcontextprotocol/servers/tree/main/src/memory",
+      "source_label": "MCP reference server: memory",
+      "text": "# Knowledge Graph Memory Server\n\nA basic implementation of persistent memory using a local knowledge graph. This lets Claude remember information about the user across chats.\n\n## Core Concepts\n\n### Entities\nEntities are the primary nodes in the knowledge graph. Each entity has:\n- A unique name (identifier)\n- An entity type (e.g., \"person\", \"organization\", \"event\")\n- A list of observations\n\nExample:\n```json\n{\n  \"name\": \"John_Smith\",\n  \"entityType\": \"person\",\n  \"observations\": [\"Speaks fluent Spanish\"]\n}\n```\n\n### Relations\nRelations define directed connections between entities. They are always stored in active voice and describe how entities interact or relate to each other.\n\nExample:\n```json\n{\n  \"from\": \"John_Smith\",\n  \"to\": \"Anthropic\",\n  \"relationType\": \"works_at\"\n}\n```\n### Observations\nObservations are discrete pieces of information about an entity. They are:\n\n- Stored as strings\n- Attached to specific entities\n- Can be added or removed independently\n- Should be atomic (one fact per observation)\n\nExample:\n```json\n{\n  \"entityName\": \"John_Smith\",\n  \"observations\": [\n    \"Speaks fluent Spanish\",\n    \"Graduated in 2019\",\n    \"Prefers morning meetings\"\n  ]\n}\n```\n\n## API\n\n### Tools\n- **create_entities**\n  - Create multiple new entities in the knowledge graph\n  - Input: `entities` (array of objects)\n    - Each object contains:\n      - `name` (string): Entity identifier\n      - `entityType` (string): Type classification\n      - `observations` (string[]): Associated observations\n  -"
+    },
+    {
+      "id": "chunk_008_006",
+      "topic": "MCP reference servers",
+      "title": "sequentialthinking — official MCP reference server",
+      "keywords": [
+        "mcp",
+        "mcp server",
+        "model context protocol",
+        "sequentialthinking",
+        "reference implementation",
+        "modelcontextprotocol"
+      ],
+      "synonyms": [
+        "sequentialthinking mcp",
+        "mcp sequentialthinking"
+      ],
+      "alt_phrasings": [
+        "what does sequentialthinking MCP server do",
+        "how to use sequentialthinking MCP"
+      ],
+      "source": "https://github.com/modelcontextprotocol/servers/tree/main/src/sequentialthinking",
+      "source_label": "MCP reference server: sequentialthinking",
+      "text": "# Sequential Thinking MCP Server\n\nAn MCP server implementation that provides a tool for dynamic and reflective problem-solving through a structured thinking process.\n\n## Features\n\n- Break down complex problems into manageable steps\n- Revise and refine thoughts as understanding deepens\n- Branch into alternative paths of reasoning\n- Adjust the total number of thoughts dynamically\n- Generate and verify solution hypotheses\n\n## Tool\n\n### sequential_thinking\n\nFacilitates a detailed, step-by-step thinking process for problem-solving and analysis.\n\n**Inputs:**\n- `thought` (string): The current thinking step\n- `nextThoughtNeeded` (boolean): Whether another thought step is needed\n- `thoughtNumber` (integer): Current thought number\n- `totalThoughts` (integer): Estimated total thoughts needed\n- `isRevision` (boolean, optional): Whether this revises previous thinking\n- `revisesThought` (integer, optional): Which thought is being reconsidered\n- `branchFromThought` (integer, optional): Branching point thought number\n- `branchId` (string, optional): Branch identifier\n- `needsMoreThoughts` (boolean, optional): If more thoughts are needed\n\n## Usage\n\nThe Sequential Thinking tool is designed for:\n- Breaking down complex problems into steps\n- Planning and design with room for revision\n- Analysis that might need course correction\n- Problems where the full scope might not be clear initially\n- Tasks that need to maintain context over multiple steps\n- Situations where irrelevant information needs to"
+    },
+    {
+      "id": "chunk_008_007",
+      "topic": "MCP reference servers",
+      "title": "time — official MCP reference server",
+      "keywords": [
+        "mcp",
+        "mcp server",
+        "model context protocol",
+        "time",
+        "reference implementation",
+        "modelcontextprotocol"
+      ],
+      "synonyms": [
+        "time mcp",
+        "mcp time"
+      ],
+      "alt_phrasings": [
+        "what does time MCP server do",
+        "how to use time MCP"
+      ],
+      "source": "https://github.com/modelcontextprotocol/servers/tree/main/src/time",
+      "source_label": "MCP reference server: time",
+      "text": "# Time MCP Server\n\n<!-- mcp-name: io.github.modelcontextprotocol/server-time -->\n\nA Model Context Protocol server that provides time and timezone conversion capabilities. This server enables LLMs to get current time information and perform timezone conversions using IANA timezone names, with automatic system timezone detection.\n\n### Available Tools\n\n- `get_current_time` - Get current time in a specific timezone or system timezone.\n  - Required arguments:\n    - `timezone` (string): IANA timezone name (e.g., 'America/New_York', 'Europe/London')\n\n- `convert_time` - Convert time between timezones.\n  - Required arguments:\n    - `source_timezone` (string): Source IANA timezone name\n    - `time` (string): Time in 24-hour format (HH:MM)\n    - `target_timezone` (string): Target IANA timezone name\n\n## Installation\n\n### Using uv (recommended)\n\nWhen using [`uv`](https://docs.astral.sh/uv/) no specific installation is needed. We will\nuse [`uvx`](https://docs.astral.sh/uv/guides/tools/) to directly run *mcp-server-time*.\n\n```bash\nuvx mcp-server-time\n```\n\n### Using PIP\n\nAlternatively you can install `mcp-server-time` via pip:\n\n```bash\npip install mcp-server-time\n```\n\nAfter installation, you can run it as a script using:\n\n```bash\npython -m mcp_server_time\n```\n\n## Configuration\n\n### Configure for Claude.app\n\nAdd to your Claude settings:\n\n<details>\n<summary>Using uvx</summary>\n\n```json\n{\n  \"mcpServers\": {\n    \"time\": {\n      \"command\": \"uvx\",\n      \"args\": [\"mcp-server-time\"]\n    }\n  }\n}\n```\n<"
+    },
+    {
+      "id": "chunk_008_008",
+      "topic": "Skill and MCP marketplaces",
+      "title": "Smithery — marketplace / directory",
+      "keywords": [
+        "smithery",
+        "skill marketplace",
+        "mcp registry",
+        "smithery cli",
+        "verified mcp",
+        "marketplace",
+        "directory",
+        "registry"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "where to find skills",
+        "where to find mcp servers",
+        "browse skills",
+        "browse mcp",
+        "Smithery listing"
+      ],
+      "source": "https://smithery.ai",
+      "source_label": "Smithery",
+      "text": "Smithery.ai is a managed MCP registry and skill marketplace. Lists 650+ MCP servers and 131,947+ skills with install counts, verified flags, and namespace scoping. Install CLI: npx @smithery/cli@latest. Categories include Research, Coding, Writing, Data & Analytics, Design, Planning, Communication, Productivity, DevOps, AI & ML, Security, Business. Handles auth, credentials, and sessions on behalf of agents."
+    },
+    {
+      "id": "chunk_008_009",
+      "topic": "Skill and MCP marketplaces",
+      "title": "awesome-mcp-servers — marketplace / directory",
+      "keywords": [
+        "awesome mcp",
+        "mcp list",
+        "github mcp",
+        "community mcp directory",
+        "marketplace",
+        "directory",
+        "registry"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "where to find skills",
+        "where to find mcp servers",
+        "browse skills",
+        "browse mcp",
+        "awesome-mcp-servers listing"
+      ],
+      "source": "https://github.com/punkpeye/awesome-mcp-servers",
+      "source_label": "awesome-mcp-servers",
+      "text": "Community-curated awesome list of MCP servers on GitHub. 85.1k stars, 9.3k forks, 2,000+ entries across 48 categories: Aggregators, Browser Automation, Cloud Platforms, Code Execution, Coding Agents, Communication, Databases, Developer Tools, Finance & Fintech, Knowledge & Memory, Search & Data Extraction, Security, Workplace & Productivity, etc. The de facto community index for discovering MCP servers."
+    },
+    {
+      "id": "chunk_008_010",
+      "topic": "Skill and MCP marketplaces",
+      "title": "Claude Marketplaces — marketplace / directory",
+      "keywords": [
+        "claude marketplaces",
+        "claude code plugins",
+        "claude code skills",
+        "mcp directory",
+        "marketplace",
+        "directory",
+        "registry"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "where to find skills",
+        "where to find mcp servers",
+        "browse skills",
+        "browse mcp",
+        "Claude Marketplaces listing"
+      ],
+      "source": "https://claudemarketplaces.com",
+      "source_label": "Claude Marketplaces",
+      "text": "Directory of Claude Code plugins, skills, and MCP servers. Claims 4,200+ skills, 770+ MCP servers, 2,500+ marketplaces. Sorted by installs and GitHub stars. Browse by category with featured plugins. Focused specifically on Claude Code extensions."
+    },
+    {
+      "id": "chunk_008_011",
+      "topic": "Skill and MCP marketplaces",
+      "title": "Skills Directory — marketplace / directory",
+      "keywords": [
+        "skills directory",
+        "openskills",
+        "secure skills",
+        "skill security scan",
+        "marketplace",
+        "directory",
+        "registry"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "where to find skills",
+        "where to find mcp servers",
+        "browse skills",
+        "browse mcp",
+        "Skills Directory listing"
+      ],
+      "source": "https://skillsdirectory.com",
+      "source_label": "Skills Directory",
+      "text": "Security-first directory of Agent Skills. 36,109 skills scanned through automated security analysis covering 50+ security rules across 10 threat categories (prompt injection, credential theft, and more). Install via `npm install -g openskills`. Claims 36% of skills in the wild have security flaws."
+    },
+    {
+      "id": "chunk_008_012",
+      "topic": "Skill and MCP marketplaces",
+      "title": "SkillsMP — marketplace / directory",
+      "keywords": [
+        "skillsmp",
+        "agent skills marketplace",
+        "github skill scrape",
+        "codex skills",
+        "marketplace",
+        "directory",
+        "registry"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "where to find skills",
+        "where to find mcp servers",
+        "browse skills",
+        "browse mcp",
+        "SkillsMP listing"
+      ],
+      "source": "https://skillsmp.com",
+      "source_label": "SkillsMP",
+      "text": "Agent Skills Marketplace aggregating skills from GitHub. Indexes ~1 million skills with 657,455 in the top category. Organized by job occupation taxonomy (Computer/Math, Business/Finance, Arts/Design, Office, Science, Education, Management, Legal) and by category (Tools, Business, Development, Testing & Security, Data & AI, DevOps, Documentation, Content & Media). December 2025 launch timed with Anthropic open-standard release. Also indexes skills for Codex and ChatGPT."
+    },
+    {
+      "id": "chunk_008_013",
+      "topic": "Skill and MCP marketplaces",
+      "title": "anthropics/skills — marketplace / directory",
+      "keywords": [
+        "anthropics skills",
+        "official skills",
+        "canonical skills",
+        "anthropic github",
+        "marketplace",
+        "directory",
+        "registry"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "where to find skills",
+        "where to find mcp servers",
+        "browse skills",
+        "browse mcp",
+        "anthropics/skills listing"
+      ],
+      "source": "https://github.com/anthropics/skills",
+      "source_label": "anthropics/skills",
+      "text": "Canonical Anthropic public repository for Agent Skills. 120k stars, 14k forks, 204 open issues, 525 PRs. Contains 17 official skills: algorithmic-art, brand-guidelines, canvas-design, claude-api, doc-coauthoring, docx, frontend-design, internal-comms, mcp-builder, pdf, pptx, skill-creator, slack-gif-creator, theme-factory, web-artifacts-builder, webapp-testing, xlsx. This is the authoritative reference for the SKILL.md format and Anthropic-maintained skills."
+    },
+    {
+      "id": "chunk_008_014",
+      "topic": "Skill and MCP marketplaces",
+      "title": "modelcontextprotocol/servers — marketplace / directory",
+      "keywords": [
+        "mcp servers official",
+        "reference mcp",
+        "mcp github",
+        "modelcontextprotocol github",
+        "marketplace",
+        "directory",
+        "registry"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "where to find skills",
+        "where to find mcp servers",
+        "browse skills",
+        "browse mcp",
+        "modelcontextprotocol/servers listing"
+      ],
+      "source": "https://github.com/modelcontextprotocol/servers",
+      "source_label": "modelcontextprotocol/servers",
+      "text": "Official MCP reference server implementations. 84.1k stars. 7 reference servers: everything (demo server), fetch (HTTP fetch), filesystem (local file access), git (Git operations), memory (knowledge graph memory), sequentialthinking (step-by-step reasoning), time (time and timezone utilities). These are the canonical implementations used as building blocks and learning references."
+    },
+    {
+      "id": "chunk_008_015",
+      "topic": "Skill and MCP marketplaces",
+      "title": "modelcontextprotocol.io — marketplace / directory",
+      "keywords": [
+        "modelcontextprotocol.io",
+        "mcp spec",
+        "mcp documentation",
+        "mcp docs",
+        "mcp registry",
+        "marketplace",
+        "directory",
+        "registry"
+      ],
+      "synonyms": [],
+      "alt_phrasings": [
+        "where to find skills",
+        "where to find mcp servers",
+        "browse skills",
+        "browse mcp",
+        "modelcontextprotocol.io listing"
+      ],
+      "source": "https://modelcontextprotocol.io",
+      "source_label": "modelcontextprotocol.io",
+      "text": "Canonical Model Context Protocol documentation site. Contains the full protocol specification, SDK quickstarts (Python, TypeScript, Swift, Kotlin, Java, C#), extensions guide, the official Registry, Specification Enhancement Proposals (SEPs), and community resources. Start here to understand MCP architecture: servers, clients, versioning, transports (stdio, HTTP/SSE, HTTP streamable)."
+    }
+  ]
+}
