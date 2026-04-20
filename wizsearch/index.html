@@ -220,21 +220,18 @@ footer a:hover{color:#fff}
 <h2>Three demos</h2>
 
 <div class="card">
-<div class="card-head"><span class="card-num">01</span><h3>The Claude Capability Validator</h3></div>
-<div class="meta">2,305 chunks · 2,045 skills · 67 sources · 75 topics</div>
-<p>The biggest and most active index. Covers the full Claude ecosystem &mdash; every official Anthropic skill, MCP reference servers, and 2,000+ community servers from <code>awesome-mcp-servers</code>. Built so Claude itself can validate: given a task, search here and decide which skill or MCP fits.</p>
+<div class="card-head"><span class="card-num">01</span><h3>Anthropic Agent Skills</h3></div>
+<div class="meta">762 chunks · 10 topics · official</div>
+<p>The foundation. Indexes Anthropic's own Agent Skills documentation &mdash; the canonical, first-party source. This is the corpus that proved the pattern worked, and every later demo is built on what this one taught.</p>
 <ul class="features">
-<li>13-shard index, loaded on demand &mdash; scales to thousands of entries</li>
-<li>Multi-token search with strict and loose fallback tiers</li>
-<li>Up to 500 ranked results, no hard cap</li>
-<li>Suggested queries seeded in the manifest</li>
-<li>Source + topic facets for quick scoping</li>
-<li>Shareable searches via <code>?q=</code></li>
+<li>Single-index architecture &mdash; simplest form of the engine</li>
+<li>Topic-scoped browsing across 10 topics</li>
+<li>Tight, canonical corpus &mdash; official Anthropic material</li>
+<li>Good starting point to read the engine end-to-end</li>
 </ul>
 <div class="actions">
-<a class="btn" href="./demo3/">Open demo 01</a>
-<a class="btn ghost" href="./demo3/?q=github">Try: <em>github</em></a>
-<a class="btn ghost" href="./demo3/?q=pdf">Try: <em>pdf</em></a>
+<a class="btn" href="./demo/">Open demo 01</a>
+<a class="btn ghost" href="./demo/?q=artifact">Try: <em>artifact</em></a>
 </div>
 </div>
 
@@ -256,17 +253,21 @@ footer a:hover{color:#fff}
 </div>
 
 <div class="card">
-<div class="card-head"><span class="card-num">03</span><h3>Anthropic Agent Skills</h3></div>
-<div class="meta">762 chunks · 10 topics</div>
-<p>The first prototype. Indexed Anthropic's Agent Skills documentation so it could be searched the way it should be searched. The version that proved the pattern worked, and every later demo is built on what this one taught.</p>
+<div class="card-head"><span class="card-num">03</span><h3>The evolving Claude skills index</h3></div>
+<div class="meta">2,305 chunks · 2,045 skills · 67 sources · 75 topics · community-curated</div>
+<p>The big one. Covers the full Claude ecosystem &mdash; every official Anthropic skill, MCP reference servers, and the 2,000+ community servers from <code>awesome-mcp-servers</code>. Grows with the community. Built so Claude itself can validate: given a task, search here and decide which skill or MCP fits.</p>
 <ul class="features">
-<li>Single-index architecture &mdash; simplest form of the engine</li>
-<li>Topic-scoped browsing</li>
-<li>Tight, focused corpus &mdash; good starting point to read the engine end-to-end</li>
+<li>13-shard index, loaded on demand &mdash; scales to thousands of entries</li>
+<li>Multi-token search with strict and loose fallback tiers</li>
+<li>Up to 500 ranked results, no hard cap</li>
+<li>Suggested queries seeded in the manifest</li>
+<li>Source + topic facets for quick scoping</li>
+<li>Shareable searches via <code>?q=</code></li>
 </ul>
 <div class="actions">
-<a class="btn" href="./demo/">Open demo 03</a>
-<a class="btn ghost" href="./demo/?q=artifact">Try: <em>artifact</em></a>
+<a class="btn" href="./demo3/">Open demo 03</a>
+<a class="btn ghost" href="./demo3/?q=github">Try: <em>github</em></a>
+<a class="btn ghost" href="./demo3/?q=pdf">Try: <em>pdf</em></a>
 </div>
 </div>
 
@@ -301,8 +302,8 @@ footer a:hover{color:#fff}
 
 <hr class="rule">
 
-<h2>A small story about demo 01</h2>
-<p class="story-intro">Why demo 01 exists in its current form, in three steps.</p>
+<h2>A small story about demo 03</h2>
+<p class="story-intro">Why demo 03 exists in its current form, in three steps.</p>
 
 <div class="story-steps">
 
@@ -338,7 +339,7 @@ footer a:hover{color:#fff}
 <line x1="37" y1="38" x2="43" y2="44"/>
 </svg>
 <div class="step-label">02 · Search</div>
-<h4>Ran a query on demo 01</h4>
+<h4>Ran a query on demo 03</h4>
 <p>Somewhere in those 2,045 skills was the right one. We pointed the validator at the task and let it rank.</p>
 </div>
 
